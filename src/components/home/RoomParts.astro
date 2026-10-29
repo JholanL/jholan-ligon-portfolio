@@ -1,0 +1,47 @@
+---
+/** Shared bits of a home-page room: the placard (label row) and the actions row. */
+import type { Project } from '../../lib/projects';
+import { pad, formatTime } from '../../lib/projects';
+
+interface Props {
+  project: Project;
+  index: number;
+  part: 'placard' | 'actions';
+  showFilm?: boolean;
+}
+const { project: p, index, part, showFilm = true } = Astro.props;
+const film = p.data.film;
+---
+
+{
+  part === 'placard' ? (
+    <div class="placard" data-reveal="fade">
+      <span class="placard__num label">Room {pad(index + 1)}</span>
+      <span class="placard__place serif">{p.data.place}</span>
+      <span class="placard__rule" aria-hidden="true" />
+      <span class="placard__meta label">{p.data.kind.split('·')[0].trim()} · {p.data.platforms.join(' + ')}</span>
+    </div>
+  ) : (
+    <div class="actions" data-reveal style="--d:120ms">
+      <a class="btn btn--accent" href={`/work/${p.id}`} data-vt={`cover-${p.id}`}>
+        Open the case study
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      {film && showFilm && (
+        <button type="button" class="btn btn--ghost" data-film-play={`#film-home-${p.id}`} data-t="0">
+          <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+          Play film · {formatTime(film.duration)}
+        </button>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .placard { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; margin-bottom: clamp(28px, 4vw, 56px); }
+  .placard__num { color: var(--accent-text); }
+  .placard__place { font-size: var(--step-1); }
+  .placard__rule { flex: 1; min-width: 40px; height: 1px; background: var(--line); align-self: center; }
+  .placard__meta { color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>

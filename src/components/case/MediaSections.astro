@@ -1,0 +1,378 @@
+---
+/** The media-led case-study sections. */
+import { Image } from 'astro:assets';
+import SecHead from './SecHead.astro';
+import MediaFrame from '../MediaFrame.astro';
+import Rail from '../Rail.astro';
+import FilmPlayer from '../FilmPlayer.astro';
+import type { Project } from '../../lib/projects';
+import { formatTime, pad } from '../../lib/projects';
+
+type Section = Project['data']['sections'][number];
+interface Props { section: Section; num: number; project: Project }
+const { section: s, num, project: p } = Astro.props;
+const filmId = `film-${p.id}`;
+const g = `${p.id}-${num}`;
+---
+
+{
+  s.type === 'film' && p.data.film && (
+    <div class="film-sec">
+      <SecHead num={num} label="Film" title={s.title} intro={s.intro} />
+      <div data-reveal="fade">
+        <FilmPlayer project={p} id={filmId} variant={p.id === 'femisafe' ? 'sos' : 'ring'} />
+      </div>
+    </div>
+  )
+}
+
+{
+  s.type === 'pipeline' && (
+    <div class="pipe">
+      <SecHead num={num} label="Workflow" title={s.title} intro={s.intro} />
+      <ol class="pipe__steps" role="list" data-reveal>
+        {s.stages.map((st, i) => (
+          <li style={`--i:${i}`}>
+            <span class="pipe__n">{pad(i + 1)}</span>
+            <span class="pipe__name">{st.name}</span>
+            {st.note && <span class="pipe__note">{st.note}</span>}
+            <span class="pipe__pct label">{Math.round(((i + 1) / s.stages.length) * 100)}%</span>
+          </li>
+        ))}
+      </ol>
+      {s.media && (
+        <figure class="pipe__media" data-reveal="clip">
+          <MediaFrame media={s.media} sizes="(max-width: 1200px) 100vw, 1200px" group={g} />
+          {s.media.caption && <figcaption class="muted">{s.media.caption}</figcaption>}
+        </figure>
+      )}
+    </div>
+  )
+}
+
+{
+  s.type === 'roles' && (
+    <div class="roles-sec">
+      <SecHead num={num} label="Roles" title={s.title} intro={s.intro} />
+      <ol class:list={['roles', { 'roles--mixed': s.roles.some((r) => r.media.kind !== 'wide') }]} role="list">
+        {s.roles.map((r, i) => (
+          <li class:list={['role', `role--${r.media.kind}`]} data-reveal style={`--d:${i * 90}ms`}>
+            <div class="role__media">
+              <MediaFrame media={{ ...r.media, title: `${r.name} · ${r.surface}` }} sizes={r.media.kind === 'wide' ? '(max-width: 900px) 100vw, 40vw' : '(max-width: 900px) 60vw, 20vw'} group={g} />
+            </div>
+            <p class="label role__surface">{r.surface}</p>
+            <h3 class="role__name">{r.name}</h3>
+            <p class="role__text">{r.text}</p>
+            {r.points.length > 0 && <ul role="list" class="role__points">{r.points.map((pt) => <li>{pt}</li>)}</ul>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+{
+  s.type === 'features' && (
+    <div class="feats-sec">
+      <SecHead num={num} label="Features" title={s.title} intro={s.intro} />
+      <ol class="feats" role="list">
+        {s.items.map((f, i) => (
+          <li class:list={['feat', { 'feat--flip': i % 2 === 1 }]}>
+            <div class="feat__media" data-reveal="clip">
+              <MediaFrame media={{ ...f.media, title: f.title }} sizes="(max-width: 900px) 100vw, 62vw" group={g} />
+            </div>
+            <div class="feat__copy" data-reveal style="--d:100ms">
+              <p class="label feat__eyebrow"><span>{pad(i + 1)}</span>{f.eyebrow}</p>
+              <h3 class="feat__title">{f.title}</h3>
+              <p class="feat__body">{f.body}</p>
+              {f.points && <ul role="list" class="feat__points">{f.points.map((pt) => <li>{pt}</li>)}</ul>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+{
+  s.type === 'gallery' && (
+    <div class="gal-sec">
+      <SecHead num={num} label="Gallery" title={s.title} intro={s.intro} />
+      {s.style === 'grid' ? (
+        <ul class="grid-gal" role="list">
+          {s.items.map((it, i) => (
+            <li data-reveal style={`--d:${(i % 3) * 70}ms`}>
+              <MediaFrame media={it} sizes="(max-width: 700px) 100vw, 33vw" group={g} />
+              {it.caption && <p class="grid-gal__cap">{it.caption}</p>}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div data-reveal>
+          <Rail items={s.items} label={s.title} group={g} variant={s.style === 'phones' ? 'phones' : 'wide'} />
+        </div>
+      )}
+    </div>
+  )
+}
+
+{
+  s.type === 'tabs' && (
+    <div class="tabs-sec" data-tabs style={`--tab-n:${s.tabs.length}`}>
+      <SecHead num={num} label="Captures" title={s.title} intro={s.intro} />
+      <div role="tablist" aria-label={s.title} class="seg" data-reveal>
+        <span class="seg__ind" aria-hidden="true" />
+        {s.tabs.map((t, i) => (
+          <button type="button" role="tab" id={`${g}-tab-${i}`} aria-controls={`${g}-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+            {t.label} <span class="seg__n">{t.items.length}</span>
+          </button>
+        ))}
+      </div>
+      {s.tabs.map((t, i) => (
+        <div role="tabpanel" id={`${g}-panel-${i}`} aria-labelledby={`${g}-tab-${i}`} hidden={i !== 0} data-active={i === 0 ? '' : undefined}>
+          <ul class:list={['grid-gal', { 'grid-gal--phones': t.style === 'phones' }]} role="list">
+            {t.items.map((it) => (
+              <li>
+                <MediaFrame media={{ ...it, title: it.caption }} sizes={t.style === 'phones' ? '(max-width: 700px) 45vw, 16vw' : '(max-width: 700px) 100vw, 33vw'} group={`${g}-${i}`} />
+                {it.caption && <p class="grid-gal__cap">{it.caption}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+{
+  s.type === 'scenes' && (
+    <div class="scenes-sec">
+      <SecHead num={num} label="Walkthrough" title={s.title} intro={s.intro} />
+      <div class="scenes" data-scenes>
+        <ol class="scenes__list" role="list">
+          {s.scenes.map((sc, i) => (
+            <li class="scene" data-scene={i}>
+              <p class="label scene__n">{pad(i + 1)} / {pad(s.scenes.length)}</p>
+              <h3 class="scene__title">{sc.title}</h3>
+              <p class="scene__body">{sc.body}</p>
+              {sc.points && <ul role="list" class="scene__points">{sc.points.map((pt) => <li class="chip">{pt}</li>)}</ul>}
+              <div class:list={['scene__inline', { 'scene__inline--two': sc.screens.length > 1 }]}>
+                {sc.screens.map((m) => <MediaFrame media={{ ...m, title: sc.title }} sizes="(max-width: 900px) 44vw, 1px" group={`${g}-inline`} />)}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="scenes__stage" aria-hidden="true">
+          {s.scenes.map((sc, i) => (
+            <div class:list={['scenes__frame', { 'scenes__frame--two': sc.screens.length > 1 }]} data-frame={i} data-active={i === 0 ? '' : undefined}>
+              {sc.screens.map((m) => (
+                <div class="scenes__phone">
+                  <span class="scenes__cam" />
+                  <Image src={m.src} alt="" widths={[360, 540, 720]} sizes="(max-width: 900px) 1px, 18vw" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  s.type === 'storyboard' && (
+    <div class="board-sec">
+      <SecHead num={num} label="Storyboard" title={s.title} intro={s.intro} />
+      <ol class="board" role="list">
+        {s.frames.map((f, i) => (
+          <li data-reveal style={`--d:${(i % 4) * 60}ms`}>
+            <button type="button" class="board__btn" data-film-play={`#${filmId}`} data-t={f.t} aria-label={`Play from ${formatTime(f.t)}: ${f.title}`}>
+              <span class="board__img">
+                <Image src={f.media.src} alt={f.media.alt} widths={[400, 640, 960]} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 25vw" loading="lazy" />
+                <span class="board__t label">{formatTime(f.t)}</span>
+                <span class="board__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg></span>
+              </span>
+              <span class="board__n label">Frame {pad(i + 1)}</span>
+              <span class="board__title">{f.title}</span>
+              <span class="board__body">{f.body}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+{
+  s.type === 'architecture' && (
+    <div class="arch-sec">
+      <SecHead num={num} label="Architecture" title={s.title} intro={s.intro} />
+      <ol class="arch" role="list">
+        {s.nodes.map((n, i) => (
+          <>
+            <li class="arch__node" data-reveal style={`--d:${i * 120}ms`}>
+              <p class="label arch__detail">{n.detail}</p>
+              <h3 class="arch__name">{n.name}</h3>
+              <ul role="list">{n.items.map((it) => <li>{it}</li>)}</ul>
+            </li>
+            {s.links[i] && (
+              <li class="arch__link" aria-label={`Connection: ${s.links[i]}`} data-reveal style={`--d:${i * 120 + 60}ms`}>
+                <span class="arch__line" aria-hidden="true" />
+                <span class="label">{s.links[i]}</span>
+              </li>
+            )}
+          </>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+<script>
+  import '../../scripts/tabs';
+  import '../../scripts/scenes';
+</script>
+
+<style>
+  .film-sec :global(.film) { max-width: 1400px; }
+
+  /* pipeline */
+  .pipe__steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; position: relative; list-style: none; padding: 0; }
+  .pipe__steps li { position: relative; display: grid; gap: 8px; align-content: start; padding: 28px 18px 24px 0; }
+  .pipe__steps li::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--line); }
+  .pipe__steps li::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 700ms var(--ease) calc(var(--i) * 160ms + 150ms); }
+  .pipe__steps.is-in li::after, :global(html:not(.js)) .pipe__steps li::after { transform: scaleX(1); }
+  .pipe__n { font-family: var(--f-brand); font-size: var(--step-3); font-weight: 500; line-height: 1; color: var(--accent); font-style: italic; }
+  .pipe__name { font-weight: 700; font-size: var(--step-1); line-height: 1.2; }
+  .pipe__note { color: var(--muted); font-size: var(--step--1); }
+  .pipe__pct { color: var(--muted); }
+  .pipe__media { margin-top: clamp(40px, 5vw, 72px); display: grid; gap: 12px; }
+  .pipe__media figcaption { font-size: var(--step--1); }
+
+  /* roles */
+  .roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); list-style: none; padding: 0; align-items: start; }
+  .roles--mixed { grid-template-columns: 1.7fr 1fr 1fr; }
+  .role { display: grid; gap: 10px; align-content: start; }
+  .role__media { margin-bottom: 14px; }
+  .role--screen .role__media { max-width: 300px; }
+  .role__surface { color: var(--accent-text); }
+  .role__name { font-family: var(--f-brand); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .role__text { font-size: var(--step-1); line-height: 1.4; }
+  .role__points { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 6px; }
+  .role__points li { color: var(--muted); font-size: 0.95rem; padding-left: 16px; position: relative; }
+  .role__points li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+  /* features */
+  .feats { display: grid; gap: clamp(72px, 10vw, 160px); list-style: none; padding: 0; }
+  .feat { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 2vw, 32px); row-gap: 28px; align-items: center; }
+  .feat__media { grid-column: 1 / span 8; margin-left: calc(-1 * var(--gutter) / 2); }
+  .feat__copy { grid-column: 9 / span 4; display: grid; gap: 14px; }
+  .feat--flip .feat__media { grid-column: 5 / span 8; grid-row: 1; margin-left: 0; margin-right: calc(-1 * var(--gutter) / 2); }
+  .feat--flip .feat__copy { grid-column: 1 / span 4; grid-row: 1; }
+  .feat__eyebrow { display: flex; gap: 12px; color: var(--accent-text); }
+  .feat__eyebrow span { color: var(--muted); }
+  .feat__title { font-family: var(--f-brand); font-size: var(--step-3); font-weight: 500; letter-spacing: -0.025em; line-height: 1.02; }
+  :global(.case--editorial) .feat__title { font-style: italic; }
+  .feat__body { color: var(--muted); font-size: var(--step-0); }
+  .feat__points { display: grid; border-top: 1px solid var(--line); }
+  .feat__points li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+
+  /* grids */
+  .grid-gal { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); list-style: none; padding: 0; }
+  .grid-gal--phones { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .grid-gal__cap { margin-top: 10px; font-size: var(--step--1); color: var(--muted); }
+
+  /* segmented tabs */
+  .seg {
+    position: relative; display: inline-grid; grid-template-columns: repeat(var(--tab-n), auto); margin-bottom: 32px;
+    padding: 4px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .seg button { position: relative; z-index: 1; min-height: 44px; padding: 0 20px; border-radius: 999px; font-weight: 600; color: var(--muted); transition: color var(--t-fast); }
+  .seg button[aria-selected='true'] { color: var(--on-accent); }
+  .seg__n { font-family: var(--f-mono); font-size: 0.7rem; opacity: 0.7; margin-left: 4px; }
+  .seg__ind { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--tab-n)); border-radius: 999px; background: var(--accent); transform: translateX(calc(var(--tab-i, 0) * 100%)); transition: transform 500ms var(--ease); }
+  [role='tabpanel'][data-active] { animation: panel-in 600ms var(--ease) both; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(12px); } }
+
+  /* scenes (scrollytelling) */
+  .scenes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 120px); }
+  .scenes__list { list-style: none; padding: 0; }
+  .scene { min-height: 78vh; display: grid; align-content: center; gap: 16px; padding-block: 8vh; opacity: 0.35; transition: opacity 600ms var(--ease); }
+  .scene[data-active], :global(html:not(.js)) .scene { opacity: 1; }
+  .scene__n { color: var(--accent-text); }
+  .scene__title { font-family: var(--f-brand); font-size: var(--step-3); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .scene__body { font-size: var(--step-1); line-height: 1.45; max-width: 36ch; color: var(--fg); }
+  .scene__points { display: flex; flex-wrap: wrap; gap: 8px; }
+  .scene__inline { display: none; }
+  .scenes__stage { position: sticky; top: calc(var(--header-h) + 4vh); height: calc(100vh - var(--header-h) - 8vh); display: grid; place-items: center; }
+  .scenes__frame { grid-area: 1 / 1; display: flex; gap: clamp(12px, 2vw, 24px); justify-content: center; align-items: center; height: 100%; opacity: 0; transform: translateY(24px) scale(0.97); transition: opacity 600ms var(--ease), transform 800ms var(--ease); }
+  .scenes__frame[data-active] { opacity: 1; transform: none; }
+  .scenes__frame--two .scenes__phone:last-child { transform: translateY(8%); }
+  .scenes__phone { position: relative; height: min(100%, 680px); aspect-ratio: 1080 / 2400; padding: 8px; border-radius: 38px; background: linear-gradient(145deg, #2a2a2e, #0b0b0d); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 50px 100px -40px rgba(0, 0, 0, 0.7); }
+  .scenes__frame--two .scenes__phone { height: min(88%, 600px); }
+  .scenes__phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; }
+  .scenes__cam { position: absolute; z-index: 1; top: 16px; left: 50%; translate: -50% 0; width: 9px; height: 9px; border-radius: 50%; background: #050506; box-shadow: 0 0 0 2px #1d1d21; }
+
+  /* storyboard */
+  .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px) clamp(16px, 2vw, 24px); list-style: none; padding: 0; }
+  .board__btn { display: grid; gap: 8px; width: 100%; text-align: left; align-content: start; }
+  .board__img { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); margin-bottom: 6px; }
+  .board__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 800ms var(--ease); }
+  .board__btn:hover .board__img img { transform: scale(1.05); }
+  .board__t { position: absolute; left: 8px; top: 8px; padding: 4px 8px; border-radius: 6px; background: rgba(27, 25, 22, 0.82); color: #fff; font-size: 0.62rem; }
+  .board__play { position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--on-accent); opacity: 0; transform: scale(0.8); transition: opacity var(--t-fast), transform var(--t-med) var(--ease); }
+  .board__play svg { width: 16px; height: 16px; margin-left: 2px; }
+  .board__btn:hover .board__play, .board__btn:focus-visible .board__play { opacity: 1; transform: none; }
+  @media (hover: none) { .board__play { opacity: 1; transform: none; } }
+  .board__n { color: var(--accent-text); }
+  .board__title { font-family: var(--f-brand); font-weight: 800; font-size: var(--step-1); letter-spacing: -0.02em; line-height: 1.15; }
+  .board__body { color: var(--muted); font-size: 0.95rem; }
+
+  /* architecture */
+  .arch { display: grid; grid-template-columns: 1fr 120px 1fr 120px 1fr; align-items: stretch; list-style: none; padding: 0; }
+  .arch__node { display: grid; gap: 10px; align-content: start; padding: clamp(20px, 2.4vw, 32px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+  .arch__detail { color: var(--accent-text); }
+  .arch__name { font-family: var(--f-brand); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .arch__node ul { display: grid; gap: 8px; margin-top: 6px; }
+  .arch__node li { color: var(--muted); font-size: 0.95rem; padding-left: 14px; position: relative; }
+  .arch__node li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 6px; height: 1px; background: var(--accent-text); }
+  .arch__link { display: grid; align-content: center; justify-items: center; gap: 10px; padding: 8px; text-align: center; }
+  .arch__link .label { color: var(--muted); font-size: 0.6rem; }
+  .arch__line { position: relative; width: 100%; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-text)); }
+  .arch__line::before, .arch__line::after { content: ''; position: absolute; top: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-text); translate: 0 -50%; }
+  .arch__line::before { left: -2px; }
+  .arch__line::after { right: -2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .arch__line { background-size: 200% 100%; background-image: linear-gradient(90deg, var(--accent) 0%, var(--accent-text) 50%, var(--accent) 100%); animation: flow 2.4s linear infinite; }
+  }
+  @keyframes flow { to { background-position: -200% 0; } }
+
+  @media (max-width: 1100px) {
+    .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-gal--phones { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .pipe__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .roles, .roles--mixed { grid-template-columns: 1fr; gap: 56px; }
+    .role--wide .role__media, .role--screen .role__media { max-width: none; }
+    .role--screen .role__media { width: 62%; }
+    .feat, .feat--flip { grid-template-columns: 1fr; }
+    .feat__media, .feat--flip .feat__media { grid-column: 1; grid-row: auto; margin: 0; }
+    .feat__copy, .feat--flip .feat__copy { grid-column: 1; grid-row: auto; }
+    .grid-gal { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .scenes { grid-template-columns: 1fr; }
+    .scenes__stage { display: none; }
+    .scene { min-height: 0; opacity: 1; padding-block: 32px; border-top: 1px solid var(--line); }
+    .scene__inline { display: grid; grid-template-columns: minmax(0, 220px); gap: 14px; margin-top: 12px; }
+    .scene__inline--two { grid-template-columns: repeat(2, minmax(0, 200px)); }
+    .arch { grid-template-columns: 1fr; }
+    .arch__link { grid-template-columns: auto; padding: 16px; }
+    .arch__line { width: 2px; height: 36px; background: linear-gradient(var(--accent), var(--accent-text)); animation: none; }
+    .arch__line::before { left: 50%; top: -2px; translate: -50% 0; }
+    .arch__line::after { left: 50%; right: auto; top: auto; bottom: -2px; translate: -50% 0; }
+  }
+  @media (max-width: 560px) {
+    .board, .grid-gal { grid-template-columns: 1fr; }
+    .grid-gal--phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+/**
+ * Responsive, optimised image. With `lightbox`, it becomes a link to a full-resolution
+ * render that the shared lightbox opens (and that still works without JavaScript).
+ */
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  sizes: string;
+  widths?: number[];
+  class?: string;
+  eager?: boolean;
+  lightbox?: string;
+  title?: string;
+  caption?: string;
+  /** CSS view-transition-name, for the cover morph between pages */
+  vt?: string;
+  quality?: number;
+}
+
+const { src, alt, sizes, widths = [480, 800, 1200, 1600, 2200], eager = false, lightbox, title, caption, vt, quality = 82 } = Astro.props;
+const cls = Astro.props.class;
+const ws = [...new Set([...widths.filter((w) => w < src.width), Math.min(src.width, Math.max(...widths))])].sort((a, b) => a - b);
+
+const full = lightbox ? await getImage({ src, width: Math.min(src.width, 2880), format: 'webp', quality: 90 }) : undefined;
+const style = vt ? `view-transition-name:${vt}` : undefined;
+---
+
+{
+  full ? (
+    <a
+      href={full.src}
+      class:list={['pic-link', cls]}
+      data-lightbox={lightbox}
+      data-w={full.attributes.width}
+      data-h={full.attributes.height}
+      data-title={title}
+      data-caption={caption}
+      aria-label={`View larger: ${title ?? alt}`}
+    >
+      <Image src={src} alt={alt} widths={ws} sizes={sizes} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} quality={quality} style={style} decoding="async" />
+      <span class="pic-zoom" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>
+      </span>
+    </a>
+  ) : (
+    <Image src={src} alt={alt} widths={ws} sizes={sizes} class={cls} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} quality={quality} style={style} decoding="async" />
+  )
+}
+
+<style is:global>
+  .pic-link { position: relative; display: block; overflow: hidden; cursor: zoom-in; border-radius: inherit; }
+  .pic-link img { width: 100%; transition: transform 900ms var(--ease); }
+  .pic-link:hover img { transform: scale(1.02); }
+  .pic-zoom {
+    position: absolute; right: 12px; bottom: 12px;
+    display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(14, 13, 15, 0.72); color: #fff;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    opacity: 0; transform: translateY(6px) scale(0.9);
+    transition: opacity var(--t-fast) var(--ease), transform var(--t-med) var(--ease);
+  }
+  .pic-zoom svg { width: 16px; height: 16px; }
+  .pic-link:hover .pic-zoom, .pic-link:focus-visible .pic-zoom { opacity: 1; transform: none; }
+  @media (hover: none) { .pic-zoom { opacity: 1; transform: none; width: 34px; height: 34px; } }
+</style>

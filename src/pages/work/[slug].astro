@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import CaseHero from '../../components/case/CaseHero.astro';
+import TextSections from '../../components/case/TextSections.astro';
+import MediaSections from '../../components/case/MediaSections.astro';
+import NextProject from '../../components/case/NextProject.astro';
+import { getImage } from 'astro:assets';
+import { getProjects, themeVars, type Project } from '../../lib/projects';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, index: i, next: projects[(i + 1) % projects.length], nextIndex: (i + 1) % projects.length },
+  }));
+}
+
+interface Props { project: Project; index: number; next: Project; nextIndex: number }
+const { project: p, index, next, nextIndex } = Astro.props;
+const d = p.data;
+
+const textTypes = new Set(['brief', 'quote', 'note', 'decisions', 'engineering', 'contribution', 'stack']);
+// Only titled sections get a number.
+let n = 0;
+const sections = d.sections.map((s) => ({ s, num: s.type === 'quote' || s.type === 'note' ? 0 : ++n }));
+
+const og = await getImage({ src: d.cover.src, width: 1200, height: 630, fit: 'cover', format: 'jpeg', quality: 80 });
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.name,
+  headline: d.tagline,
+  description: d.summary,
+  creator: { '@type': 'Person', name: profile.name },
+  ...(d.year ? { dateCreated: d.year } : {}),
+};
+---
+
+<Base title={`${d.name} · ${d.tagline} · ${profile.name}`} description={d.summary} image={og.src} schema={schema}>
+  <article class:list={['case themed', `case--${d.hero}`]} style={themeVars(d.theme)} data-scheme={d.theme.scheme}>
+    <CaseHero project={p} index={index} />
+
+    {
+      sections.map(({ s, num }) => (
+        <section class:list={['case__sec', `case__sec--${s.type}`]} data-room={p.id}>
+          <div class="wrap">
+            {textTypes.has(s.type) ? <TextSections section={s} num={num} project={p} /> : <MediaSections section={s} num={num} project={p} />}
+          </div>
+        </section>
+      ))
+    }
+  </article>
+  <NextProject next={next} index={nextIndex} />
+</Base>
+
+<style>
+  .case { overflow-x: clip; }
+  .case__sec { padding-block: clamp(56px, 7vw, 112px); }
+  .case__sec + .case__sec { border-top: 1px solid var(--line); }
+  .case__sec--quote, .case__sec--note { border-top: 0 !important; padding-block: clamp(24px, 4vw, 56px); }
+  .case__sec--quote + .case__sec, .case__sec--note + .case__sec { border-top: 1px solid var(--line); }
+</style>

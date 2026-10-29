@@ -1,0 +1,202 @@
+# TopCraft — content is taken only from the project's own campaign panels and app captures.
+# Anything not visible there is listed under `confirm` at the bottom and is not published.
+order: 1
+name: TopCraft
+place: The Workshop
+tagline: From workshop to workflow.
+summary: >-
+  A furniture manufacturing management system for Industrial Manila Furniture. The owner runs
+  production from a web platform; clients and workers use an Android app. All three work on the
+  same project record.
+kind: Client-based capstone
+team: Capstone project
+platforms: [Web platform, Android app]
+stackShort: []
+theme:
+  bg: "#F2EBDF"
+  surface: "#FBF7F0"
+  ink: "#17130F"
+  muted: "#6B5E4E"
+  line: "rgba(23, 19, 15, 0.14)"
+  accent: "#B5873A"
+  accentText: "#7A5718"
+  onAccent: "#17130F"
+  highlight: "#17130F"
+  font: "'Playfair Display Variable', 'Times New Roman', serif"
+  scheme: light
+hero: editorial
+cover:
+  src: ../../assets/projects/topcraft/ad.png
+  alt: "TopCraft campaign art: the owner dashboard on a laptop, the production schedule in a browser window and the worker app on a phone."
+heroMedia:
+  src: ../../assets/projects/topcraft/responsive.png
+  alt: "The TopCraft owner dashboard on a desktop and a tablet, and the client shop on a phone."
+  caption: "One system, every workflow: desktop, tablet and phone."
+facts:
+  - { label: Client, value: Industrial Manila Furniture }
+  - { label: Type, value: Client-based capstone }
+  - { label: Platforms, value: "Web (owner) · Android (client, worker)" }
+  - { label: Roles, value: "Owner · Client · Worker" }
+room:
+  headline: "From Workshop"
+  accent: "to Workflow."
+  text: >-
+    Custom furniture moves through six workshop stages, three kinds of users and a lot of
+    materials. TopCraft gives the owner, the client and the worker one shared record of every piece.
+  points:
+    - "Owner · web: projects, scheduling, inventory and QC approvals"
+    - "Client · Android: browse, request custom pieces, follow each order"
+    - "Worker · Android: today's tasks, stage updates and QC photos"
+  media:
+    - src: ../../assets/projects/topcraft/ad.png
+      alt: "TopCraft campaign art: the owner dashboard on a laptop, the production schedule in a browser window and the worker app on a phone."
+    - src: ../../assets/projects/topcraft/mobile/04-worker-experience.png
+      alt: "TopCraft worker app: My Tasks with assigned projects, stages and days left."
+      kind: phone
+sections:
+  - type: brief
+    problem: >-
+      A made-to-order furniture shop has a lot of moving parts. Every order becomes a piece that
+      passes through six workshop stages. Workers and materials have to be assigned, and quality
+      has to be checked before anything ships. TopCraft keeps all of it in one place.
+    people:
+      - { name: Owner, text: "Runs the business from the web: projects, scheduling, materials, scraps, QC approvals and reports." }
+      - { name: Client, text: "Browses the catalog on Android, requests a custom piece and follows the order stage by stage." }
+      - { name: Worker, text: "Sees today's focus on Android, updates the current stage and submits QC photos and notes." }
+    product: >-
+      A web platform for the owner and an Android app for clients and workers. All three connect
+      to the same project, so a stage update on the shop floor appears on the client's timeline
+      and on the owner's dashboard.
+  - type: pipeline
+    title: Every piece, six stages.
+    intro: >-
+      Each order becomes a project with its own stage pipeline, assigned craftsmen and a deadline
+      window. Each completed stage moves the piece about 17% closer to done.
+    stages:
+      - { name: Material Preparation, note: Lumber and stock pulled for the piece }
+      - { name: Cutting }
+      - { name: Assembly }
+      - { name: Sanding }
+      - { name: Finishing }
+      - { name: Final Inspection, note: Owner approves or returns rework notes }
+    media:
+      src: ../../assets/projects/topcraft/web/03-production-management.png
+      alt: "Project details for a Narra Dining Table: order details on the left and the production pipeline at 50%, stage 3 of 6, on the right."
+      caption: "Project details: order data beside the live stage pipeline."
+  - type: roles
+    title: Three roles, one record.
+    intro: The same Narra Dining Table, seen by each person who touches it.
+    roles:
+      - name: Owner
+        surface: Web platform
+        text: Manages the project, assigns workers and reviews each QC round.
+        points: [Dashboard with live counts and a deadline watchlist, Production timeline across every active project, "Owner-only internal notes, hidden from workers and clients"]
+        media:
+          src: ../../assets/projects/topcraft/captures/web/project-details.png
+          alt: "Owner web view of a project: client, delivery address, internal notes and the stage pipeline."
+      - name: Client
+        surface: Android app
+        text: Follows the order from placement to delivery.
+        points: [Order journey with step-by-step progress, "Timeline, specs and payment tabs", Message about this order]
+        media:
+          src: ../../assets/projects/topcraft/captures/mobile/client-order-overview.png
+          alt: "Client app order screen: In Production, step 2 of 6, with the next step Quality Checking."
+          kind: screen
+      - name: Worker
+        surface: Android app
+        text: Updates the current stage from the shop floor.
+        points: [Today's focus and shop-floor list, Mark a stage done or partially done, Attach photos and a worker note]
+        media:
+          src: ../../assets/projects/topcraft/captures/mobile/worker-stage-update.png
+          alt: "Worker app stage update screen with photo upload, worker note and Mark stage done."
+          kind: screen
+  - type: features
+    title: Inside the owner's workshop.
+    intro: "Five campaign panels, each built from real captures of the running web platform."
+    items:
+      - eyebrow: Owner dashboard
+        title: Your operations, one clear view.
+        body: Projects, approvals, deliveries and stock are summarised the moment the owner signs in.
+        points: [Live counts for active projects, QC and low stock, Deadline watchlist with on-track and at-risk status, "Revenue trend across 7, 30 or 90 days"]
+        media:
+          src: ../../assets/projects/topcraft/web/02-owner-dashboard.png
+          alt: "Owner dashboard panel: greeting banner, six live counters, the projects watchlist and a revenue trend chart."
+      - eyebrow: Production scheduling
+        title: Plan smarter. Stay on track.
+        body: >-
+          A shared timeline of every active project shows risk status, assigned workers and stage bars
+          against the deadline. The schedule screen is labelled AI-assisted and has a panel for
+          schedule insights.
+        media:
+          src: ../../assets/projects/topcraft/web/04-production-scheduling.png
+          alt: "Production scheduling panel: a Gantt-style timeline with colour-coded stages for seven furniture projects."
+      - eyebrow: Inventory and materials
+        title: Make every material count.
+        body: >-
+          Raw stock is tracked against reorder points, with procurement, goods receipts and stock logs.
+          Reusable offcuts go into a scrap registry, graded by quality and linked to the project they
+          came from.
+        points: ["Healthy, low and out-of-stock at a glance", "Procurement, goods receipts and stock logs", Scrap registry graded by quality and status]
+        media:
+          src: ../../assets/projects/topcraft/web/05-inventory-materials.png
+          alt: "Inventory panel: the raw materials table with stock status, and the scrap registry with grades and origin projects."
+      - eyebrow: Quality control
+        title: Inspected before it ships.
+        body: >-
+          Workers submit stage photos and notes from the floor. The owner reviews each QC round, then
+          approves the piece for delivery or sends it back for rework.
+        media:
+          src: ../../assets/projects/topcraft/web/07-quality-control.png
+          alt: "Quality control panel: the owner's QC review with worker photos and notes, and the worker's QC-submitted screen on a phone."
+      - eyebrow: Connected workflows
+        title: One system. Multiple roles.
+        body: The client follows the order timeline, the owner manages the same project, and the worker updates the current stage.
+        media:
+          src: ../../assets/projects/topcraft/web/06-connected-workflows.png
+          alt: "Connected workflows panel: the same Narra Dining Table project on the client phone, the owner laptop and the worker phone."
+  - type: gallery
+    title: The Android app.
+    intro: The App Store-style campaign for the client and worker experience.
+    style: phones
+    items:
+      - { src: ../../assets/projects/topcraft/mobile/01-mobile-introduction.png, alt: "TopCraft Mobile: the client shop home with the AI Studio card, categories and featured products.", title: "Your projects, wherever you are.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/02-client-experience.png, alt: "Client My Orders list with progress, stage and price for each order.", title: "Stay connected to every order.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/03-custom-orders.png, alt: "Custom order form: furniture type, dimensions, wood, finish, room and style.", title: "From ideas to requests.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/04-worker-experience.png, alt: "Worker home and My Tasks with assigned projects and deadlines.", title: "Your tasks. Your workflow.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/05-production-updates.png, alt: "Order timeline and the worker's current-stage update screen.", title: "Progress at every stage.", kind: phone }
+  - type: tabs
+    title: Unedited captures.
+    intro: Straight from the running app, with seeded demo data. Nothing here was redrawn.
+    tabs:
+      - label: Web platform
+        style: grid
+        items:
+          - { src: ../../assets/projects/topcraft/captures/web/owner-dashboard.png, alt: "Owner dashboard at full resolution.", caption: Owner dashboard }
+          - { src: ../../assets/projects/topcraft/captures/web/production-schedule.png, alt: "Production timeline with stage bars and the AI insights panel.", caption: Production timeline }
+          - { src: ../../assets/projects/topcraft/captures/web/project-details.png, alt: "Project details with the stage pipeline.", caption: Project details }
+          - { src: ../../assets/projects/topcraft/captures/web/inventory-materials.png, alt: "Raw materials inventory table.", caption: Materials inventory }
+          - { src: ../../assets/projects/topcraft/captures/web/scrap-registry.png, alt: "Scrap registry with grades, origins and AI creation suggestions button.", caption: Scrap registry }
+          - { src: ../../assets/projects/topcraft/captures/web/qc-inspection.png, alt: "QC inspection review with worker photos.", caption: QC inspection }
+      - label: Android app
+        style: phones
+        items:
+          - { src: ../../assets/projects/topcraft/captures/mobile/client-shop-home.png, alt: "Client shop home.", caption: Client · Shop, kind: screen }
+          - { src: ../../assets/projects/topcraft/captures/mobile/client-custom-order-request.png, alt: "Client custom order request form.", caption: Client · Custom order, kind: screen }
+          - { src: ../../assets/projects/topcraft/captures/mobile/client-order-timeline.png, alt: "Client order timeline.", caption: Client · Timeline, kind: screen }
+          - { src: ../../assets/projects/topcraft/captures/mobile/worker-home.png, alt: "Worker home with today's focus.", caption: Worker · Home, kind: screen }
+          - { src: ../../assets/projects/topcraft/captures/mobile/worker-my-tasks.png, alt: "Worker task list.", caption: Worker · My tasks, kind: screen }
+          - { src: ../../assets/projects/topcraft/captures/mobile/worker-qc-submitted.png, alt: "Worker QC submitted, waiting for approval.", caption: Worker · QC submitted, kind: screen }
+  - type: decisions
+    title: Decisions you can see in the product.
+    items:
+      - { title: "Each role works on the platform that fits it.", body: "The owner gets the dense web dashboard. Clients and workers get a focused Android app built around their part of the order." }
+      - { title: Owner-only notes., body: "Internal notes on a project are visible to the owner only. Workers and clients never see them." }
+      - { title: Nothing ships unreviewed., body: "A final inspection waits for owner approval. Rejected work goes back to the worker with rework notes." }
+      - { title: Offcuts are inventory, not waste., body: "Scrap pieces are logged with dimensions, grade and the project they came from, so reusable material can be reserved again." }
+      - { title: AI is labelled where it appears., body: "AI-assisted features are marked in the interface: schedule insights, scrap creation suggestions and the client's AI Studio entry point." }
+confirm:
+  - Your role and responsibilities on TopCraft (team size, and which parts you built).
+  - The tech stack for the web platform and the Android app.
+  - What the AI-assisted features do and how (model or API, inputs, outputs).
+  - Current status (in use by the client, deployed, defended, in progress?) and any results.
+  - Year completed, and any links (repository, demo) you are allowed to share.

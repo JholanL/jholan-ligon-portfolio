@@ -1,0 +1,185 @@
+---
+import { getImage } from 'astro:assets';
+import type { Project } from '../lib/projects';
+import { formatTime } from '../lib/projects';
+
+interface Props {
+  project: Project;
+  id: string;
+  /** visual style of the big play button */
+  variant?: 'ring' | 'sos';
+  chapters?: boolean;
+}
+
+const { project, id, variant = 'ring', chapters = true } = Astro.props;
+const film = project.data.film!;
+const poster = await getImage({ src: film.poster, width: 1920, format: 'webp', quality: 80 });
+const dur = formatTime(film.duration);
+---
+
+<figure class="film" data-film id={id} data-variant={variant}>
+  <div class="film__stage" data-film-stage>
+    <video
+      data-film-video
+      src={film.src}
+      poster={poster.src}
+      preload="none"
+      playsinline
+      controls
+      width="1920"
+      height="1080"
+      aria-label={`${project.data.name} film`}></video>
+
+    <button class="film__big" data-film-big type="button" aria-label={`Play the ${project.data.name} film, ${dur}`} hidden>
+      <span class="film__ring" aria-hidden="true">
+        {variant === 'sos' ? <span class="film__sos">PLAY</span> : <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>}
+      </span>
+      <span class="film__big-meta">
+        <span class="label">Play film</span>
+        <span class="film__big-dur">{dur}</span>
+      </span>
+    </button>
+
+    <div class="film__ui" data-film-ui hidden>
+      <button type="button" class="film__ctl" data-film-toggle aria-label="Play (Space)">
+        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+        <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" /></svg>
+      </button>
+      <span class="film__time label" aria-hidden="true"><span data-film-cur>0:00</span> / {dur}</span>
+      <div class="film__seek">
+        <div class="film__track" aria-hidden="true">
+          <span class="film__buf" data-film-buf></span>
+          <span class="film__fill" data-film-fill></span>
+          {film.chapters.slice(1).map((c) => <span class="film__tick" style={`left:${(c.t / film.duration) * 100}%`} />)}
+        </div>
+        <input type="range" class="film__range" data-film-seek min="0" max={film.duration} step="0.1" value="0" aria-label="Seek" />
+      </div>
+      <button type="button" class="film__ctl" data-film-mute aria-label="Mute (M)">
+        <svg class="i-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor" stroke="none" /><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" /></svg>
+        <svg class="i-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor" stroke="none" /><path d="M16 9.5l5 5M21 9.5l-5 5" /></svg>
+      </button>
+      <input type="range" class="film__vol" data-film-vol min="0" max="1" step="0.05" value="1" aria-label="Volume" />
+      <button type="button" class="film__ctl" data-film-fs aria-label="Full screen (F)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg>
+      </button>
+    </div>
+  </div>
+
+  {
+    chapters && film.chapters.length > 1 && (
+      <ol class="film__chapters" role="list" aria-label="Chapters">
+        {film.chapters.map((c) => (
+          <li>
+            <button type="button" data-film-seekto={c.t} aria-label={`Play from ${formatTime(c.t)}: ${c.label}`}>
+              <span class="label">{formatTime(c.t)}</span>
+              <span>{c.label}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+  <figcaption class="film__caption">{film.caption}</figcaption>
+</figure>
+
+<script>
+  import '../scripts/film';
+</script>
+
+<style>
+  .film { --_accent: var(--accent); display: grid; gap: 18px; }
+  .film__stage {
+    position: relative; overflow: hidden; border-radius: var(--radius-lg);
+    background: #000; aspect-ratio: 16 / 9; isolation: isolate;
+    box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.55);
+  }
+  .film__stage:fullscreen { border-radius: 0; aspect-ratio: auto; }
+  .film video { width: 100%; height: 100%; object-fit: contain; }
+
+  /* Big play button over the poster */
+  .film__big {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; align-items: flex-end; justify-content: flex-start; gap: 18px;
+    padding: clamp(16px, 3vw, 36px); color: #fff; text-align: left;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 55%);
+    transition: opacity var(--t-med) var(--ease);
+  }
+  .film__ring {
+    display: grid; place-items: center; flex: none;
+    width: clamp(64px, 7vw, 92px); aspect-ratio: 1; border-radius: 50%;
+    background: var(--_accent); color: var(--on-accent);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--_accent) 60%, transparent);
+    transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
+  }
+  .film__ring svg { width: 38%; height: 38%; margin-left: 6%; }
+  .film__big:hover .film__ring, .film__big:focus-visible .film__ring { transform: scale(1.06); box-shadow: 0 0 0 12px color-mix(in oklab, var(--_accent) 30%, transparent); }
+  .film__big-meta { display: grid; gap: 2px; padding-bottom: 6px; }
+  .film__big-dur { font-size: var(--step-1); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* FemiSafe: the play button borrows the SOS ring */
+  .film[data-variant='sos'] .film__ring {
+    background: radial-gradient(circle, #e5324b 0 54%, rgba(229, 50, 75, 0.35) 55% 70%, rgba(229, 50, 75, 0.15) 71% 100%);
+    width: clamp(84px, 9vw, 120px); color: #fff;
+  }
+  .film__sos { font-weight: 800; font-size: 0.95rem; letter-spacing: 0.06em; }
+  @media (prefers-reduced-motion: no-preference) {
+    .film[data-variant='sos'] .film__ring { animation: sos 2.6s var(--ease) infinite; }
+  }
+  @keyframes sos { 0%, 100% { box-shadow: 0 0 0 0 rgba(229, 50, 75, 0.45); } 60% { box-shadow: 0 0 0 22px rgba(229, 50, 75, 0); } }
+
+  /* Control bar */
+  .film__ui {
+    position: absolute; inset: auto 0 0; z-index: 3;
+    display: flex; align-items: center; gap: 10px;
+    padding: 28px 14px 12px; color: #fff;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    transition: opacity var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+  }
+  .film[data-idle] .film__ui { opacity: 0; transform: translateY(8px); }
+  .film[data-idle] .film__stage { cursor: none; }
+  .film__ctl { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; flex: none; transition: background-color var(--t-fast); }
+  .film__ctl:hover { background: rgba(255, 255, 255, 0.14); }
+  .film__ctl svg { width: 22px; height: 22px; }
+  .film .i-pause, .film[data-playing] .i-play, .film .i-mute, .film[data-muted] .i-vol { display: none; }
+  .film[data-playing] .i-pause, .film[data-muted] .i-mute { display: block; }
+  .film__time { white-space: nowrap; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+
+  .film__seek { position: relative; flex: 1; height: 44px; display: grid; align-items: center; min-width: 60px; }
+  .film__track { position: absolute; left: 0; right: 0; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.22); overflow: hidden; }
+  .film__buf, .film__fill { position: absolute; inset: 0 auto 0 0; width: 0; }
+  .film__buf { background: rgba(255, 255, 255, 0.28); }
+  .film__fill { background: var(--_accent); }
+  .film__tick { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0, 0, 0, 0.6); }
+  .film__seek:hover .film__track { height: 6px; }
+
+  .film input[type='range'] { -webkit-appearance: none; appearance: none; background: transparent; margin: 0; cursor: pointer; }
+  .film__range { position: relative; width: 100%; height: 44px; }
+  .film__vol { width: 72px; height: 44px; }
+  .film input[type='range']::-webkit-slider-runnable-track { height: 4px; background: transparent; }
+  .film__vol::-webkit-slider-runnable-track { background: rgba(255, 255, 255, 0.3) !important; border-radius: 4px; }
+  .film input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); }
+  .film input[type='range']::-moz-range-track { height: 4px; background: transparent; }
+  .film__vol::-moz-range-track { background: rgba(255, 255, 255, 0.3) !important; border-radius: 4px; }
+  .film input[type='range']::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: #fff; }
+  .film input[type='range']:focus-visible { outline: 2px solid #fff; outline-offset: -8px; }
+
+  /* Chapters */
+  .film__chapters { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; margin: 0; list-style: none; }
+  .film__chapters::-webkit-scrollbar { display: none; }
+  .film__chapters button {
+    display: grid; gap: 2px; text-align: left; white-space: nowrap;
+    min-height: 44px; padding: 8px 14px; border-radius: 12px;
+    border: 1px solid var(--line); color: var(--fg); font-size: 0.9rem;
+    transition: border-color var(--t-fast), background-color var(--t-fast);
+  }
+  .film__chapters button .label { color: var(--muted); font-size: 0.66rem; }
+  .film__chapters button:hover { border-color: var(--fg); }
+  .film__chapters button[aria-current='true'] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .film__chapters button[aria-current='true'] .label { color: inherit; opacity: 0.7; }
+  .film__caption { color: var(--muted); font-size: var(--step--1); }
+
+  @media (max-width: 640px) {
+    .film__vol, .film__time { display: none; }
+    .film__ui { gap: 4px; padding-inline: 8px; }
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+/** One shared viewer per page. Any link with data-lightbox="group" opens in it (see scripts/lightbox.ts). */
+---
+
+<dialog class="lb" data-lb aria-label="Image viewer">
+  <div class="lb__bar">
+    <p class="lb__count label" data-lb-count aria-live="polite"></p>
+    <div class="lb__actions">
+      <a class="lb__btn lb__orig label" data-lb-orig href="#" target="_blank" rel="noopener">Full size ↗</a>
+      <button class="lb__btn lb__close" data-lb-close aria-label="Close viewer (Esc)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+    </div>
+  </div>
+  <div class="lb__stage" data-lb-stage>
+    <img class="lb__img" data-lb-img alt="" />
+    <div class="lb__spinner" aria-hidden="true"></div>
+  </div>
+  <div class="lb__foot">
+    <button class="lb__btn lb__nav" data-lb-prev aria-label="Previous image (Left arrow)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <div class="lb__text">
+      <p class="lb__title" data-lb-title></p>
+      <p class="lb__caption" data-lb-caption></p>
+    </div>
+    <button class="lb__btn lb__nav" data-lb-next aria-label="Next image (Right arrow)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
+  </div>
+</dialog>
+
+<script>
+  import '../scripts/lightbox';
+</script>
+
+<style>
+  .lb {
+    position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+    padding: 0; border: 0; background: rgba(8, 7, 9, 0.94); color: #eee8e1;
+    display: grid; grid-template-rows: auto 1fr auto;
+    opacity: 0; transition: opacity 260ms var(--ease), display 260ms allow-discrete, overlay 260ms allow-discrete;
+  }
+  .lb:not([open]) { display: none; }
+  .lb[open] { opacity: 1; }
+  @starting-style { .lb[open] { opacity: 0; } }
+  .lb::backdrop { background: transparent; }
+
+  .lb__bar, .lb__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px var(--gutter); }
+  .lb__actions { display: flex; align-items: center; gap: 8px; }
+  .lb__btn {
+    display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0 12px;
+    border-radius: 999px; border: 1px solid rgba(238, 232, 225, 0.18);
+    transition: background-color var(--t-fast), border-color var(--t-fast);
+  }
+  .lb__btn:hover { background: rgba(238, 232, 225, 0.1); border-color: rgba(238, 232, 225, 0.4); }
+  .lb__btn svg { width: 20px; height: 20px; }
+  .lb__btn[disabled] { opacity: 0.3; pointer-events: none; }
+
+  .lb__stage { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 var(--gutter); overflow: auto; touch-action: pan-y pinch-zoom; }
+  .lb__img {
+    max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;
+    border-radius: 6px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    cursor: zoom-in; transition: opacity 240ms var(--ease), transform 420ms var(--ease);
+  }
+  .lb__img.is-loading { opacity: 0; transform: scale(0.985); }
+  .lb[data-zoom] .lb__stage { place-items: start; }
+  .lb[data-zoom] .lb__img { max-width: none; max-height: none; cursor: zoom-out; }
+  .lb__spinner {
+    position: absolute; inset: 0; margin: auto; width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid rgba(238, 232, 225, 0.2); border-top-color: #eee8e1;
+    animation: spin 800ms linear infinite; opacity: 0; pointer-events: none; transition: opacity 200ms;
+  }
+  .lb[data-loading] .lb__spinner { opacity: 1; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .lb__text { text-align: center; max-width: 70ch; }
+  .lb__title { font-weight: 600; }
+  .lb__caption { color: #a59da3; font-size: var(--step--1); }
+  .lb__title:empty, .lb__caption:empty { display: none; }
+</style>

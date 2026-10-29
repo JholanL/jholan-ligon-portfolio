@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { getProjects } from '../lib/projects';
+const projects = await getProjects();
+---
+
+<Base title="Room not found · Jholan Ligon" description="This page doesn't exist.">
+  <section class="nf" data-header-theme>
+    <div class="wrap">
+      <p class="label nf__k">404</p>
+      <h1 class="nf__t">This room <span class="serif">doesn’t exist.</span></h1>
+      <p class="muted nf__p">Try one of these instead.</p>
+      <ul role="list" class="nf__list">
+        <li><a class="btn" href="/">Home</a></li>
+        {projects.map((p) => <li><a class="btn btn--ghost" href={`/work/${p.id}`}>{p.data.name}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 80vh; display: grid; align-items: center; padding-top: var(--header-h); }
+  .nf__k { color: var(--rose); }
+  .nf__t { font-size: var(--step-5); font-weight: 800; letter-spacing: -0.045em; line-height: 0.92; margin-block: 16px 24px; font-variation-settings: 'wdth' 112; }
+  .nf__t .serif { font-weight: 400; color: var(--rose); }
+  .nf__list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+</style>

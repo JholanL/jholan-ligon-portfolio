@@ -1,0 +1,89 @@
+---
+import Pic from './Pic.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Item { src: ImageMetadata; alt: string; title?: string; caption?: string; kind?: string }
+interface Props {
+  items: Item[];
+  label: string;
+  group: string;
+  variant?: 'phones' | 'wide';
+}
+const { items, label, group, variant = 'wide' } = Astro.props;
+const sizes = variant === 'phones' ? '(max-width: 640px) 62vw, 300px' : '(max-width: 640px) 88vw, (max-width: 1200px) 70vw, 900px';
+const widths = variant === 'phones' ? [320, 480, 640, 900] : [640, 960, 1280, 1600, 1920];
+---
+
+<div class="rail" data-rail data-variant={variant}>
+  <div class="rail__bar">
+    <div class="rail__progress" aria-hidden="true"><span data-rail-progress></span></div>
+    <div class="rail__nav">
+      <button type="button" class="rail__btn" data-rail-prev aria-label={`Previous in ${label}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
+      <button type="button" class="rail__btn" data-rail-next aria-label={`Next in ${label}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+  </div>
+  <ul class="rail__track" role="list" aria-label={label} tabindex="0" data-rail-track>
+    {
+      items.map((it, i) => (
+        <li class="rail__item" style={`--i:${i}`}>
+          <figure>
+            <div class="rail__media">
+              <Pic src={it.src} alt={it.alt} sizes={sizes} widths={widths} lightbox={group} title={it.title} caption={it.caption} />
+            </div>
+            {(it.title || it.caption) && (
+              <figcaption>
+                {it.title && <span class="rail__title">{it.title}</span>}
+                {it.caption && <span class="rail__cap">{it.caption}</span>}
+              </figcaption>
+            )}
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  import '../scripts/rail';
+</script>
+
+<style>
+  .rail { --rail-pad: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); }
+  .rail__bar { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+  .rail__progress { flex: 1; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .rail__progress span { display: block; height: 100%; width: 100%; background: var(--fg); transform-origin: left; transform: scaleX(var(--p, 0.1)); transition: transform 200ms linear; }
+  .rail__nav { display: flex; gap: 8px; }
+  .rail__btn { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); transition: background-color var(--t-fast), border-color var(--t-fast), opacity var(--t-fast); }
+  .rail__btn:hover { border-color: var(--fg); }
+  .rail__btn svg { width: 20px; height: 20px; }
+  .rail__btn[disabled] { opacity: 0.3; pointer-events: none; }
+
+  .rail__track {
+    display: flex; gap: clamp(14px, 2vw, 28px);
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--rail-pad);
+    padding: 8px var(--rail-pad) 24px;
+    margin-inline: calc(-1 * var(--rail-pad));
+    scrollbar-width: none; list-style: none;
+    cursor: grab;
+  }
+  .rail__track::-webkit-scrollbar { display: none; }
+  .rail__track[data-dragging] { cursor: grabbing; scroll-snap-type: none; }
+  .rail__track[data-dragging] a { pointer-events: none; }
+  .rail__track:focus-visible { outline-offset: -4px; }
+  .rail__item { flex: none; scroll-snap-align: start; }
+  .rail[data-variant='wide'] .rail__item { width: min(88vw, 900px); }
+  .rail[data-variant='phones'] .rail__item { width: clamp(220px, 62vw, 300px); }
+  .rail__media { border-radius: var(--radius); overflow: hidden; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -30px rgba(0, 0, 0, 0.5); }
+  .rail[data-variant='phones'] .rail__media { border-radius: 20px; }
+  figcaption { display: grid; gap: 2px; margin-top: 14px; max-width: 60ch; }
+  .rail__title { font-weight: 600; }
+  .rail__cap { color: var(--muted); font-size: var(--step--1); }
+
+  /* Edge padding on the track keeps the first item aligned with the page grid */
+  @media (max-width: 640px) { .rail__nav { display: none; } }
+</style>

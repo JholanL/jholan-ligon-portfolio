@@ -1,0 +1,15 @@
+---
+/** The doorway between two rooms: one room's light fades into the next. */
+interface Props { from: string; to: string; label?: string }
+const { from, to } = Astro.props;
+---
+
+<div class="threshold" style={`--from:${from};--to:${to}`} aria-hidden="true"></div>
+
+<style>
+  .threshold {
+    height: clamp(80px, 14vw, 200px);
+    background: linear-gradient(to bottom, var(--from), var(--to));
+    margin-block: -1px;
+  }
+</style>

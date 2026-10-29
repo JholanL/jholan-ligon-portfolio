@@ -1,0 +1,192 @@
+---
+/** The text-led case-study sections: brief, quote, note, decisions, engineering, contribution, stack. */
+import SecHead from './SecHead.astro';
+import type { Project } from '../../lib/projects';
+
+type Section = Project['data']['sections'][number];
+interface Props { section: Section; num: number; project: Project }
+const { section: s, num, project } = Astro.props;
+const solo = project.data.team.toLowerCase().includes('solo');
+---
+
+{
+  s.type === 'brief' && (
+    <div class="brief">
+      <SecHead num={num} label="The brief" title="Problem, people, product." />
+      <div class="brief__grid">
+        <div class="brief__col" data-reveal>
+          <p class="label brief__k">The problem</p>
+          <p class="brief__lead">{s.problem}</p>
+        </div>
+        <div class="brief__col" data-reveal style="--d:80ms">
+          <p class="label brief__k">The people</p>
+          <dl class="brief__people">
+            {s.people.map((pp) => (
+              <div><dt>{pp.name}</dt><dd>{pp.text}</dd></div>
+            ))}
+          </dl>
+        </div>
+        <div class="brief__col" data-reveal style="--d:160ms">
+          <p class="label brief__k">The product</p>
+          <p>{s.product}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  s.type === 'quote' && (
+    <figure class="quote" data-reveal>
+      <blockquote lang="fil"><p>{s.quote}</p></blockquote>
+      <figcaption>
+        {s.translation && <p class="quote__tr serif">“{s.translation}”</p>}
+        {s.attribution && <p class="muted">{s.attribution}</p>}
+      </figcaption>
+    </figure>
+  )
+}
+
+{
+  s.type === 'note' && (
+    <aside class="note" data-reveal>
+      <p class="label note__k">{s.title}</p>
+      <p>{s.body}</p>
+    </aside>
+  )
+}
+
+{
+  s.type === 'decisions' && (
+    <div>
+      <SecHead num={num} label="Decisions" title={s.title} intro={s.intro} />
+      <ol class="dec" role="list">
+        {s.items.map((it, i) => (
+          <li class="dec__item" data-reveal style={`--d:${(i % 3) * 70}ms`}>
+            <span class="dec__n label">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="dec__title">{it.title}</h3>
+            <p class="dec__body">{it.body}</p>
+            {it.source && <p class="dec__src label">Seen in · {it.source}</p>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+{
+  s.type === 'engineering' && (
+    <div class="eng">
+      <SecHead num={num} label="Quality" title={s.title} intro={s.intro} />
+      <dl class="eng__stats">
+        {s.stats.map((st, i) => (
+          <div data-reveal style={`--d:${i * 70}ms`}>
+            <dd class="eng__v" data-count={st.value}>{st.value}</dd>
+            <dt class="label">{st.label}</dt>
+          </div>
+        ))}
+      </dl>
+      {s.note && <p class="eng__note muted">{s.note}</p>}
+    </div>
+  )
+}
+
+{
+  s.type === 'contribution' && (
+    <div class="contrib">
+      <SecHead num={num} label="Contribution" title={s.title} />
+      <div class:list={['contrib__grid', { 'contrib__grid--solo': !s.team?.length }]}>
+        <div class="contrib__col contrib__col--mine" data-reveal>
+          <p class="label">{solo ? 'Solo' : 'What I did'}</p>
+          <ul role="list">{s.mine.map((m) => <li>{m}</li>)}</ul>
+        </div>
+        {s.team && s.team.length > 0 && (
+          <div class="contrib__col" data-reveal style="--d:80ms">
+            <p class="label">The team and its workflow</p>
+            <ul role="list">{s.team.map((m) => <li>{m}</li>)}</ul>
+          </div>
+        )}
+      </div>
+      {s.note && <p class="muted contrib__note">{s.note}</p>}
+    </div>
+  )
+}
+
+{
+  s.type === 'stack' && (
+    <div class="stack">
+      <SecHead num={num} label="Stack" title={s.title} intro={s.note} />
+      <dl class="stack__grid">
+        {s.groups.map((g, i) => (
+          <div data-reveal style={`--d:${i * 60}ms`}>
+            <dt class="label">{g.name}</dt>
+            <dd><ul role="list">{g.items.map((it) => <li class="chip">{it}</li>)}</ul></dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
+<style>
+  /* brief */
+  .brief__grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: clamp(24px, 3vw, 56px); border-top: 1px solid var(--line); padding-top: 28px; }
+  .brief__col { display: grid; gap: 14px; align-content: start; }
+  .brief__k { color: var(--accent-text); }
+  .brief__lead { font-size: var(--step-1); line-height: 1.45; }
+  .brief__people { display: grid; gap: 16px; }
+  .brief__people dt { font-weight: 700; }
+  .brief__people dd { color: var(--muted); }
+
+  /* quote */
+  .quote { display: grid; gap: 24px; justify-items: start; padding-block: clamp(16px, 4vw, 48px); }
+  .quote blockquote p { font-family: var(--f-brand); font-size: clamp(3rem, 1rem + 8vw, 10rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.88; }
+  .quote figcaption { display: grid; gap: 8px; max-width: 52ch; }
+  .quote__tr { font-size: var(--step-2); color: var(--accent-text); }
+
+  /* note */
+  .note { display: grid; grid-template-columns: 14rem 1fr; gap: 24px; padding: clamp(20px, 3vw, 36px); border-radius: var(--radius-lg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); max-width: 72rem; }
+  .note__k { color: var(--accent-text); padding-top: 0.3em; }
+  .note p:last-child { max-width: 66ch; }
+
+  /* decisions */
+  .dec { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; list-style: none; padding: 0; }
+  .dec__item { display: grid; gap: 12px; align-content: start; padding: clamp(22px, 2.6vw, 36px); background: var(--bg); }
+  .dec__n { color: var(--accent-text); }
+  .dec__title { font-family: var(--f-brand); font-size: var(--step-1); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .dec__body { color: var(--muted); }
+  .dec__src { color: var(--muted); opacity: 0.8; font-size: 0.62rem; margin-top: 4px; }
+
+  /* engineering */
+  .eng__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .eng__stats div { display: flex; flex-direction: column-reverse; gap: 10px; padding: clamp(20px, 2.4vw, 32px); border-radius: var(--radius); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+  .eng__stats dt { color: var(--muted); }
+  .eng__v { font-family: var(--f-brand); font-size: var(--step-4); font-weight: 600; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .eng__stats div:first-child .eng__v { color: var(--hl); }
+  .eng__note { margin-top: 18px; font-size: var(--step--1); }
+
+  /* contribution */
+  .contrib__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .contrib__grid--solo { grid-template-columns: minmax(0, 40rem); }
+  .contrib__col { padding: clamp(22px, 3vw, 40px); border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--line); display: grid; gap: 18px; align-content: start; }
+  .contrib__col--mine { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+  .contrib__col ul { display: grid; gap: 10px; }
+  .contrib__col li { position: relative; padding-left: 22px; font-size: var(--step-1); line-height: 1.35; }
+  .contrib__col li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 10px; height: 2px; background: currentColor; }
+  .contrib__col:not(.contrib__col--mine) li { font-size: var(--step-0); color: var(--muted); }
+  .contrib__note { margin-top: 16px; }
+
+  /* stack */
+  .stack__grid { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .stack__grid > div { display: grid; grid-template-columns: 12rem 1fr; gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .stack__grid dt { color: var(--accent-text); padding-top: 0.6em; }
+  .stack__grid ul { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 900px) {
+    .brief__grid { grid-template-columns: 1fr; }
+    .eng__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .contrib__grid { grid-template-columns: 1fr; }
+    .note { grid-template-columns: 1fr; gap: 10px; }
+    .stack__grid > div { grid-template-columns: 1fr; gap: 10px; }
+  }
+</style>

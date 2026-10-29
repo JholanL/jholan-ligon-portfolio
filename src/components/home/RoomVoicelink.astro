@@ -1,0 +1,142 @@
+---
+import Pic from '../Pic.astro';
+import RoomParts from './RoomParts.astro';
+import type { Project } from '../../lib/projects';
+import { themeVars } from '../../lib/projects';
+
+interface Props { project: Project; index: number }
+const { project: p, index } = Astro.props;
+const { room } = p.data;
+const eng = p.data.sections.find((s) => s.type === 'engineering');
+const total = eng && eng.type === 'engineering' ? eng.stats.reduce((n, s) => n + Number(s.value), 0) : 0;
+---
+
+<section class="room vl themed" style={themeVars(p.data.theme)} data-room={p.id} data-scheme={p.data.theme.scheme} aria-labelledby={`room-${p.id}`} data-vt-scope>
+  <div class="vl__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <RoomParts project={p} index={index} part="placard" />
+
+    <div class="vl__grid" data-tabs style="--tab-n:3">
+      <div class="vl__copy">
+        <h2 id={`room-${p.id}`} class="vl__title" data-reveal>
+          <span class="vl__brand"><span class="visually-hidden">{p.data.name}: </span><span aria-hidden="true">VoiceLink <b>Academy</b></span></span>
+          {room.headline} <em>{room.accent}</em>
+        </h2>
+        <p class="vl__lede" data-reveal style="--d:100ms">{room.text}</p>
+
+        <div class="vl__switch" data-reveal style="--d:180ms">
+          <p class="label vl__switch-label" id={`vl-tabs-${p.id}`}>Three portals</p>
+          <div role="tablist" aria-labelledby={`vl-tabs-${p.id}`} class="vl__tabs">
+            <span class="vl__tab-ind" aria-hidden="true"></span>
+            {room.tabs.map((t, i) => (
+              <button type="button" role="tab" id={`vl-tab-${i}`} aria-controls={`vl-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{t.label}</button>
+            ))}
+          </div>
+          {room.tabs.map((t, i) => (
+            <p class="vl__tab-text" id={`vl-text-${i}`} data-tab-text={i} hidden={i !== 0}>{t.text}</p>
+          ))}
+        </div>
+
+        {
+          eng && eng.type === 'engineering' && (
+            <dl class="vl__tests" data-reveal style="--d:240ms">
+              <div class="vl__tests-total"><dt class="label">Automated checks</dt><dd>{total}</dd></div>
+              {eng.stats.map((s) => <div><dt class="label">{s.label}</dt><dd>{s.value}</dd></div>)}
+            </dl>
+          )
+        }
+      </div>
+
+      <div class="vl__screen" data-reveal="clip" style="--d:120ms">
+        <div class="vl__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="label">VoiceLink Academy</span></div>
+        <div class="vl__panels" data-vt-src={`cover-${p.id}`}>
+          {room.tabs.map((t, i) => (
+            <div role="tabpanel" id={`vl-panel-${i}`} aria-labelledby={`vl-tab-${i}`} aria-describedby={`vl-text-${i}`} class="vl__panel" hidden={i !== 0} data-active={i === 0 ? '' : undefined} tabindex="0">
+              <Pic src={t.media.src} alt={t.media.alt} sizes="(max-width: 1000px) 100vw, 58vw" lightbox={`room-${p.id}`} title={`${t.label} portal`} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="vl__actions"><RoomParts project={p} index={index} part="actions" /></div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/tabs';
+  // Keep the descriptive text in sync with the selected portal.
+  document.querySelectorAll<HTMLElement>('.vl [data-tabs]').forEach((root) => {
+    root.querySelectorAll<HTMLButtonElement>('[role="tab"]').forEach((tab, i) =>
+      tab.addEventListener('click', () => sync(root, i)),
+    );
+    root.addEventListener('keydown', () => requestAnimationFrame(() => {
+      const i = [...root.querySelectorAll('[role="tab"]')].findIndex((t) => t.getAttribute('aria-selected') === 'true');
+      sync(root, i);
+    }));
+  });
+  function sync(root: HTMLElement, i: number) {
+    root.querySelectorAll<HTMLElement>('[data-tab-text]').forEach((p) => (p.hidden = Number(p.dataset.tabText) !== i));
+  }
+</script>
+
+<style>
+  .vl { position: relative; padding-block: clamp(72px, 10vw, 160px); overflow: hidden; isolation: isolate; }
+  .vl__glow {
+    position: absolute; z-index: -1; inset: -20% -10% auto auto; width: 70vw; height: 70vw;
+    background: radial-gradient(closest-side, rgba(29, 78, 216, 0.35), transparent 70%);
+  }
+  .vl::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background-image: linear-gradient(rgba(185, 204, 253, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(185, 204, 253, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 70% 30%, #000, transparent 70%);
+  }
+  .vl__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
+  .vl__copy { display: grid; gap: 28px; align-content: start; }
+
+  .vl__title { font-family: var(--f-brand); font-size: clamp(2.4rem, 1.4rem + 3.6vw, 5.2rem); font-weight: 600; line-height: 1.02; letter-spacing: -0.03em; }
+  .vl__title em { font-style: normal; color: var(--accent-text); }
+  .vl__brand { display: block; font-size: 0.32em; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.9em; }
+  .vl__brand b { color: var(--accent-text); font-weight: 600; }
+  .vl__lede { font-size: var(--step-1); color: var(--fg); max-width: 40ch; line-height: 1.45; }
+
+  .vl__switch-label { color: var(--muted); margin-bottom: 10px; }
+  .vl__tabs {
+    position: relative; display: grid; grid-template-columns: repeat(var(--tab-n), 1fr);
+    padding: 4px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .vl__tab-ind {
+    position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--tab-n));
+    border-radius: 999px; background: var(--accent);
+    transform: translateX(calc(var(--tab-i, 0) * 100%));
+    transition: transform 500ms var(--ease);
+  }
+  .vl__tabs button { position: relative; min-height: 44px; border-radius: 999px; font-weight: 600; color: var(--muted); transition: color var(--t-fast); }
+  .vl__tabs button[aria-selected='true'] { color: #fff; }
+  .vl__tab-text { margin-top: 14px; color: var(--muted); min-height: 3.2em; max-width: 46ch; }
+
+  .vl__tests { display: grid; grid-template-columns: repeat(4, auto); gap: 18px 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .vl__tests div { display: grid; gap: 4px; }
+  .vl__tests dt { color: var(--muted); font-size: 0.62rem; max-width: 12ch; }
+  .vl__tests dd { font-size: var(--step-2); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .vl__tests-total { grid-column: 1 / -1; grid-template-columns: auto 1fr; align-items: baseline; }
+  .vl__tests-total dd { color: var(--hl); font-size: var(--step-3); order: -1; margin-right: 12px; }
+
+  .vl__screen { border-radius: 18px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 60px 120px -40px rgba(0, 0, 0, 0.7); }
+  .vl__chrome { display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-bottom: 1px solid var(--line); }
+  .vl__chrome i { width: 10px; height: 10px; border-radius: 50%; background: rgba(185, 204, 253, 0.25); }
+  .vl__chrome .label { margin-left: 10px; color: var(--muted); font-size: 0.62rem; }
+  .vl__panels { display: grid; }
+  .vl__panel { grid-area: 1 / 1; }
+  .vl__panel[data-active] { animation: vl-in 600ms var(--ease) both; }
+  @keyframes vl-in { from { opacity: 0; transform: scale(1.015); } }
+  .vl__actions { margin-top: clamp(40px, 5vw, 72px); }
+
+  @media (max-width: 1000px) {
+    .vl__grid { grid-template-columns: 1fr; gap: 28px; }
+    .vl__copy { display: contents; }
+    .vl__screen { order: 4; }
+    .vl__tests { order: 5; grid-template-columns: repeat(2, auto); }
+  }
+</style>

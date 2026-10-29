@@ -1,0 +1,65 @@
+---
+import { profile } from '../../data/profile';
+const primary = profile.email
+  ? { label: profile.email, href: `mailto:${profile.email}`, cta: 'Email me' }
+  : { label: 'github.com/JholanL', href: profile.github, cta: 'See my GitHub' };
+const others = [
+  profile.email && profile.github && { label: 'GitHub', href: profile.github },
+  profile.linkedin && { label: 'LinkedIn', href: profile.linkedin },
+  profile.resume && { label: 'Download résumé', href: profile.resume },
+].filter(Boolean) as { label: string; href: string }[];
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title" data-header-theme>
+  <div class="wrap">
+    <p class="label contact__eyebrow" data-reveal>Contact</p>
+    <h2 id="contact-title" class="contact__title" data-reveal style="--d:80ms">
+      Have an internship opening?<br /><span class="serif">Let’s build something useful.</span>
+    </h2>
+    <div class="contact__row" data-reveal style="--d:160ms">
+      <a class="contact__primary" href={primary.href} target={primary.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+        <span class="label">{primary.cta}</span>
+        <span class="contact__addr">{primary.label}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" /></svg>
+      </a>
+      {
+        others.length > 0 && (
+          <ul class="contact__others" role="list">
+            {others.map((o) => (
+              <li><a class="btn btn--ghost" href={o.href} target={o.href.startsWith('http') ? '_blank' : undefined} rel="noopener">{o.label}</a></li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <p class="contact__note muted" data-reveal style="--d:220ms">
+      {profile.year} {profile.degree} student · {profile.school} · Open to a {profile.seeking.toLowerCase()}
+    </p>
+  </div>
+</section>
+
+<style>
+  .contact { position: relative; padding-block: clamp(96px, 14vw, 220px); overflow: hidden; isolation: isolate; border-top: 1px solid var(--line); }
+  .contact::before {
+    content: ''; position: absolute; z-index: -1; left: 50%; bottom: -60vmax; translate: -50% 0;
+    width: 130vmax; height: 100vmax;
+    background: radial-gradient(closest-side, rgba(238, 170, 187, 0.14), transparent 70%);
+  }
+  .contact__eyebrow { color: var(--rose); margin-bottom: 20px; }
+  .contact__title { font-size: var(--step-5); font-weight: 800; letter-spacing: -0.045em; line-height: 0.92; font-variation-settings: 'wdth' 112; }
+  .contact__title .serif { font-weight: 400; color: var(--rose); letter-spacing: -0.03em; font-variation-settings: 'opsz' 72; }
+  .contact__row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 32px; margin-top: clamp(48px, 6vw, 88px); }
+  .contact__primary {
+    display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'label icon' 'addr icon';
+    align-items: center; column-gap: 24px; row-gap: 6px;
+    padding-bottom: 14px; border-bottom: 2px solid var(--bone); min-width: min(100%, 520px);
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+  .contact__primary .label { grid-area: label; color: var(--muted); }
+  .contact__addr { grid-area: addr; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+  .contact__primary svg { grid-area: icon; width: clamp(36px, 4vw, 56px); height: auto; transition: transform var(--t-med) var(--ease); }
+  .contact__primary:hover { color: var(--rose); border-color: var(--rose); }
+  .contact__primary:hover svg { transform: translate(6px, -6px); }
+  .contact__others { display: flex; flex-wrap: wrap; gap: 10px; }
+  .contact__note { margin-top: 40px; font-size: var(--step--1); }
+</style>

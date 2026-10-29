@@ -1,0 +1,180 @@
+# VoiceLink Academy — sourced from Portfolio-Assets/VOICELINK/VOICELINK_PROJECT_INFO.md and showcase.json.
+order: 2
+name: VoiceLink Academy
+place: The Training Floor
+tagline: Call-center training, from first lesson to live calls.
+summary: >-
+  A learning management system for new-hire call-center agents. Agents learn, take
+  server-timed quizzes and practise realistic calls. Trainers build the curriculum, and admins
+  decide who is ready for the floor.
+year: "2026"
+kind: Course final project · CTADWEBL, Advanced Web Programming
+team: Team of three
+platforms: [Responsive web app]
+status: Feature-complete across all three portals. No live deployment yet.
+stackShort: [React, Node.js, Express, MongoDB, JWT]
+theme:
+  bg: "#0A1628"
+  surface: "#0F1F38"
+  ink: "#EAF0FF"
+  muted: "#9AABC8"
+  line: "rgba(185, 204, 253, 0.16)"
+  accent: "#1D4ED8"
+  accentText: "#B9CCFD"
+  onAccent: "#FFFFFF"
+  highlight: "#F2B705"
+  font: "'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, sans-serif"
+  scheme: dark
+hero: console
+cover:
+  src: ../../assets/projects/voicelink/cover.png
+  alt: "VoiceLink Academy: a laptop showing the agent dashboard with a 63% learning-path ring, quiz, simulator, readiness and QA scores."
+heroMedia:
+  src: ../../assets/projects/voicelink/showcase/01-introduction.png
+  alt: "Agent dashboard on a laptop: learning-path progress, next steps, quiz, simulator, readiness and QA scores, course progress and production journey."
+preview: /media/voicelink/preview.mp4
+film:
+  src: /media/voicelink/film.mp4
+  poster: ../../assets/projects/voicelink/poster.png
+  duration: 109.6
+  caption: "Narrated walkthrough: continuous recordings of the running app (agent, simulator, trainer, admin, responsive)."
+  chapters:
+    - { t: 0, label: Intro }
+    - { t: 6, label: Agent dashboard }
+    - { t: 12, label: Courses and lessons }
+    - { t: 23, label: Timed quiz }
+    - { t: 35, label: Call simulator }
+    - { t: 60, label: Trainer workspace }
+    - { t: 78, label: Admin console }
+    - { t: 90, label: Responsive }
+facts:
+  - { label: Course, value: "CTADWEBL · NU MOA" }
+  - { label: Team, value: "Three members, one portal each" }
+  - { label: Stack, value: "MERN + JWT" }
+  - { label: Status, value: "Feature-complete · not deployed" }
+links:
+  - { label: Repository on GitHub, href: "https://github.com/JholanL/LearningManagementSystem" }
+room:
+  headline: "From first lesson"
+  accent: "to live calls."
+  text: >-
+    One React app with three portals. Every quiz and every simulated call is scored on the
+    server, so the client can't forge a result.
+  points: []
+  tabs:
+    - label: Agent
+      text: Locked learning paths, server-timed quizzes, and a call simulator that scores every reply on the server with per-reply coaching.
+      media:
+        src: ../../assets/projects/voicelink/showcase/04-call-simulation.png
+        alt: "Call simulator mid-call with an irate customer, server-scored replies (+8/10, and +6/10 'partly covered'), and the final 80% passed result."
+    - label: Trainer
+      text: CourseBuilder, QuizBuilder and a branching ScenarioBuilder, plus a progress matrix for the whole training wave.
+      media:
+        src: ../../assets/projects/voicelink/showcase/05-trainer.png
+        alt: "Trainer course builder with lessons and a nested final assessment, the Wave 12 progress matrix, and the quiz builder with the correct answer marked."
+    - label: Admin
+      text: Users, batches and certificates, go-live endorsement approvals, operational alerts and an audit log.
+      media:
+        src: ../../assets/projects/voicelink/showcase/07-analytics.png
+        alt: "Course analytics with a lesson completion funnel and quiz stats, the Wave 12 leaderboard, admin operational alerts and the go-live endorsements queue."
+sections:
+  - type: film
+    title: Watch the real app.
+    intro: "A 1:50 narrated walkthrough built from continuous browser recordings of the running app. Jump to any portal."
+  - type: brief
+    problem: >-
+      New-hire agents need structured product and soft-skills training, realistic call practice and
+      measurable readiness before they take live customers. Trainers need to build that curriculum
+      and see who is falling behind. Administrators need oversight of training waves, certification
+      and go-live decisions.
+    people:
+      - { name: Agents, text: "New-hire call-center trainees working through a wave." }
+      - { name: Trainers, text: "Build content, evaluate calls and coach their wave." }
+      - { name: Administrators, text: "Run users, batches, certificates and production go-live." }
+    product: >-
+      A single-page React app with Agent, Trainer and Admin portals over an Express and MongoDB REST
+      API. The setting is fictional: VoiceLink Solutions training agents for its Lumina Telecom
+      account. Every name and record on screen is demo data.
+  - type: gallery
+    title: The product, panel by panel.
+    intro: Marketing panels built only by cropping, scaling and framing real captures. No UI was drawn or edited.
+    style: rail
+    items:
+      - { src: ../../assets/projects/voicelink/showcase/01-introduction.png, title: "Train smarter. Perform better.", caption: "A call-center LMS with Agent, Trainer and Admin portals.", alt: "Agent dashboard on a laptop: learning-path progress, next steps, quiz, simulator, readiness and QA scores, course progress and production journey." }
+      - { src: ../../assets/projects/voicelink/showcase/02-learning.png, title: "Learning that moves you forward.", caption: "Courses unlock lesson by lesson.", alt: "My Courses catalog with per-course progress, and a learning path where lessons 1 and 2 are done, lesson 3 is up next and the final quiz is locked." }
+      - { src: ../../assets/projects/voicelink/showcase/03-assessments.png, title: "Turn learning into progress.", caption: "Server-timed, server-graded quizzes with autosave, and verifiable certificates.", alt: "A quiz in progress with the server timer and 'all answers saved', the graded result at 100% passed, and a certificate card with a verification code." }
+      - { src: ../../assets/projects/voicelink/showcase/04-call-simulation.png, title: "Practice beyond the classroom.", caption: "Every reply is scored by the server; partial answers earn partial credit.", alt: "Call simulator mid-call with an irate customer, server-scored replies (+8/10, and +6/10 'partly covered'), and the final 80% passed result." }
+      - { src: ../../assets/projects/voicelink/showcase/05-trainer.png, title: "Manage training with clarity.", caption: "Course and quiz builders, and a progress matrix for the whole wave.", alt: "Trainer course builder with lessons and a nested final assessment, the Wave 12 progress matrix by agent and course, and the quiz builder with the correct answer marked." }
+      - { src: ../../assets/projects/voicelink/showcase/06-responsive.png, title: "One workspace. Every screen.", caption: "The same app at desktop, tablet and phone widths.", alt: "The agent dashboard reflowed at a 1536 px desktop, a 768 px tablet and a 390 px phone, plus the phone's slide-out menu." }
+      - { src: ../../assets/projects/voicelink/showcase/07-analytics.png, title: "See progress. Make better decisions.", caption: "Course analytics for trainers; rankings, alerts and go-live approvals for admins.", alt: "Course analytics with a lesson completion funnel and quiz stats, the Wave 12 leaderboard, admin operational alerts and the go-live endorsements queue." }
+  - type: roles
+    title: Three portals, three owners.
+    intro: Each team member owned one role portal. Shared files changed only through the lead.
+    roles:
+      - name: Agent portal
+        surface: For trainees
+        text: Learn, practise and prove readiness.
+        points: ["Learning paths: lesson, then its quiz, then the final quiz", "Text or push-to-talk voice calls, scored per reply", "Daily Drill drawn only from quizzes already passed", "PDF certificates with a QR code and a public verification page", "Knowledge base on Ctrl+K during calls"]
+        media: { src: ../../assets/projects/voicelink/showcase/02-learning.png, alt: "My Courses catalog and a locked learning path." }
+      - name: Trainer workspace
+        surface: For coaches
+        text: Build the curriculum and watch the wave.
+        points: ["CourseBuilder with YouTube and document import", "QuizBuilder and a branching ScenarioBuilder", "6-criteria QA scorecards", "Batch progress matrix, per-course and per-question analytics", Go-live endorsements]
+        media: { src: ../../assets/projects/voicelink/showcase/05-trainer.png, alt: "Trainer course builder, wave progress matrix and quiz builder." }
+      - name: Admin console
+        surface: For operations
+        text: Decide who goes live.
+        points: ["Users, batches and courses", "Certificates and endorsement approvals", Leaderboard, "Operational alerts, audit log and global search"]
+        media: { src: ../../assets/projects/voicelink/showcase/07-analytics.png, alt: "Analytics, leaderboard, alerts and endorsements." }
+  - type: architecture
+    title: How it fits together.
+    intro: A single-page client talks to a REST API over JSON. Role and ownership checks run on every route.
+    nodes:
+      - { name: React client, detail: "React 19 · React Router 7 · Vite", items: [Agent, Trainer and Admin portals, "Recharts analytics, jsPDF + QR certificates", Off-canvas menu on small screens] }
+      - { name: Express REST API, detail: "Node.js · Express 4", items: ["JWT bearer tokens with server-side revocation", "Role and ownership checks on every route", "Helmet, rate limits, input validation and sanitising"] }
+      - { name: MongoDB, detail: "Mongoose 9", items: ["Users, courses, quizzes, attempts, progress", "Simulation sessions, evaluations, certificates", "Audit log, notifications, endorsements"] }
+    links: ["REST · JSON · Bearer JWT", "Mongoose models · unique indexes"]
+  - type: decisions
+    title: Engineering decisions.
+    intro: These are team decisions, and they are documented in the project.
+    items:
+      - { title: The server owns every score., body: "Quizzes and simulator calls run as server sessions. The server keeps the deadline, does the grading, and applies compare-and-set updates with unique indexes, so the client can't forge a score and concurrent requests can't double-count." }
+      - { title: Rate limits per account, not per IP., body: "A whole training room often shares one office IP. Keying limits to the account means one busy room doesn't lock everyone out." }
+      - { title: Archive instead of delete., body: "Content that has learner history is archived, not deleted, and certificates keep snapshots, so past records stay valid." }
+      - { title: Revocable tokens., body: "JWTs carry a token version, so the server can revoke sessions without waiting for them to expire." }
+  - type: engineering
+    title: Tested against a real database.
+    intro: "Suites run against an isolated real MongoDB, alongside unit tests on the Node.js test runner."
+    stats:
+      - { value: "171", label: Unit tests }
+      - { value: "236", label: API tests }
+      - { value: "32", label: Concurrency and index checks }
+      - { value: "17", label: Rate-limit checks }
+    note: "Counts are from the last full run on 28 October 2026."
+  - type: note
+    title: About the AI features.
+    body: >-
+      Optional Google Gemini features are implemented. They draft quiz questions from lesson text,
+      format imported lessons, and act as a fallback matcher when the offline simulator matcher can't
+      decide. They only run when an API key is configured. The walkthrough and panels were recorded
+      without a key, so every score shown comes from the server's built-in matching.
+  - type: contribution
+    title: My part, and the team's.
+    mine:
+      - Server dependency configuration and testing
+      - Database connection safeguards
+      - Authentication-related workflows
+      - Application testing
+    team:
+      - "Three role owners: one each for the Agent, Trainer and Admin portals"
+      - "Branch flow: main ← dev ← feature/trainer, feature/admin, feature/agent"
+      - The development work across the app is the team's, not one person's
+  - type: stack
+    groups:
+      - { name: Frontend, items: [React 19, React Router 7, React-Bootstrap 2, Bootstrap 5, Vite, Axios, Recharts, jsPDF, qrcode, pdf.js, Tesseract.js, JSZip] }
+      - { name: Backend, items: [Node.js, Express 4, MongoDB, Mongoose 9, jsonwebtoken, bcryptjs, express-validator, Helmet, express-rate-limit, express-mongo-sanitize] }
+      - { name: Quality, items: [Node.js test runner, oxlint] }
+      - { name: Optional, items: [Google Gemini API] }
+confirm:
+  - Whether you were the project lead or owned the Trainer portal (the project CLAUDE.md mentions "Jo (lead)").
+  - A live demo URL, if you deploy it.

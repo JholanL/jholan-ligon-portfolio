@@ -1,0 +1,140 @@
+---
+import { profile } from '../../data/profile';
+const first = 'Jholan'.split('');
+---
+
+<section class="mast" aria-labelledby="mast-title" data-header-theme>
+  <div class="wrap mast__inner">
+    <div class="mast__meta label" data-reveal="fade">
+      <span>Portfolio</span>
+      <span>{profile.degree} · {profile.specialization}</span>
+      <span class="mast__open"><span class="mast__dot" aria-hidden="true"></span>Open to {profile.seeking.toLowerCase()}s</span>
+    </div>
+
+    <h1 id="mast-title" class="mast__name" aria-label={profile.name}>
+      <span class="mast__first" data-vf aria-hidden="true">
+        {first.map((ch, i) => <span class="mast__ch" style={`--i:${i}`}>{ch}</span>)}
+      </span>
+      <span class="mast__last serif" aria-hidden="true">Ligon</span>
+    </h1>
+
+    <div class="mast__foot">
+      <p class="mast__role" data-reveal style="--d:200ms">
+        <span class="label muted">Software developer</span>
+        <span>{profile.year} BSIT student at {profile.school}</span>
+      </p>
+      <p class="mast__statement" data-reveal style="--d:320ms">
+        I build web and mobile software for real places: <em>a furniture workshop, a call-center training floor, the walk home</em> and <em>the morning market.</em>
+      </p>
+      <div class="mast__cta" data-reveal style="--d:440ms">
+        <a class="btn" href="#work">
+          Enter the rooms
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+        </a>
+        <a class="btn btn--ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/masthead';
+</script>
+
+<style>
+  .mast {
+    position: relative;
+    min-height: min(100svh, 1080px);
+    display: grid;
+    padding-top: calc(var(--header-h) + clamp(16px, 3vw, 40px));
+    padding-bottom: clamp(40px, 6vw, 80px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  /* A soft rosé light from above, like a gallery spot. */
+  .mast::before {
+    content: '';
+    position: absolute; z-index: -1;
+    width: 120vmax; height: 120vmax; left: 50%; top: -70vmax; translate: -50% 0;
+    background: radial-gradient(closest-side, rgba(238, 170, 187, 0.16), rgba(238, 170, 187, 0.04) 55%, transparent 70%);
+  }
+  /* Hairline floor-plan grid */
+  .mast::after {
+    content: '';
+    position: absolute; inset: 0; z-index: -1;
+    background-image: linear-gradient(to right, rgba(238, 232, 225, 0.05) 1px, transparent 1px);
+    background-size: calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 6) 100%;
+    background-position: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) 0;
+    mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 70%, transparent);
+  }
+  .mast__inner { display: grid; grid-template-rows: auto 1fr auto; gap: clamp(24px, 4vw, 48px); }
+
+  .mast__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--muted); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .mast__open { display: inline-flex; align-items: center; gap: 8px; color: var(--bone); }
+  .mast__dot { width: 7px; height: 7px; border-radius: 50%; background: #5fd38d; }
+
+  .mast__name {
+    align-self: center;
+    display: grid;
+    line-height: 0.8;
+    font-size: clamp(4.2rem, 17.5vw, 19rem);
+    letter-spacing: -0.035em;
+    margin-inline: -0.04em;
+  }
+  .mast__first {
+    display: flex;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-variation-settings: 'wdth' 125;
+  }
+  .mast__ch { display: inline-block; font-variation-settings: 'wdth' var(--w, 125), 'wght' var(--g, 800); font-weight: inherit; }
+  .mast__last {
+    justify-self: end;
+    font-size: 0.86em;
+    line-height: 0.9;
+    margin-top: -0.02em;
+    color: var(--rose);
+    font-variation-settings: 'opsz' 72;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js .mast__ch { animation: ch-in 1300ms var(--ease) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
+    .js .mast__last { animation: last-in 1400ms var(--ease) 480ms both; }
+  }
+  @keyframes ch-in {
+    from { opacity: 0; transform: translateY(0.18em); font-variation-settings: 'wdth' 62, 'wght' 200; }
+    to { opacity: 1; transform: none; font-variation-settings: 'wdth' 125, 'wght' 800; }
+  }
+  @keyframes last-in { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+
+  .mast__foot {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(12px, 2vw, 32px);
+    row-gap: 24px;
+    align-items: end;
+  }
+  .mast__role { grid-column: 1 / span 3; display: grid; gap: 6px; font-size: var(--step--1); color: var(--bone); max-width: 28ch; }
+  .mast__statement {
+    grid-column: 4 / span 6;
+    font-size: var(--step-2);
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+    font-weight: 500;
+    font-variation-settings: 'wdth' 96;
+  }
+  .mast__statement em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--rose); letter-spacing: -0.01em; }
+  .mast__cta { grid-column: 10 / span 3; display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+
+  @media (max-width: 1100px) {
+    .mast__role { grid-column: 1 / -1; }
+    .mast__statement { grid-column: 1 / span 9; }
+    .mast__cta { grid-column: 1 / -1; justify-content: flex-start; }
+  }
+  @media (max-width: 640px) {
+    .mast { min-height: auto; }
+    .mast__meta span:nth-child(2) { display: none; }
+    .mast__statement { grid-column: 1 / -1; font-size: 1.45rem; }
+    .mast__name { margin-block: 12px 4px; }
+  }
+</style>

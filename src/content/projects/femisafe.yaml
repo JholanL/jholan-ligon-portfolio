@@ -1,0 +1,147 @@
+# FemiSafe — content is taken only from the app's store screenshots, raw screens and the "Within Reach" film.
+order: 3
+name: FemiSafe
+place: The Walk Home
+tagline: Safety, within reach.
+summary: >-
+  A personal-safety app for Android. It puts SOS, journey check-ins, live location by text and a
+  fake call into one calm app. There's no account, and your data stays on your phone.
+kind: Independent project
+team: Solo developer
+platforms: [Android]
+status: Version 2.0
+stackShort: [Android]
+theme:
+  bg: "#140D2E"
+  surface: "#1F1645"
+  ink: "#F4F0FF"
+  muted: "#B3A8D9"
+  line: "rgba(196, 181, 253, 0.18)"
+  accent: "#7050F5"
+  accentText: "#C9BBFF"
+  onAccent: "#FFFFFF"
+  highlight: "#E5324B"
+  font: "'Plus Jakarta Sans Variable', system-ui, sans-serif"
+  scheme: dark
+hero: night
+cover:
+  src: ../../assets/projects/femisafe/poster.jpg
+  alt: "FemiSafe 2.0 film frame: 'Ready when you need it.' beside the home screen on a phone."
+heroMedia:
+  src: ../../assets/projects/femisafe/store/femisafe-01-introduction.png
+  alt: "FemiSafe store art: 'Safety, within reach.' above the home screen with SOS ready, quick tools and private notes."
+  kind: phone
+preview: /media/femisafe/preview.mp4
+film:
+  src: /media/femisafe/film.mp4
+  poster: ../../assets/projects/femisafe/poster.jpg
+  duration: 74.4
+  caption: "Within Reach: the FemiSafe 2.0 film."
+  chapters:
+    - { t: 0, label: Your day }
+    - { t: 8, label: Home }
+    - { t: 12, label: Safety journey }
+    - { t: 24, label: Live location }
+    - { t: 34, label: Fake call }
+    - { t: 41, label: SOS }
+    - { t: 58, label: Marked safe }
+    - { t: 60, label: All in one place }
+facts:
+  - { label: Type, value: Independent project }
+  - { label: Platform, value: Android }
+  - { label: Version, value: FemiSafe 2.0 }
+  - { label: Account, value: None needed }
+room:
+  headline: "Safety,"
+  accent: "within reach."
+  text: >-
+    For class, errands and the ride home. One calm app for SOS, journey check-ins, live location by
+    text and a polite way out, built independently for Android.
+  points: [No account needed, Works offline, Encrypted notes, Light and dark]
+  media:
+    - { src: ../../assets/projects/femisafe/store/femisafe-02-sos.png, alt: "Press and hold for SOS: three seconds and a short countdown, so it never starts by accident.", kind: phone }
+    - { src: ../../assets/projects/femisafe/store/femisafe-03-alert-status.png, alt: "See who your alert reached: sent and delivered, as your phone reports it. 911 is one tap away.", kind: phone }
+    - { src: ../../assets/projects/femisafe/store/femisafe-04-safety-journey.png, alt: "Check in on the way home: set a destination and a check-in time, tap I'm OK whenever you like.", kind: phone }
+    - { src: ../../assets/projects/femisafe/store/femisafe-05-live-location.png, alt: "Share where you are, by text: a map link now and every 15 minutes, no app needed on their end.", kind: phone }
+    - { src: ../../assets/projects/femisafe/store/femisafe-06-fake-call.png, alt: "A polite way out: schedule a realistic call; answered, it says Simulated and never appears in your call log.", kind: phone }
+    - { src: ../../assets/projects/femisafe/store/femisafe-07-private-by-default.png, alt: "Private by default: no account needed; your Circle, notes and history stay on your phone.", kind: phone }
+sections:
+  - type: brief
+    problem: >-
+      A safety app has to be ready in a second, but it must never go off by accident. It also has to
+      be honest about what it can confirm. FemiSafe is built around those three needs: ready on the
+      home screen, deliberate when it matters, and plain about what was actually sent.
+    people:
+      - { name: The person using it, text: "Going to class, running errands or riding home: a jeepney or bus to Marikina, in the film's example." }
+      - { name: Their Circle, text: "Up to five trusted contacts. They're only contacted on SOS, while location is being shared, or when a journey check-in is missed." }
+    product: >-
+      Android app with SOS, Safety Journey, live location by SMS, a fake call, quick tools (siren,
+      flashlight, hotlines saved offline) and encrypted private notes.
+  - type: scenes
+    title: Scene by scene.
+    intro: Real screens from the app, in the order you would need them.
+    scenes:
+      - title: Ready when you need it.
+        body: Home shows whether SOS is ready and who can be alerted. Quick tools sit one tap away.
+        points: ["Fake call: ring me in 10 seconds", "Siren and flashlight", "Hotlines saved offline", "Private notes, encrypted on this phone"]
+        screens:
+          - { src: ../../assets/projects/femisafe/screens/l01-home.png, alt: "FemiSafe home in light mode: SOS ready, setup 4/4, Start journey and Share location, quick tools and private notes.", kind: screen }
+          - { src: ../../assets/projects/femisafe/screens/d01-home.png, alt: "The same home screen in dark mode.", kind: screen }
+      - title: Plan the way.
+        body: "Set a destination and a check-in time, then tap I'm OK whenever you like. Miss one, and after a five-minute grace period your contact gets a text with your last check-in location."
+        points: ["Your location is saved only when you check in", "+15 min, or I've arrived"]
+        screens:
+          - { src: ../../assets/projects/femisafe/screens/l04-journey-active.png, alt: "Active journey 'Jeepney / bus to Marikina' with a 28:34 countdown to the next check-in and an I'm OK button.", kind: screen }
+      - title: Share where you are, by text.
+        body: "A map link now and every 15 minutes until time runs out. No app needed on their end, and each text shows where you were when it was sent."
+        screens:
+          - { src: ../../assets/projects/femisafe/screens/l07-share-active.png, alt: "Live sharing active with 1 h 0 min left, the last text sent to Joy Santos, and Copy map link.", kind: screen }
+      - title: A polite way out.
+        body: "Schedule a realistic incoming call. Once answered, the screen says it's a simulated call with no one on the line, and it never appears in your call log."
+        screens:
+          - { src: ../../assets/projects/femisafe/screens/x10-fake-call.png, alt: "Incoming call screen from 'Mama' with Decline and Answer.", kind: screen }
+          - { src: ../../assets/projects/femisafe/screens/x11-fake-call-answered.png, alt: "Answered fake call labelled 'Simulated call · no one is on the line'.", kind: screen }
+      - title: Press and hold for SOS.
+        body: "Hold for three seconds, then a short countdown, so it never starts by accident. Nothing is sent until the countdown ends."
+        points: ["Texts your location to your Circle by SMS", "Shows who the text reached", "Offers a one-tap call to 911"]
+        screens:
+          - { src: ../../assets/projects/femisafe/screens/d20-sos-ready.png, alt: "Emergency SOS screen: press and hold for 3 seconds to start.", kind: screen }
+          - { src: ../../assets/projects/femisafe/screens/d22-sos-active.png, alt: "SOS active for 8 seconds: Call 911, alert status 'Joy · Delivered 1:07 PM', and a note that delivery can't confirm anyone has read it.", kind: screen }
+      - title: Your Circle, and where to get help.
+        body: "Up to five trusted contacts, and what each one receives. The Help screen lists 911, nearby police, hospitals and barangay halls, and support for violence and abuse, medical, legal aid and mental health."
+        screens:
+          - { src: ../../assets/projects/femisafe/screens/l12-circle.png, alt: "Trusted Circle: 1 of 5 people, with what the Circle receives: SOS alerts, journey check-ins, live location.", kind: screen }
+          - { src: ../../assets/projects/femisafe/screens/l13-help.png, alt: "Help screen: Emergency 911, nearby help map, and support categories.", kind: screen }
+  - type: film
+    title: Within Reach.
+    intro: "The 1:14 launch film for FemiSafe 2.0, following one day from class to the ride home."
+  - type: decisions
+    title: Small decisions, made on purpose.
+    items:
+      - { title: Hard to trigger by accident., body: "SOS needs a three-second hold and then a short countdown. Nothing is sent while the countdown runs.", source: "SOS screen" }
+      - { title: Honest delivery status., body: "The app reports 'sent' and 'delivered' only as the phone reports them. It says plainly that it can't confirm anyone has read the alert, and points to 911.", source: "Alert status" }
+      - { title: Works for people without the app., body: "Alerts and live location go out as SMS with a map link, so your contacts don't need to install anything.", source: "Live location" }
+      - { title: Private by default., body: "No account, works offline. Your Circle, notes and history stay on the phone, and private notes are encrypted on the device.", source: "Store listing" }
+      - { title: A fake call that doesn't lie to you., body: "A fake call looks real to people around you. Once answered, it's labelled as simulated and kept out of the call log.", source: "Fake call" }
+      - { title: Written for home., body: "Small Filipino touches: 'Magandang hapon' on the home screen, barangay halls in Help, and 'Ingat' when you arrive.", source: "Film and screens" }
+  - type: gallery
+    title: The store listing.
+    intro: Seven App Store-style screenshots for FemiSafe 2.0.
+    style: phones
+    items:
+      - { src: ../../assets/projects/femisafe/store/femisafe-01-introduction.png, title: "Safety, within reach.", alt: "Safety, within reach: SOS, journey check-ins and live location, in one calm app.", kind: phone }
+      - { src: ../../assets/projects/femisafe/store/femisafe-02-sos.png, title: "Press and hold for SOS", alt: "Press and hold for SOS: three seconds and a short countdown.", kind: phone }
+      - { src: ../../assets/projects/femisafe/store/femisafe-03-alert-status.png, title: "See who your alert reached", alt: "See who your alert reached: sent and delivered, as your phone reports it.", kind: phone }
+      - { src: ../../assets/projects/femisafe/store/femisafe-04-safety-journey.png, title: "Check in on the way home", alt: "Check in on the way home: set a destination and a check-in time.", kind: phone }
+      - { src: ../../assets/projects/femisafe/store/femisafe-05-live-location.png, title: "Share where you are, by text", alt: "Share where you are: a map link now and every 15 minutes.", kind: phone }
+      - { src: ../../assets/projects/femisafe/store/femisafe-06-fake-call.png, title: "A polite way out", alt: "A polite way out: a realistic scheduled call.", kind: phone }
+      - { src: ../../assets/projects/femisafe/store/femisafe-07-private-by-default.png, title: "Private by default", alt: "Private by default: no account needed, works offline, encrypted notes, light and dark.", kind: phone }
+  - type: contribution
+    title: Built independently.
+    mine:
+      - Independent project, developed solo for Android
+confirm:
+  - "The tech stack (language, framework, libraries — Kotlin, Java, Flutter, React Native?)."
+  - Whether you also designed the UI, the store screenshots and the film.
+  - Whether it is published (Play Store link?) or has a repository you can share.
+  - The year and how long it took. What changed in 2.0?

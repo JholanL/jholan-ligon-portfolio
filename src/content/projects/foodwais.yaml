@@ -1,0 +1,113 @@
+# FoodWais — content is taken only from the hackathon showcase poster and the FoodWais film.
+# The film labels its screens "FoodWais design screens · example result"; the copy says so.
+order: 4
+name: FoodWais
+place: The Palengke
+tagline: Be wais with your food choices.
+summary: >-
+  A local-AI mobile concept for the wet market and the kitchen. It estimates how fresh meat or fish
+  looks, tracks what's in the pantry, and tells you whether a vendor's price is fair.
+kind: Hackathon project · AppBuildersPH Hackathon
+team: Team CocoJJAM
+platforms: [Mobile concept]
+status: Hackathon concept. The film shows design screens with example results.
+stackShort: []
+theme:
+  bg: "#F4F1EC"
+  surface: "#FFFFFF"
+  ink: "#1B1916"
+  muted: "#6A645C"
+  line: "rgba(27, 25, 22, 0.12)"
+  accent: "#F25C05"
+  accentText: "#B23F00"
+  onAccent: "#FFFFFF"
+  highlight: "#22A35A"
+  font: "'Archivo Variable', system-ui, sans-serif"
+  scheme: light
+hero: market
+cover:
+  src: ../../assets/projects/foodwais/showcase.png
+  alt: "FoodWais hackathon showcase by CocoJJAM: the freshness scanner on a fish, a freshness result, the pantry list and a stall price comparison."
+heroMedia:
+  src: ../../assets/projects/foodwais/showcase.png
+  alt: "FoodWais hackathon showcase by CocoJJAM: the freshness scanner on a fish, a freshness result, the pantry list and a stall price comparison."
+preview: /media/foodwais/preview.mp4
+film:
+  src: /media/foodwais/film.mp4
+  poster: ../../assets/projects/foodwais/poster.jpg
+  duration: 60
+  caption: "The FoodWais film. Screens are FoodWais design screens with example results."
+  chapters:
+    - { t: 0, label: The problem }
+    - { t: 6, label: Meet FoodWais }
+    - { t: 9, label: Freshness scanner }
+    - { t: 18, label: Pantry and recipes }
+    - { t: 24, label: Real price data }
+    - { t: 28, label: Palengke Mode }
+    - { t: 41, label: Compare stalls }
+    - { t: 49, label: Local AI }
+facts:
+  - { label: Event, value: AppBuildersPH Hackathon }
+  - { label: Team, value: CocoJJAM }
+  - { label: Type, value: Mobile concept }
+  - { label: AI, value: "Local, on-device (as designed)" }
+room:
+  headline: "Lahat ’yan,"
+  accent: "masisira."
+  text: >-
+    "All of that will spoil." Fish and meat cost more every month, and it hurts to waste them.
+    FoodWais is a hackathon concept that checks freshness, plans the pantry and helps you haggle,
+    with the AI designed to run on the phone.
+  points: [Freshness check, Pantry tracking, Price comparison]
+  media:
+    - src: ../../assets/projects/foodwais/showcase.png
+      alt: "FoodWais hackathon showcase by CocoJJAM: the freshness scanner on a fish, a freshness result, the pantry list and a stall price comparison."
+      kind: phone
+sections:
+  - type: quote
+    quote: "Lahat ’yan, masisira."
+    translation: "All of that will spoil."
+    attribution: "The opening line of the FoodWais film: fish and meat are expensive, and it's a waste when they spoil in the fridge."
+  - type: brief
+    problem: >-
+      Prices for fish and meat keep rising, and food that spoils in the fridge is money lost. At the
+      palengke it's hard to know whether a cut is fresh, or whether the vendor's price is fair.
+    people:
+      - { name: Home cooks, text: "Deciding what to cook before something spoils." }
+      - { name: Market shoppers, text: "Choosing a stall and a fair price at the wet market." }
+    product: >-
+      A mobile concept with a freshness scanner, a pantry with recipes and a shopping list, real
+      Metro Manila price data, and a Palengke Mode for checking and comparing vendors' prices.
+  - type: storyboard
+    title: The idea, in eight frames.
+    intro: Real frames from the FoodWais film. Select one to play the film from that moment.
+    frames:
+      - { t: 0, title: The problem, body: "Fish and meat are expensive, and it's a waste when they spoil in the fridge.", media: { src: ../../assets/projects/foodwais/stills/01-problem.jpg, alt: "Film frame: 'Lahat 'yan, masisira.' surrounded by fish and meat prices." } }
+      - { t: 9, title: "Point. Snap. Alamin.", body: "Snap a photo of the meat or fish. A local AI model on the phone does the check.", media: { src: ../../assets/projects/foodwais/stills/02-scan.jpg, alt: "Film frame: the freshness scanner camera framing a fish." } }
+      - { t: 14, title: Fresh., body: "A freshness result, plus an estimate of how soon to cook it. It's a visual estimate, not a food-safety check.", media: { src: ../../assets/projects/foodwais/stills/03-fresh.jpg, alt: "Film frame: a 'Fresh' result card for the fish." } }
+      - { t: 21, title: Cook it before it spoils., body: "Added to the pantry with a recipe and a list of missing ingredients.", media: { src: ../../assets/projects/foodwais/stills/04-recipe.jpg, alt: "Film frame: Sinigang na Bangus recipe with a seven-item shopping list." } }
+      - { t: 26, title: Real prices., body: "NCR monthly averages from PSA data, via WFP Philippines Food Prices on HDX (CC BY-IGO).", media: { src: ../../assets/projects/foodwais/stills/05-prices.jpg, alt: "Film frame: bangus usual price range this month, ₱245 to ₱285." } }
+      - { t: 35, title: Try to haggle., body: "In Palengke Mode, type the vendor's price. ₱300 is above the usual range, so aim for ₱285 or less.", media: { src: ../../assets/projects/foodwais/stills/06-haggle.jpg, alt: "Film frame: 'Try to haggle' card, ₱15 above the usual range, looks fresh." } }
+      - { t: 44, title: Compare stalls., body: "Freshness first, then price. Stall 1 is just as fresh and ₱20 a kilo cheaper.", media: { src: ../../assets/projects/foodwais/stills/07-compare.jpg, alt: "Film frame: Buy at Stall 1 recommendation with three stalls compared." } }
+      - { t: 52, title: Local AI., body: "Photos stay on the phone, the freshness AI runs on the phone, and there's no sign-in.", media: { src: ../../assets/projects/foodwais/stills/08-local-ai.jpg, alt: "Film frame: 'Local AI. On your phone. Photos stay on your phone.'" } }
+  - type: film
+    title: The film.
+    intro: "One minute, in Taglish, from the fridge to the palengke."
+  - type: decisions
+    title: What the concept gets right.
+    items:
+      - { title: An estimate, labelled as one., body: "The result card says it's a visual estimate on your phone, not a food-safety check." }
+      - { title: Private by design., body: "Photos stay on the phone, the freshness model is designed to run on-device, and there's no sign-in." }
+      - { title: Freshness first, then price., body: "Stall comparisons rank freshness first, so the cheapest stall doesn't win by default." }
+      - { title: Grounded in real data., body: "Usual price ranges come from published Metro Manila retail averages, not guesses." }
+      - { title: Speaks like the market., body: "Taglish copy that sounds like a real palengke trip: 'Pwede po bang ₱285 na lang?'" }
+  - type: note
+    title: Status.
+    body: >-
+      FoodWais is a hackathon concept by team CocoJJAM for the AppBuildersPH Hackathon. The screens in
+      the film and the showcase are labelled "FoodWais design screens · example result".
+confirm:
+  - Your role in team CocoJJAM, and which parts you designed or built.
+  - Whether a working prototype exists, and its tech stack (which on-device model, framework?).
+  - The hackathon date and any placement or award.
+  - Any repository or demo link you can share.

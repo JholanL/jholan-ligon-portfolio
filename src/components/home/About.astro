@@ -1,0 +1,144 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../assets/profile/jholan.jpg';
+import { profile, toolkit, timeline } from '../../data/profile';
+---
+
+<section id="about" class="about" aria-labelledby="about-title" data-header-theme>
+  <div class="wrap">
+    <div class="about__intro">
+      <figure class="about__card" data-reveal>
+        <div class="about__photo">
+          <Image src={photo} alt={`Portrait of ${profile.name}`} widths={[300, 450, 600]} sizes="(max-width: 760px) 60vw, 280px" />
+        </div>
+        <figcaption class="about__card-cap">
+          <span class="label">The maker</span>
+          <span>{profile.name}</span>
+          <span class="muted">{profile.year} · {profile.degree}</span>
+        </figcaption>
+      </figure>
+
+      <div class="about__text">
+        <p class="label about__eyebrow" data-reveal>About</p>
+        <h2 id="about-title" class="about__title" data-reveal style="--d:80ms">
+          I like software that fits into <span class="serif">someone’s actual day.</span>
+        </h2>
+        <div class="about__prose prose" data-reveal style="--d:160ms">
+          <p>
+            I’m {profile.firstName}, a fourth-year Information Technology student at {profile.school}, specialising in {profile.specialization.toLowerCase()}. The work above
+            spans a client capstone, a three-person full-stack build, a solo Android app and a hackathon concept.
+          </p>
+          <p>
+            Across all four, I try to start from the person on the other side: a shop owner checking what’s running late, a trainee practising a difficult call, someone
+            heading home after class. I’m looking for a software development internship where I can keep learning how good products are built and shipped.
+          </p>
+        </div>
+        <dl class="about__facts" data-reveal style="--d:220ms">
+          <div><dt class="label">Studying</dt><dd>{profile.degree}<br /><span class="muted">{profile.school}</span></dd></div>
+          <div><dt class="label">Specialization</dt><dd>{profile.specialization}</dd></div>
+          <div><dt class="label">Looking for</dt><dd>{profile.seeking}</dd></div>
+        </dl>
+        <ul class="about__interests" role="list" aria-label="Interests" data-reveal style="--d:260ms">
+          {profile.interests.map((i) => <li class="chip">{i}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="kit" aria-labelledby="kit-title">
+      <header class="kit__head" data-reveal>
+        <h2 id="kit-title" class="kit__title">Toolkit, <span class="serif">with receipts.</span></h2>
+        <p class="muted">Every skill here links to the project that shows it. Nothing is listed that the work doesn’t back up.</p>
+      </header>
+      <ol class="kit__grid" role="list">
+        {
+          toolkit.map((k, i) => (
+            <li class="kit__item" data-reveal style={`--d:${(i % 3) * 80}ms`}>
+              <p class="label kit__num">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="kit__area">{k.area}</h3>
+              <p class="kit__items">{k.items.join(' · ')}</p>
+              {k.note && <p class="kit__note muted">{k.note}</p>}
+              <p class="kit__proof">
+                <span class="label muted">Seen in</span>
+                {k.proof.map((pr) => <a href={pr.href} class="arrow-link">{pr.label}</a>)}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="path" aria-labelledby="path-title">
+      <h2 id="path-title" class="kit__title" data-reveal>Education <span class="serif">&amp; milestones</span></h2>
+      <ol class="path__list" role="list">
+        {
+          timeline.map((t, i) => (
+            <li class="path__item" data-reveal style={`--d:${i * 70}ms`}>
+              <p class="label path__when">{t.when}</p>
+              <h3 class="path__title">{t.title}</h3>
+              <p class="muted">{t.detail}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { padding-block: clamp(96px, 12vw, 180px) clamp(64px, 8vw, 120px); }
+  .about__intro { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: clamp(32px, 6vw, 120px); align-items: start; }
+
+  .about__card { position: sticky; top: calc(var(--header-h) + 32px); display: grid; gap: 14px; padding: 12px 12px 16px; border-radius: 18px; background: var(--ink-2); box-shadow: 0 0 0 1px var(--line); rotate: -1.5deg; transition: rotate 700ms var(--ease); }
+  .about__card:hover { rotate: 0deg; }
+  .about__photo { border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 5; background: #e9e7e4; }
+  .about__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .about__card-cap { display: grid; gap: 2px; padding-inline: 4px; font-weight: 600; }
+  .about__card-cap .label { color: var(--rose); margin-bottom: 4px; }
+  .about__card-cap .muted { font-weight: 400; font-size: var(--step--1); }
+
+  .about__eyebrow { color: var(--rose); margin-bottom: 18px; }
+  .about__title { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.035em; line-height: 0.98; font-variation-settings: 'wdth' 108; max-width: 14ch; }
+  .about__title .serif { font-weight: 400; color: var(--rose); font-variation-settings: 'opsz' 60; }
+  .about__prose { margin-top: 36px; font-size: var(--step-1); line-height: 1.5; color: var(--bone); }
+  .about__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .about__facts dt { color: var(--muted); margin-bottom: 6px; }
+  .about__facts dd { font-weight: 500; line-height: 1.35; }
+  .about__interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+
+  .kit { margin-top: clamp(96px, 12vw, 180px); }
+  .kit__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); gap: 24px; align-items: end; margin-bottom: 40px; }
+  .kit__title { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.03em; font-variation-settings: 'wdth' 110; }
+  .kit__title .serif { color: var(--rose); font-weight: 400; }
+  .kit__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .kit__item { display: grid; gap: 10px; align-content: start; padding: clamp(20px, 2.4vw, 32px); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background-color var(--t-med) var(--ease); }
+  .kit__item:hover { background: var(--ink-2); }
+  .kit__num { color: var(--rose); }
+  .kit__area { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.01em; }
+  .kit__items { line-height: 1.55; }
+  .kit__note { font-size: var(--step--1); }
+  .kit__proof { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 8px; font-size: 0.92rem; }
+
+  .path { margin-top: clamp(96px, 12vw, 160px); }
+  .path__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 36px; position: relative; }
+  .path__list::before { content: ''; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--line); }
+  .path__item { position: relative; display: grid; gap: 8px; align-content: start; padding: 32px 24px 0 0; }
+  .path__item::before { content: ''; position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--ink); border: 1px solid var(--rose); }
+  .path__item:first-child::before { background: var(--rose); }
+  .path__when { color: var(--rose); }
+  .path__title { font-size: var(--step-1); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+
+  @media (max-width: 1000px) {
+    .kit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .path__list { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+    .kit__head { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .about__intro { grid-template-columns: 1fr; }
+    .about__card { position: relative; top: 0; max-width: 260px; }
+    .about__facts { grid-template-columns: 1fr; gap: 16px; }
+    .kit__grid { grid-template-columns: 1fr; }
+    .path__list { grid-template-columns: 1fr; }
+    .path__list::before { left: 6px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
+    .path__item { padding: 0 0 0 36px; }
+  }
+</style>

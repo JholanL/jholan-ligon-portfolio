@@ -1,0 +1,100 @@
+---
+import { Image } from 'astro:assets';
+import Pic from '../Pic.astro';
+import RoomParts from './RoomParts.astro';
+import type { Project } from '../../lib/projects';
+import { themeVars, formatTime } from '../../lib/projects';
+
+interface Props { project: Project; index: number }
+const { project: p, index } = Astro.props;
+const { room } = p.data;
+const poster = room.media[0];
+const board = p.data.sections.find((s) => s.type === 'storyboard');
+const frames = board && board.type === 'storyboard' ? [1, 2, 5, 6].map((i) => board.frames[i]).filter(Boolean) : [];
+---
+
+<section class="room fw themed" style={themeVars(p.data.theme)} data-room={p.id} data-scheme={p.data.theme.scheme} aria-labelledby={`room-${p.id}`} data-vt-scope>
+  <div class="wrap">
+    <RoomParts project={p} index={index} part="placard" />
+
+    <div class="fw__grid">
+      <div class="fw__poster" data-reveal="clip">
+        <div data-vt-src={`cover-${p.id}`}>
+          <Pic src={poster.src} alt={poster.alt} sizes="(max-width: 900px) 100vw, 40vw" widths={[480, 720, 1000, 1122]} lightbox={`room-${p.id}`} title="FoodWais hackathon showcase" />
+        </div>
+        <p class="fw__stamp label">Hackathon concept · {p.data.team}</p>
+      </div>
+
+      <div class="fw__copy">
+        <h2 id={`room-${p.id}`} class="fw__title" data-reveal>
+          <span class="fw__brand" aria-hidden="true">Food<b>Wais</b></span>
+          <span class="visually-hidden">{p.data.name}: </span>
+          <span lang="fil">{room.headline}<br /><b>{room.accent}</b></span>
+        </h2>
+        <p class="fw__lede" data-reveal style="--d:100ms">{room.text}</p>
+
+        {
+          frames.length > 0 && (
+            <div class="fw__board" data-reveal style="--d:180ms">
+              <p class="label fw__board-label">From the film. Select a frame to watch from there.</p>
+              <ol class="fw__frames" role="list">
+                {frames.map((f) => (
+                  <li>
+                    <button type="button" data-film-play={`#film-home-${p.id}`} data-t={f.t} aria-label={`Play the FoodWais film from ${formatTime(f.t)}: ${f.title}`}>
+                      <span class="fw__frame">
+                        <Image src={f.media.src} alt="" widths={[360, 560]} sizes="(max-width: 640px) 45vw, 18vw" loading="lazy" />
+                        <span class="fw__t label">{formatTime(f.t)}</span>
+                        <span class="fw__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg></span>
+                      </span>
+                      <span class="fw__frame-title">{f.title}</span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )
+        }
+
+        <RoomParts project={p} index={index} part="actions" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fw { padding-block: clamp(72px, 10vw, 160px); }
+  .fw__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 96px); align-items: start; }
+  .fw__poster { position: sticky; top: calc(var(--header-h) + 24px); }
+  .fw__poster :global(.pic-link) { border-radius: var(--radius-lg); box-shadow: 0 50px 100px -50px rgba(120, 50, 0, 0.35), 0 0 0 1px var(--line); }
+  .fw__stamp {
+    position: absolute; top: 18px; right: -12px; rotate: 4deg;
+    padding: 8px 14px; border-radius: 6px; background: var(--fg); color: var(--bg);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  }
+  .fw__copy { display: grid; gap: 28px; align-content: start; padding-top: clamp(0px, 4vw, 48px); }
+  .fw__title { font-family: var(--f-brand); font-size: clamp(3rem, 1.2rem + 6.4vw, 8.2rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.045em; font-variation-settings: 'wdth' 92; }
+  .fw__title b { color: var(--accent); font-weight: 800; }
+  .fw__brand { display: block; font-size: 1.05rem; letter-spacing: -0.02em; margin-bottom: 1.4rem; font-variation-settings: 'wdth' 100; }
+  .fw__lede { font-size: var(--step-1); line-height: 1.45; max-width: 44ch; }
+
+  .fw__board-label { color: var(--muted); margin-bottom: 14px; }
+  .fw__frames { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .fw__frames button { display: grid; gap: 8px; width: 100%; text-align: left; }
+  .fw__frame { position: relative; display: block; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); aspect-ratio: 16 / 9; }
+  .fw__frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 800ms var(--ease); }
+  .fw__frames button:hover img { transform: scale(1.04); }
+  .fw__t { position: absolute; left: 8px; top: 8px; padding: 4px 8px; border-radius: 6px; background: rgba(27, 25, 22, 0.8); color: #fff; font-size: 0.62rem; }
+  .fw__play {
+    position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent); color: #fff; transform: scale(0.85); opacity: 0.9; transition: transform var(--t-med) var(--ease), opacity var(--t-fast);
+  }
+  .fw__play svg { width: 16px; height: 16px; margin-left: 2px; }
+  .fw__frames button:hover .fw__play, .fw__frames button:focus-visible .fw__play { transform: scale(1); opacity: 1; }
+  .fw__frame-title { font-weight: 700; font-size: 0.95rem; }
+
+  @media (max-width: 900px) {
+    .fw__grid { grid-template-columns: 1fr; }
+    .fw__poster { position: relative; top: 0; max-width: 520px; }
+    .fw__stamp { right: 8px; }
+  }
+</style>

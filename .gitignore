@@ -1,0 +1,25 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# local tooling (ffmpeg, playwright, caches) and logs
+.tooling/
+npm-debug.log*
+
+# Raw media archive. The curated copies the site uses live in src/assets and public/media
+# (see scripts/import-media.mjs). Keep the originals backed up separately.
+Portfolio-Assets/
+2x2 (1).jpg
+
+# environment
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
