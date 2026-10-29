@@ -75,7 +75,7 @@ export const timeline: { when: string; title: string; detail: string }[] = [
   {
     when: 'Now',
     title: 'BS Information Technology, Fourth year',
-    detail: 'National University – Mall of Asia · Specialization in Mobile and Web Applications',
+    detail: 'National University – Mall of Asia, specializing in Mobile and Web Applications.',
   },
   {
     when: 'Capstone',

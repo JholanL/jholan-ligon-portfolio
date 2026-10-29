@@ -139,7 +139,7 @@ sections:
     intro: These are team decisions, and they are documented in the project.
     items:
       - { title: The server owns every score., body: "Quizzes and simulator calls run as server sessions. The server keeps the deadline, does the grading, and applies compare-and-set updates with unique indexes, so the client can't forge a score and concurrent requests can't double-count." }
-      - { title: Rate limits per account, not per IP., body: "A whole training room often shares one office IP. Keying limits to the account means one busy room doesn't lock everyone out." }
+      - { title: "Rate limits per account, not per IP.", body: "A whole training room often shares one office IP. Keying limits to the account means one busy room doesn't lock everyone out." }
       - { title: Archive instead of delete., body: "Content that has learner history is archived, not deleted, and certificates keep snapshots, so past records stay valid." }
       - { title: Revocable tokens., body: "JWTs carry a token version, so the server can revoke sessions without waiting for them to expire." }
   - type: engineering
@@ -152,7 +152,7 @@ sections:
       - { value: "17", label: Rate-limit checks }
     note: "Counts are from the last full run on 28 October 2026."
   - type: note
-    title: About the AI features.
+    title: About the AI features
     body: >-
       Optional Google Gemini features are implemented. They draft quiz questions from lesson text,
       format imported lessons, and act as a fallback matcher when the offline simulator matcher can't

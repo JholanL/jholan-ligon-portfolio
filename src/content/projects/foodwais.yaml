@@ -18,9 +18,9 @@ theme:
   ink: "#1B1916"
   muted: "#6A645C"
   line: "rgba(27, 25, 22, 0.12)"
-  accent: "#F25C05"
+  accent: "#E85604"
   accentText: "#B23F00"
-  onAccent: "#FFFFFF"
+  onAccent: "#1B1916"
   highlight: "#22A35A"
   font: "'Archivo Variable', system-ui, sans-serif"
   scheme: light
@@ -55,7 +55,7 @@ room:
   headline: "Lahat ’yan,"
   accent: "masisira."
   text: >-
-    "All of that will spoil." Fish and meat cost more every month, and it hurts to waste them.
+    “All of that will spoil.” Fish and meat cost more every month, and it hurts to waste them.
     FoodWais is a hackathon concept that checks freshness, plans the pantry and helps you haggle,
     with the AI designed to run on the phone.
   points: [Freshness check, Pantry tracking, Price comparison]
@@ -96,16 +96,16 @@ sections:
   - type: decisions
     title: What the concept gets right.
     items:
-      - { title: An estimate, labelled as one., body: "The result card says it's a visual estimate on your phone, not a food-safety check." }
+      - { title: "An estimate, labelled as one.", body: "The result card says it's a visual estimate on your phone, not a food-safety check." }
       - { title: Private by design., body: "Photos stay on the phone, the freshness model is designed to run on-device, and there's no sign-in." }
-      - { title: Freshness first, then price., body: "Stall comparisons rank freshness first, so the cheapest stall doesn't win by default." }
+      - { title: "Freshness first, then price.", body: "Stall comparisons rank freshness first, so the cheapest stall doesn't win by default." }
       - { title: Grounded in real data., body: "Usual price ranges come from published Metro Manila retail averages, not guesses." }
       - { title: Speaks like the market., body: "Taglish copy that sounds like a real palengke trip: 'Pwede po bang ₱285 na lang?'" }
   - type: note
-    title: Status.
+    title: Status
     body: >-
       FoodWais is a hackathon concept by team CocoJJAM for the AppBuildersPH Hackathon. The screens in
-      the film and the showcase are labelled "FoodWais design screens · example result".
+      the film and the showcase are labelled “FoodWais design screens · example result”.
 confirm:
   - Your role in team CocoJJAM, and which parts you designed or built.
   - Whether a working prototype exists, and its tech stack (which on-device model, framework?).

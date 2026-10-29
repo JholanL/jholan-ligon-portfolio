@@ -55,7 +55,7 @@ import { profile, toolkit, timeline } from '../../data/profile';
             <li class="kit__item" data-reveal style={`--d:${(i % 3) * 80}ms`}>
               <p class="label kit__num">{String(i + 1).padStart(2, '0')}</p>
               <h3 class="kit__area">{k.area}</h3>
-              <p class="kit__items">{k.items.join(' · ')}</p>
+              <ul class="kit__items" role="list">{k.items.map((it) => <li>{it}</li>)}</ul>
               {k.note && <p class="kit__note muted">{k.note}</p>}
               <p class="kit__proof">
                 <span class="label muted">Seen in</span>
@@ -98,7 +98,7 @@ import { profile, toolkit, timeline } from '../../data/profile';
 
   .about__eyebrow { color: var(--rose); margin-bottom: 18px; }
   .about__title { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.035em; line-height: 0.98; font-variation-settings: 'wdth' 108; max-width: 14ch; }
-  .about__title .serif { font-weight: 400; color: var(--rose); font-variation-settings: 'opsz' 60; }
+  .about__title .serif { font-weight: 400; color: var(--rose); }
   .about__prose { margin-top: 36px; font-size: var(--step-1); line-height: 1.5; color: var(--bone); }
   .about__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
   .about__facts dt { color: var(--muted); margin-bottom: 6px; }
@@ -114,7 +114,9 @@ import { profile, toolkit, timeline } from '../../data/profile';
   .kit__item:hover { background: var(--ink-2); }
   .kit__num { color: var(--rose); }
   .kit__area { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.01em; }
-  .kit__items { line-height: 1.55; }
+  .kit__items { display: flex; flex-wrap: wrap; line-height: 1.55; }
+  .kit__items li { white-space: nowrap; }
+  .kit__items li:not(:last-child)::after { content: '·'; margin-inline: 0.5em; color: var(--muted); }
   .kit__note { font-size: var(--step--1); }
   .kit__proof { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 8px; font-size: 0.92rem; }
 

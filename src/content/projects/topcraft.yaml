@@ -18,7 +18,7 @@ theme:
   ink: "#17130F"
   muted: "#6B5E4E"
   line: "rgba(23, 19, 15, 0.14)"
-  accent: "#B5873A"
+  accent: "#A97B30"
   accentText: "#7A5718"
   onAccent: "#17130F"
   highlight: "#17130F"
@@ -192,7 +192,7 @@ sections:
       - { title: "Each role works on the platform that fits it.", body: "The owner gets the dense web dashboard. Clients and workers get a focused Android app built around their part of the order." }
       - { title: Owner-only notes., body: "Internal notes on a project are visible to the owner only. Workers and clients never see them." }
       - { title: Nothing ships unreviewed., body: "A final inspection waits for owner approval. Rejected work goes back to the worker with rework notes." }
-      - { title: Offcuts are inventory, not waste., body: "Scrap pieces are logged with dimensions, grade and the project they came from, so reusable material can be reserved again." }
+      - { title: "Offcuts are inventory, not waste.", body: "Scrap pieces are logged with dimensions, grade and the project they came from, so reusable material can be reserved again." }
       - { title: AI is labelled where it appears., body: "AI-assisted features are marked in the interface: schedule insights, scrap creation suggestions and the client's AI Studio entry point." }
 confirm:
   - Your role and responsibilities on TopCraft (team size, and which parts you built).

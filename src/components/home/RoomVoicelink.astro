@@ -81,7 +81,7 @@ const total = eng && eng.type === 'engineering' ? eng.stats.reduce((n, s) => n +
 </script>
 
 <style>
-  .vl { position: relative; padding-block: clamp(72px, 10vw, 160px); overflow: hidden; isolation: isolate; }
+  .vl { position: relative; padding-block: clamp(48px, 6vw, 96px) clamp(64px, 8vw, 128px); overflow: clip; isolation: isolate; }
   .vl__glow {
     position: absolute; z-index: -1; inset: -20% -10% auto auto; width: 70vw; height: 70vw;
     background: radial-gradient(closest-side, rgba(29, 78, 216, 0.35), transparent 70%);
@@ -117,13 +117,13 @@ const total = eng && eng.type === 'engineering' ? eng.stats.reduce((n, s) => n +
   .vl__tab-text { margin-top: 14px; color: var(--muted); min-height: 3.2em; max-width: 46ch; }
 
   .vl__tests { display: grid; grid-template-columns: repeat(4, auto); gap: 18px 24px; padding-top: 22px; border-top: 1px solid var(--line); }
-  .vl__tests div { display: grid; gap: 4px; }
+  .vl__tests div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 6px; }
   .vl__tests dt { color: var(--muted); font-size: 0.62rem; max-width: 12ch; }
   .vl__tests dd { font-size: var(--step-2); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
-  .vl__tests-total { grid-column: 1 / -1; grid-template-columns: auto 1fr; align-items: baseline; }
-  .vl__tests-total dd { color: var(--hl); font-size: var(--step-3); order: -1; margin-right: 12px; }
+  .vl__tests div.vl__tests-total { grid-column: 1 / -1; flex-direction: row-reverse; justify-content: flex-end; align-items: baseline; gap: 14px; }
+  .vl__tests-total dd { color: var(--hl); font-size: var(--step-3); }
 
-  .vl__screen { border-radius: 18px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 60px 120px -40px rgba(0, 0, 0, 0.7); }
+  .vl__screen { position: sticky; top: calc(var(--header-h) + 24px); border-radius: 18px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 60px 120px -40px rgba(0, 0, 0, 0.7); }
   .vl__chrome { display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-bottom: 1px solid var(--line); }
   .vl__chrome i { width: 10px; height: 10px; border-radius: 50%; background: rgba(185, 204, 253, 0.25); }
   .vl__chrome .label { margin-left: 10px; color: var(--muted); font-size: 0.62rem; }
@@ -135,6 +135,7 @@ const total = eng && eng.type === 'engineering' ? eng.stats.reduce((n, s) => n +
 
   @media (max-width: 1000px) {
     .vl__grid { grid-template-columns: 1fr; gap: 28px; }
+    .vl__screen { position: relative; top: 0; }
     .vl__copy { display: contents; }
     .vl__screen { order: 4; }
     .vl__tests { order: 5; grid-template-columns: repeat(2, auto); }

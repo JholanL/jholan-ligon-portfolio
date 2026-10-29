@@ -8,7 +8,7 @@ const first = 'Jholan'.split('');
     <div class="mast__meta label" data-reveal="fade">
       <span>Portfolio</span>
       <span>{profile.degree} · {profile.specialization}</span>
-      <span class="mast__open"><span class="mast__dot" aria-hidden="true"></span>Open to {profile.seeking.toLowerCase()}s</span>
+      <span>Four rooms · web and mobile</span>
     </div>
 
     <h1 id="mast-title" class="mast__name" aria-label={profile.name}>
@@ -19,14 +19,14 @@ const first = 'Jholan'.split('');
     </h1>
 
     <div class="mast__foot">
-      <p class="mast__role" data-reveal style="--d:200ms">
+      <p class="mast__role mast__rise" style="--d:200ms">
         <span class="label muted">Software developer</span>
         <span>{profile.year} BSIT student at {profile.school}</span>
       </p>
-      <p class="mast__statement" data-reveal style="--d:320ms">
-        I build web and mobile software for real places: <em>a furniture workshop, a call-center training floor, the walk home</em> and <em>the morning market.</em>
+      <p class="mast__statement mast__rise" style="--d:300ms">
+        I build web and mobile software for real places: <em>a furniture workshop, a call‑center training floor, the walk home</em> and <em>the morning market.</em>
       </p>
-      <div class="mast__cta" data-reveal style="--d:440ms">
+      <div class="mast__cta mast__rise" style="--d:400ms">
         <a class="btn" href="#work">
           Enter the rooms
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
@@ -70,8 +70,6 @@ const first = 'Jholan'.split('');
   .mast__inner { display: grid; grid-template-rows: auto 1fr auto; gap: clamp(24px, 4vw, 48px); }
 
   .mast__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--muted); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-  .mast__open { display: inline-flex; align-items: center; gap: 8px; color: var(--bone); }
-  .mast__dot { width: 7px; height: 7px; border-radius: 50%; background: #5fd38d; }
 
   .mast__name {
     align-self: center;
@@ -92,9 +90,8 @@ const first = 'Jholan'.split('');
     justify-self: end;
     font-size: 0.86em;
     line-height: 0.9;
-    margin-top: -0.02em;
+    margin-top: 0.04em;
     color: var(--rose);
-    font-variation-settings: 'opsz' 72;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -105,6 +102,11 @@ const first = 'Jholan'.split('');
     from { opacity: 0; transform: translateY(0.18em); font-variation-settings: 'wdth' 62, 'wght' 200; }
     to { opacity: 1; transform: none; font-variation-settings: 'wdth' 125, 'wght' 800; }
   }
+  /* Above the fold: visible from first paint, motion is transform-only. */
+  @media (prefers-reduced-motion: no-preference) {
+    .mast__rise { animation: rise 1100ms var(--ease) var(--d, 0ms) both; }
+  }
+  @keyframes rise { from { transform: translateY(22px); } }
   @keyframes last-in { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
 
   .mast__foot {

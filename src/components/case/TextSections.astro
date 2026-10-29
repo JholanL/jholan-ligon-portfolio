@@ -150,12 +150,17 @@ const solo = project.data.team.toLowerCase().includes('solo');
   .note p:last-child { max-width: 66ch; }
 
   /* decisions */
-  .dec { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; list-style: none; padding: 0; }
-  .dec__item { display: grid; gap: 12px; align-content: start; padding: clamp(22px, 2.6vw, 36px); background: var(--bg); }
-  .dec__n { color: var(--accent-text); }
-  .dec__title { font-family: var(--f-brand); font-size: var(--step-1); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
-  .dec__body { color: var(--muted); }
-  .dec__src { color: var(--muted); opacity: 0.8; font-size: 0.62rem; margin-top: 4px; }
+  .dec { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+  .dec__item { display: grid; grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1.25fr); column-gap: clamp(16px, 3vw, 48px); row-gap: 6px; padding-block: clamp(20px, 2.4vw, 32px); border-bottom: 1px solid var(--line); transition: background-color var(--t-med) var(--ease); }
+  .dec__n { color: var(--accent-text); padding-top: 0.45em; grid-row: span 2; }
+  .dec__title { font-family: var(--f-brand); font-size: var(--step-2); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; grid-row: span 2; }
+  .dec__body { color: var(--muted); font-size: var(--step-0); max-width: 54ch; padding-top: 0.2em; }
+  .dec__src { color: var(--muted); opacity: 0.8; font-size: 0.62rem; }
+  @media (max-width: 760px) {
+    .dec__item { grid-template-columns: 2.6rem minmax(0, 1fr); }
+    .dec__n { grid-row: span 3; }
+    .dec__title { grid-row: auto; }
+  }
 
   /* engineering */
   .eng__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }

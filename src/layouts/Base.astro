@@ -4,6 +4,8 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Lightbox from '../components/Lightbox.astro';
 import { profile } from '../data/profile';
+import archivoWoff from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import newsreaderWoff from '@fontsource-variable/newsreader/files/newsreader-latin-wght-italic.woff2?url';
 
 interface Props {
   title: string;
@@ -12,9 +14,11 @@ interface Props {
   image?: string;
   /** JSON-LD object for this page */
   schema?: Record<string, unknown>;
+  /** preload the display fonts (pages whose first screen is set in them) */
+  preloadFonts?: boolean;
 }
 
-const { title, description, image = '/og.png', schema } = Astro.props;
+const { title, description, image = '/og.png', schema, preloadFonts = false } = Astro.props;
 const site = Astro.site;
 const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
 const ogImage = site ? new URL(image, site).href : image;
@@ -32,6 +36,8 @@ const ogImage = site ? new URL(image, site).href : image;
     <meta name="theme-color" content="#0e0d0f" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href={archivoWoff} as="font" type="font/woff2" crossorigin />
+    {preloadFonts && <link rel="preload" href={newsreaderWoff} as="font" type="font/woff2" crossorigin />}
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -46,7 +52,17 @@ const ogImage = site ? new URL(image, site).href : image;
     <meta name="twitter:image" content={ogImage} />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <!-- Opt in to cross-page transitions before any stylesheet loads. -->
+    <style is:inline>@view-transition { navigation: auto; }</style>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // A page transition can be skipped by the browser; navigation still completes. pagereveal
+      // fires before module scripts run, so its promises are handled here.
+      addEventListener('pagereveal', function (e) {
+        var v = e.viewTransition;
+        if (v) [v.ready, v.finished, v.updateCallbackDone].forEach(function (p) { p && p.catch(function () {}); });
+      });
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

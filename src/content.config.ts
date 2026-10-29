@@ -10,7 +10,7 @@ import { glob } from 'astro/loaders';
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
   schema: ({ image }) => {
-    const media = z.object({
+    const media = z.strictObject({
       src: image(),
       alt: z.string(),
       title: z.string().optional(),
@@ -23,7 +23,7 @@ const projects = defineCollection({
       z.object({
         type: z.literal('brief'),
         problem: z.string(),
-        people: z.array(z.object({ name: z.string(), text: z.string() })),
+        people: z.array(z.object({ name: z.string(), text: z.string() }).strict()),
         product: z.string(),
       }),
       z.object({ type: z.literal('film'), title: z.string(), intro: z.string().optional() }),
@@ -50,7 +50,7 @@ const projects = defineCollection({
         type: z.literal('pipeline'),
         title: z.string(),
         intro: z.string().optional(),
-        stages: z.array(z.object({ name: z.string(), note: z.string().optional() })),
+        stages: z.array(z.object({ name: z.string(), note: z.string().optional() }).strict()),
         media: media.optional(),
       }),
       z.object({
@@ -69,7 +69,7 @@ const projects = defineCollection({
         type: z.literal('storyboard'),
         title: z.string(),
         intro: z.string().optional(),
-        frames: z.array(z.object({ t: z.number(), title: z.string(), body: z.string(), media })),
+        frames: z.array(z.object({ t: z.number(), title: z.string(), body: z.string(), media }).strict()),
       }),
       z.object({
         type: z.literal('architecture'),
@@ -82,7 +82,7 @@ const projects = defineCollection({
         type: z.literal('decisions'),
         title: z.string(),
         intro: z.string().optional(),
-        items: z.array(z.object({ title: z.string(), body: z.string(), source: z.string().optional() })),
+        items: z.array(z.object({ title: z.string(), body: z.string(), source: z.string().optional() }).strict()),
       }),
       z.object({
         type: z.literal('engineering'),
@@ -144,7 +144,7 @@ const projects = defineCollection({
           chapters: z.array(z.object({ t: z.number(), label: z.string() })),
         })
         .optional(),
-      facts: z.array(z.object({ label: z.string(), value: z.string() })),
+      facts: z.array(z.object({ label: z.string(), value: z.string() }).strict()),
       links: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
       /** Home-page room: a short, bespoke composition per product. */
       room: z.object({

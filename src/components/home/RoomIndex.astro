@@ -47,7 +47,7 @@ const rows = await Promise.all(
       <div class="idx__projector" aria-hidden="true" data-projector>
         {
           rows.map(({ p, still }, i) => (
-            <div class="idx__slide" data-slide={p.id} data-active={i === 0 ? '' : undefined} style={`--slide-bg:${p.data.theme.bg}`}>
+            <div class="idx__slide" data-slide={p.id} data-active={i === 0 ? '' : undefined} data-fit={p.data.cover.src.height > p.data.cover.src.width ? 'contain' : undefined} style={`--slide-bg:${p.data.theme.bg}`}>
               <img src={still.src} alt="" loading="lazy" decoding="async" data-vt-src={`cover-${p.id}`} />
               {p.data.preview && <video data-src={p.data.preview} muted loop playsinline preload="none" />}
               <span class="idx__slide-tag label">{p.data.preview ? 'Real footage' : 'Campaign still'}</span>
@@ -112,7 +112,7 @@ const rows = await Promise.all(
   /* Projector */
   .idx__projector {
     position: sticky; top: calc(var(--header-h) + 24px);
-    aspect-ratio: 4 / 3; border-radius: var(--radius-lg); overflow: hidden;
+    aspect-ratio: 16 / 10; border-radius: var(--radius-lg); overflow: hidden;
     background: var(--ink-2);
     box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.8);
   }
@@ -123,6 +123,7 @@ const rows = await Promise.all(
   }
   .idx__slide[data-active] { opacity: 1; transform: none; }
   .idx__slide img, .idx__slide video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .idx__slide[data-fit='contain'] img { object-fit: contain; padding: 4%; }
   .idx__slide video { opacity: 0; transition: opacity 400ms var(--ease); }
   .idx__slide video[data-playing] { opacity: 1; }
   .idx__slide-tag {

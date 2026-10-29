@@ -39,7 +39,7 @@ const others = [
 </section>
 
 <style>
-  .contact { position: relative; padding-block: clamp(96px, 14vw, 220px); overflow: hidden; isolation: isolate; border-top: 1px solid var(--line); }
+  .contact { position: relative; padding-block: clamp(96px, 12vw, 180px) clamp(72px, 8vw, 120px); overflow: clip; isolation: isolate; border-top: 1px solid var(--line); }
   .contact::before {
     content: ''; position: absolute; z-index: -1; left: 50%; bottom: -60vmax; translate: -50% 0;
     width: 130vmax; height: 100vmax;
@@ -47,7 +47,7 @@ const others = [
   }
   .contact__eyebrow { color: var(--rose); margin-bottom: 20px; }
   .contact__title { font-size: var(--step-5); font-weight: 800; letter-spacing: -0.045em; line-height: 0.92; font-variation-settings: 'wdth' 112; }
-  .contact__title .serif { font-weight: 400; color: var(--rose); letter-spacing: -0.03em; font-variation-settings: 'opsz' 72; }
+  .contact__title .serif { font-weight: 400; color: var(--rose); letter-spacing: -0.03em; }
   .contact__row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 32px; margin-top: clamp(48px, 6vw, 88px); }
   .contact__primary {
     display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'label icon' 'addr icon';

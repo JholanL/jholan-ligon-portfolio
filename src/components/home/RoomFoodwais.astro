@@ -40,10 +40,10 @@ const frames = board && board.type === 'storyboard' ? [1, 2, 5, 6].map((i) => bo
               <ol class="fw__frames" role="list">
                 {frames.map((f) => (
                   <li>
-                    <button type="button" data-film-play={`#film-home-${p.id}`} data-t={f.t} aria-label={`Play the FoodWais film from ${formatTime(f.t)}: ${f.title}`}>
+                    <button type="button" data-film-play={`#film-home-${p.id}`} data-t={f.t}>
                       <span class="fw__frame">
                         <Image src={f.media.src} alt="" widths={[360, 560]} sizes="(max-width: 640px) 45vw, 18vw" loading="lazy" />
-                        <span class="fw__t label">{formatTime(f.t)}</span>
+                        <span class="fw__t label"><span class="visually-hidden">Play film from </span>{formatTime(f.t)}</span>
                         <span class="fw__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg></span>
                       </span>
                       <span class="fw__frame-title">{f.title}</span>
@@ -62,7 +62,7 @@ const frames = board && board.type === 'storyboard' ? [1, 2, 5, 6].map((i) => bo
 </section>
 
 <style>
-  .fw { padding-block: clamp(72px, 10vw, 160px); }
+  .fw { padding-block: clamp(48px, 6vw, 96px) clamp(64px, 8vw, 128px); }
   .fw__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 96px); align-items: start; }
   .fw__poster { position: sticky; top: calc(var(--header-h) + 24px); }
   .fw__poster :global(.pic-link) { border-radius: var(--radius-lg); box-shadow: 0 50px 100px -50px rgba(120, 50, 0, 0.35), 0 0 0 1px var(--line); }
@@ -74,6 +74,7 @@ const frames = board && board.type === 'storyboard' ? [1, 2, 5, 6].map((i) => bo
   .fw__copy { display: grid; gap: 28px; align-content: start; padding-top: clamp(0px, 4vw, 48px); }
   .fw__title { font-family: var(--f-brand); font-size: clamp(3rem, 1.2rem + 6.4vw, 8.2rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.045em; font-variation-settings: 'wdth' 92; }
   .fw__title b { color: var(--accent); font-weight: 800; }
+  .fw__brand b { color: var(--accent-text); }
   .fw__brand { display: block; font-size: 1.05rem; letter-spacing: -0.02em; margin-bottom: 1.4rem; font-variation-settings: 'wdth' 100; }
   .fw__lede { font-size: var(--step-1); line-height: 1.45; max-width: 44ch; }
 

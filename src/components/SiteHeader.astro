@@ -11,7 +11,7 @@ const links = [
 
 <header class="hdr" data-hdr>
   <div class="hdr__inner">
-    <a href="/" class="hdr__mark" aria-label={`${profile.name}, home`}>
+    <a href="/" class="hdr__mark">
       <span class="hdr__mono" aria-hidden="true">JL</span>
       <span class="hdr__name">{profile.name}</span>
     </a>
@@ -100,7 +100,8 @@ const links = [
   @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(95, 211, 141, 0); } 100% { box-shadow: 0 0 0 0 rgba(95, 211, 141, 0); } }
 
   @media (max-width: 760px) {
-    .hdr__name, .hdr__status { display: none; }
+    .hdr__status { display: none; }
+    .hdr__name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .hdr__inner { grid-template-columns: auto 1fr; }
     nav { justify-self: end; }
     nav ul { gap: 0; }

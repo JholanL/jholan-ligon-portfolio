@@ -1,7 +1,5 @@
 @import '@fontsource-variable/archivo/wdth.css';
-@import '@fontsource-variable/archivo/wdth-italic.css';
-@import '@fontsource-variable/newsreader/opsz-italic.css';
-@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/wght-italic.css';
 @import '@fontsource-variable/jetbrains-mono/wght.css';
 /* Product fonts: declared globally, only downloaded on pages that use them. */
 @import '@fontsource-variable/playfair-display/wght.css';
@@ -232,7 +230,7 @@ body::after {
 }
 
 /* ------------------------------------------------------- view transitions */
-@view-transition { navigation: auto; }
+/* The @view-transition opt-in is inlined in Base.astro's <head>. */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) { animation: 420ms var(--ease-io) both vt-out; }
   ::view-transition-new(root) { animation: 620ms var(--ease) 80ms both vt-in; }

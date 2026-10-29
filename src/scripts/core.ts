@@ -72,4 +72,15 @@ addEventListener('pageshow', (e) => {
   if ((e as PageTransitionEvent).persisted) document.querySelectorAll<HTMLElement>('[data-vt-src]').forEach((el) => (el.style.viewTransitionName = ''));
 });
 
+// A cross-document transition can be skipped (e.g. a dialog is still closing when a link is
+// followed). Navigation still happens; handle the promises so the skip stays silent.
+type VTEvent = Event & { viewTransition?: { ready: Promise<void>; finished: Promise<void>; updateCallbackDone?: Promise<void> } | null };
+const quiet = (e: Event) => {
+  const vt = (e as VTEvent).viewTransition;
+  if (!vt) return;
+  [vt.ready, vt.finished, vt.updateCallbackDone].forEach((pr) => pr?.catch(() => {}));
+};
+addEventListener('pageswap', quiet);
+addEventListener('pagereveal', quiet);
+
 export {};

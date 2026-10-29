@@ -30,13 +30,14 @@ const dur = formatTime(film.duration);
       height="1080"
       aria-label={`${project.data.name} film`}></video>
 
-    <button class="film__big" data-film-big type="button" aria-label={`Play the ${project.data.name} film, ${dur}`} hidden>
+    <button class="film__big" data-film-big type="button" hidden>
       <span class="film__ring" aria-hidden="true">
         {variant === 'sos' ? <span class="film__sos">PLAY</span> : <svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>}
       </span>
       <span class="film__big-meta">
         <span class="label">Play film</span>
         <span class="film__big-dur">{dur}</span>
+        <span class="visually-hidden">, {project.data.name}</span>
       </span>
     </button>
 
@@ -70,7 +71,8 @@ const dur = formatTime(film.duration);
       <ol class="film__chapters" role="list" aria-label="Chapters">
         {film.chapters.map((c) => (
           <li>
-            <button type="button" data-film-seekto={c.t} aria-label={`Play from ${formatTime(c.t)}: ${c.label}`}>
+            <button type="button" data-film-seekto={c.t}>
+              <span class="visually-hidden">Play from </span>
               <span class="label">{formatTime(c.t)}</span>
               <span>{c.label}</span>
             </button>
@@ -164,9 +166,11 @@ const dur = formatTime(film.duration);
   .film input[type='range']:focus-visible { outline: 2px solid #fff; outline-offset: -8px; }
 
   /* Chapters */
-  .film__chapters { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; margin: 0; list-style: none; }
+  /* position: relative keeps the visually-hidden labels inside the scrolling strip */
+  .film__chapters { position: relative; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; margin: 0; list-style: none; }
   .film__chapters::-webkit-scrollbar { display: none; }
   .film__chapters button {
+    position: relative;
     display: grid; gap: 2px; text-align: left; white-space: nowrap;
     min-height: 44px; padding: 8px 14px; border-radius: 12px;
     border: 1px solid var(--line); color: var(--fg); font-size: 0.9rem;
