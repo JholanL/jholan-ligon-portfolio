@@ -1,70 +1,129 @@
-# Jholan Ligon · Portfolio
+# Jholan Ligon · Developer Portfolio
 
-**Four Rooms.** Each product lives in the real place it was built for: the workshop (TopCraft),
-the training floor (VoiceLink Academy), the walk home (FemiSafe) and the palengke (FoodWais).
-The site is a calm gallery; each room switches to that product's own brand.
+![Jholan Ligon portfolio: four project rooms for TopCraft, VoiceLink Academy, FemiSafe and FoodWais](public/og.png)
 
-Built with [Astro 5](https://astro.build): static HTML, about 10 KB of JavaScript per page,
-responsive images generated at build time, and no UI framework.
+The personal portfolio of **Jholan Ligon**, a fourth-year BS Information Technology student at
+National University – Mall of Asia, specialising in Mobile and Web Applications, and open to
+software development internships.
 
-## Run it
+The site is called **Four Rooms**. Each project is shown in the real place it was built for, and
+each room takes on that product's own colours and typography. Around the rooms, the site is a
+calm, dark gallery.
+
+## Projects
+
+| Room | Project | What it is | Type |
+|---|---|---|---|
+| The Workshop | **TopCraft** | A furniture manufacturing management system for Industrial Manila Furniture: an owner web platform plus an Android app for clients and workers | Client-based capstone |
+| The Training Floor | **VoiceLink Academy** | A call-center training LMS with Agent, Trainer and Admin portals, server-timed quizzes and a server-scored call simulator (React, Node.js, Express, MongoDB, JWT) | Course final project, team of three |
+| The Walk Home | **FemiSafe** | An Android personal-safety app with SOS, journey check-ins, live location by SMS and a fake call. No account needed. | Independent project |
+| The Palengke | **FoodWais** | A local-AI mobile concept for checking food freshness, tracking the pantry and comparing market prices | Hackathon project (AppBuildersPH, team CocoJJAM) |
+
+Each project has its own case-study page at `/work/<slug>` covering the problem, the people it
+serves, its features, design decisions, contribution and stack.
+
+## Features
+
+- **Per-project branding.** Each room and case study is themed in that product's own palette and
+  typeface, through CSS custom properties.
+- **Real media only.** Product films, app-store panels and unedited app captures. Nothing is
+  mocked up.
+- **Custom film player** with chapters, keyboard shortcuts (Space/K, J/L or arrow keys, M, F) and
+  fullscreen. Films can also be watched in an overlay on the home page.
+- **Image viewer** with full-resolution images, keyboard and swipe navigation, click to zoom,
+  and focus returned to the image you opened.
+- **Scroll storytelling.** FemiSafe pins a phone that changes screens as you read. FoodWais has a
+  storyboard of real film frames that each play the film from that moment.
+- **Page transitions.** A project's cover morphs into its case-study hero
+  (cross-document View Transitions).
+- **Accessible by default.** Semantic HTML, keyboard support throughout and WCAG AA contrast.
+  All motion respects `prefers-reduced-motion`.
+- **Fast.** Static HTML, about 10 KB of JavaScript per page and no UI framework. Responsive WebP
+  images are generated at build time, and videos load only when played.
+- **SEO ready.** Page metadata, Open Graph image, JSON-LD structured data and an optional sitemap.
+
+## Tech stack
+
+- [Astro 5](https://astro.build), static output
+- TypeScript (strict)
+- Plain CSS with design tokens, no CSS framework
+- Astro content collections: project content is YAML, validated by a Zod schema
+- `astro:assets` with sharp for image optimisation
+- Self-hosted variable fonts via Fontsource: Archivo, Newsreader, JetBrains Mono, plus each
+  product's brand font
+
+## Getting started
+
+Requires **Node.js 20** or newer.
 
 ```sh
+git clone https://github.com/JholanL/jholan-ligon-portfolio.git
+cd jholan-ligon-portfolio
 npm install
-npm run dev        # http://localhost:4321
-npm run build      # type-check + production build into dist/
-npm run preview    # serve dist/ at http://localhost:4321
+npm run dev
 ```
 
-Requires Node 20 or newer.
+Then open <http://localhost:4321>.
 
-## Deploy
-
-`dist/` is a plain static site, so any static host works.
-
-- **Vercel / Netlify / Cloudflare Pages:** build command `npm run build`, output directory `dist`.
-- Set the environment variable `SITE_URL` (e.g. `https://jholanligon.dev`) to turn on canonical
-  URLs, absolute social-preview links and `sitemap-index.xml`.
-
-The three films (77 MB in total) are in `public/media/`, and they all fit under the common 100 MB
-per-file limits.
-
-## Edit content
-
-| What | Where |
+| Command | What it does |
 |---|---|
-| Name, school, links (email, LinkedIn, résumé), skills, timeline | `src/data/profile.ts` |
-| A project's text, facts, colours, media and page sections | `src/content/projects/<slug>.yaml` |
-| Images | `src/assets/projects/<slug>/` (Astro optimises them on build) |
-| Videos, preview loops | `public/media/<slug>/` |
+| `npm run dev` | Start the dev server with hot reload |
+| `npm run build` | Type-check with `astro check`, then build the static site into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run check` | Type-check only |
+| `npm run media` | Copy and derive media from a local `Portfolio-Assets/` archive (see below) |
 
-Empty fields in `profile.ts` are hidden, so nothing half-finished shows up on the site.
+## Project structure
 
-**To replace a screenshot**, overwrite the file and keep its name, or point the YAML at a new file.
-**To replace a video**, overwrite `public/media/<slug>/film.mp4`, then update `duration` and
-`chapters` in the YAML. Re-encoding isn't needed for H.264/AAC MP4s exported with "fast start".
+```text
+src/
+  content/projects/   one YAML file per project (text, facts, theme, media, page sections)
+  content.config.ts   schema that validates every project file
+  data/profile.ts     name, school, contact links, toolkit, timeline
+  components/home/    home page: masthead, room index, one room per project, about, contact
+  components/case/    case-study hero and section blocks
+  components/         shared media pieces: image, film player, lightbox, gallery rail
+  scripts/            small browser scripts (film, lightbox, tabs, reveals, transitions)
+  styles/global.css   design tokens, typography, layout utilities
+  assets/             images, optimised at build time
+public/
+  media/              project films and muted preview loops
+scripts/import-media.mjs
+```
 
-### Pulling media from `Portfolio-Assets/`
+## Editing content
 
-`npm run media` copies the curated originals into the site. It never modifies
-`Portfolio-Assets/`. It also derives the posters, the muted preview loops and the FoodWais film
-stills, using ffmpeg (set `FFMPEG=path\to\ffmpeg.exe`). Existing files are skipped unless you pass
-`-- --force`.
+- **Personal details and links:** `src/data/profile.ts`. Empty fields (email, LinkedIn, résumé)
+  are hidden on the site until you fill them in.
+- **A project:** `src/content/projects/<slug>.yaml`. Its `sections` list chooses the blocks on the
+  case-study page and their order. The available blocks are `brief`, `film`, `features`,
+  `gallery`, `tabs`, `pipeline`, `roles`, `scenes`, `storyboard`, `architecture`, `decisions`,
+  `engineering`, `quote`, `note`, `contribution` and `stack`.
+- **Images:** `src/assets/projects/<slug>/`. **Videos:** `public/media/<slug>/` (H.264/AAC MP4).
 
-## Add a project
+The build fails on a missing image or a malformed YAML value, so broken content can't be deployed
+silently.
 
-1. Copy one of the YAML files in `src/content/projects/` and change the facts, theme and media.
-2. Choose its `sections` from the available blocks: `brief`, `film`, `features`, `gallery` (rail,
-   grid or phones), `tabs`, `pipeline`, `roles`, `scenes`, `storyboard`, `architecture`,
-   `decisions`, `engineering`, `quote`, `note`, `contribution` and `stack`. The case-study page at
-   `/work/<slug>` is generated from that list.
-3. Its row in the room index on the home page appears automatically. For a full home-page room,
-   add a component in `src/components/home/` and register it in `src/pages/index.astro`.
+### Media pipeline
 
-The schema in `src/content.config.ts` validates every file. A typo or an unquoted comma in YAML
-fails the build instead of silently dropping text.
+The original media archive (`Portfolio-Assets/`) is kept out of the repository. `npm run media`
+copies the curated files from it into the site and uses ffmpeg to derive posters, preview loops
+and film stills (set `FFMPEG` to your ffmpeg path). It never modifies the archive, and it skips
+existing files unless run with `-- --force`.
 
-## Still to confirm before publishing
+## Deployment
 
-Every YAML file has a `confirm:` list (never rendered) of facts that the project media doesn't
-show. Nothing in that list appears on the site until you add it.
+The build output in `dist/` is a plain static site:
+
+- **Vercel, Netlify or Cloudflare Pages:** build command `npm run build`, output directory `dist`.
+- Set the environment variable `SITE_URL` (for example `https://your-domain.dev`) to enable
+  canonical URLs, absolute social-preview links and `sitemap-index.xml`.
+
+## Contact
+
+- GitHub: [@JholanL](https://github.com/JholanL)
+
+---
+
+© Jholan Ligon. The code, writing and project media in this repository are all rights reserved
+unless a license is added.
