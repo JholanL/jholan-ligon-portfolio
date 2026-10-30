@@ -162,4 +162,35 @@ const projects = defineCollection({
   },
 });
 
-export const collections = { projects };
+/**
+ * One YAML file per certificate in src/content/certificates/, shown newest first on the home page.
+ * `preview` is an image of the certificate (for a PDF, an image of its first page);
+ * `file` is the original under public/ that "View original" opens.
+ */
+const certificates = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/certificates' }),
+  schema: ({ image }) =>
+    z.strictObject({
+      title: z.string(),
+      issuer: z.string(),
+      /** First (or only) day, YYYY-MM-DD. Used for sorting and the machine-readable date. */
+      date: z.coerce.date(),
+      /** How the date reads on the card, e.g. "October 9–10, 2026". Defaults to the month and year. */
+      dateLabel: z.string().optional(),
+      /** Certificate type as printed, e.g. "Certificate of Participation". */
+      type: z.string(),
+      /** Short grouping label shown as a chip, e.g. "Hackathon", "Seminar", "Conference". */
+      category: z.string(),
+      venue: z.string().optional(),
+      summary: z.string().optional(),
+      preview: image(),
+      previewAlt: z.string(),
+      file: z.string().regex(/^\/certificates\//, 'Put the original in public/certificates/'),
+      /** A portfolio page this certificate relates to, e.g. the project built at a hackathon. */
+      related: z.object({ label: z.string(), href: z.string() }).optional(),
+      /** Optional public verification link from the issuer. */
+      verifyUrl: z.string().url().optional(),
+    }),
+});
+
+export const collections = { projects, certificates };

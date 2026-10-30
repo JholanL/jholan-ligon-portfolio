@@ -19,9 +19,11 @@ interface Props {
   /** CSS view-transition-name, for the cover morph between pages */
   vt?: string;
   quality?: number;
+  /** id for the lightbox link, so other controls can open it (data-lb-open="#id") */
+  id?: string;
 }
 
-const { src, alt, sizes, widths = [480, 800, 1200, 1600, 2200], eager = false, lightbox, title, caption, vt, quality = 82 } = Astro.props;
+const { src, alt, sizes, widths = [480, 800, 1200, 1600, 2200], eager = false, lightbox, title, caption, vt, quality = 82, id } = Astro.props;
 const cls = Astro.props.class;
 const ws = [...new Set([...widths.filter((w) => w < src.width), Math.min(src.width, Math.max(...widths))])].sort((a, b) => a - b);
 
@@ -33,6 +35,7 @@ const style = vt ? `view-transition-name:${vt}` : undefined;
   full ? (
     <a
       href={full.src}
+      id={id}
       class:list={['pic-link', cls]}
       data-lightbox={lightbox}
       data-w={full.attributes.width}

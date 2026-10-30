@@ -10,6 +10,7 @@ import Threshold from '../components/home/Threshold.astro';
 import Cinema from '../components/home/Cinema.astro';
 import About from '../components/home/About.astro';
 import Contact from '../components/home/Contact.astro';
+import Certificates from '../components/home/Certificates.astro';
 import { getProjects } from '../lib/projects';
 import { profile } from '../data/profile';
 
@@ -54,6 +55,7 @@ const schema = {
   <Threshold from={projects[projects.length - 1].data.theme.bg} to={shell} />
 
   <About />
+  <Certificates />
   <Contact />
   <Cinema projects={projects} />
 </Base>

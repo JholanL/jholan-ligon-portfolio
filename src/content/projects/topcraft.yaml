@@ -5,7 +5,7 @@ name: TopCraft
 place: The Workshop
 tagline: From workshop to workflow.
 summary: >-
-  A furniture manufacturing management system for Industrial Manila Furniture. The owner runs
+  An AI-assisted furniture manufacturing management system for Industrial Manila Furniture. The owner runs
   production from a web platform; clients and workers use an Android app. All three work on the
   same project record.
 kind: Client-based capstone
@@ -26,10 +26,10 @@ theme:
   scheme: light
 hero: editorial
 cover:
-  src: ../../assets/projects/topcraft/ad.png
-  alt: "TopCraft campaign art: the owner dashboard on a laptop, the production schedule in a browser window and the worker app on a phone."
+  src: ../../assets/projects/topcraft/web/01-introduction.webp
+  alt: "TopCraft introduction panel: 'From Workshop to Workflow', the owner schedule overview with AI recommendations on a laptop, and the client AI assistant on a phone."
 heroMedia:
-  src: ../../assets/projects/topcraft/responsive.png
+  src: ../../assets/projects/topcraft/responsive/topcraft-responsive-showcase.webp
   alt: "The TopCraft owner dashboard on a desktop and a tablet, and the client shop on a phone."
   caption: "One system, every workflow: desktop, tablet and phone."
 facts:
@@ -48,10 +48,10 @@ room:
     - "Client · Android: browse, request custom pieces, follow each order"
     - "Worker · Android: today's tasks, stage updates and QC photos"
   media:
-    - src: ../../assets/projects/topcraft/ad.png
-      alt: "TopCraft campaign art: the owner dashboard on a laptop, the production schedule in a browser window and the worker app on a phone."
-    - src: ../../assets/projects/topcraft/mobile/04-worker-experience.png
-      alt: "TopCraft worker app: My Tasks with assigned projects, stages and days left."
+    - src: ../../assets/projects/topcraft/web/01-introduction.webp
+      alt: "TopCraft introduction panel: 'From Workshop to Workflow', the owner schedule overview with AI recommendations on a laptop, and the client AI assistant on a phone."
+    - src: ../../assets/projects/topcraft/mobile/05-production-updates.webp
+      alt: "TopCraft mobile panel 'Progress at Every Stage': the client order timeline and the worker's current-stage update screen."
       kind: phone
 sections:
   - type: brief
@@ -80,7 +80,7 @@ sections:
       - { name: Finishing }
       - { name: Final Inspection, note: Owner approves or returns rework notes }
     media:
-      src: ../../assets/projects/topcraft/web/03-production-management.png
+      src: ../../assets/projects/topcraft/web/06-production-management.webp
       alt: "Project details for a Narra Dining Table: order details on the left and the production pipeline at 50%, stage 3 of 6, on the right."
       caption: "Project details: order data beside the live stage pipeline."
   - type: roles
@@ -92,14 +92,14 @@ sections:
         text: Manages the project, assigns workers and reviews each QC round.
         points: [Dashboard with live counts and a deadline watchlist, Production timeline across every active project, "Owner-only internal notes, hidden from workers and clients"]
         media:
-          src: ../../assets/projects/topcraft/captures/web/project-details.png
+          src: ../../assets/projects/topcraft/original-captures/web/project-details.png
           alt: "Owner web view of a project: client, delivery address, internal notes and the stage pipeline."
       - name: Client
         surface: Android app
         text: Follows the order from placement to delivery.
         points: [Order journey with step-by-step progress, "Timeline, specs and payment tabs", Message about this order]
         media:
-          src: ../../assets/projects/topcraft/captures/mobile/client-order-overview.png
+          src: ../../assets/projects/topcraft/original-captures/mobile/client-order-overview.png
           alt: "Client app order screen: In Production, step 2 of 6, with the next step Quality Checking."
           kind: screen
       - name: Worker
@@ -107,29 +107,28 @@ sections:
         text: Updates the current stage from the shop floor.
         points: [Today's focus and shop-floor list, Mark a stage done or partially done, Attach photos and a worker note]
         media:
-          src: ../../assets/projects/topcraft/captures/mobile/worker-stage-update.png
+          src: ../../assets/projects/topcraft/original-captures/mobile/worker-stage-update.png
           alt: "Worker app stage update screen with photo upload, worker note and Mark stage done."
           kind: screen
   - type: features
     title: Inside the owner's workshop.
-    intro: "Five campaign panels, each built from real captures of the running web platform."
+    intro: "Captures and campaign panels from the running web platform."
     items:
       - eyebrow: Owner dashboard
         title: Your operations, one clear view.
         body: Projects, approvals, deliveries and stock are summarised the moment the owner signs in.
         points: [Live counts for active projects, QC and low stock, Deadline watchlist with on-track and at-risk status, "Revenue trend across 7, 30 or 90 days"]
         media:
-          src: ../../assets/projects/topcraft/web/02-owner-dashboard.png
-          alt: "Owner dashboard panel: greeting banner, six live counters, the projects watchlist and a revenue trend chart."
+          src: ../../assets/projects/topcraft/original-captures/web/owner-dashboard.png
+          alt: "Owner dashboard: greeting banner, six live counters, the projects watchlist and a revenue trend chart."
       - eyebrow: Production scheduling
         title: Plan smarter. Stay on track.
         body: >-
           A shared timeline of every active project shows risk status, assigned workers and stage bars
-          against the deadline. The schedule screen is labelled AI-assisted and has a panel for
-          schedule insights.
+          against the deadline, with an AI insights panel beside it.
         media:
-          src: ../../assets/projects/topcraft/web/04-production-scheduling.png
-          alt: "Production scheduling panel: a Gantt-style timeline with colour-coded stages for seven furniture projects."
+          src: ../../assets/projects/topcraft/original-captures/web/production-schedule.png
+          alt: "Production timeline: a Gantt-style view with colour-coded stages for each active furniture project."
       - eyebrow: Inventory and materials
         title: Make every material count.
         body: >-
@@ -138,32 +137,75 @@ sections:
           came from.
         points: ["Healthy, low and out-of-stock at a glance", "Procurement, goods receipts and stock logs", Scrap registry graded by quality and status]
         media:
-          src: ../../assets/projects/topcraft/web/05-inventory-materials.png
-          alt: "Inventory panel: the raw materials table with stock status, and the scrap registry with grades and origin projects."
+          src: ../../assets/projects/topcraft/original-captures/web/inventory-materials.png
+          alt: "Raw materials inventory: stock levels with healthy, low and out-of-stock status."
       - eyebrow: Quality control
         title: Inspected before it ships.
         body: >-
           Workers submit stage photos and notes from the floor. The owner reviews each QC round, then
           approves the piece for delivery or sends it back for rework.
         media:
-          src: ../../assets/projects/topcraft/web/07-quality-control.png
-          alt: "Quality control panel: the owner's QC review with worker photos and notes, and the worker's QC-submitted screen on a phone."
+          src: ../../assets/projects/topcraft/original-captures/web/qc-inspection.png
+          alt: "Owner QC inspection: the worker's stage photos and notes, with approve and rework actions."
       - eyebrow: Connected workflows
         title: One system. Multiple roles.
         body: The client follows the order timeline, the owner manages the same project, and the worker updates the current stage.
         media:
-          src: ../../assets/projects/topcraft/web/06-connected-workflows.png
+          src: ../../assets/projects/topcraft/web/07-connected-workflows.webp
           alt: "Connected workflows panel: the same Narra Dining Table project on the client phone, the owner laptop and the worker phone."
+  - type: features
+    title: The AI layer.
+    intro: >-
+      Four AI-assisted features run on the same project data. Every saved AI response from the
+      running app is tagged as generated by Google Gemini.
+    items:
+      - eyebrow: AI multi-view visualization
+        title: See it before it's built.
+        body: >-
+          Clients describe a custom piece (type, wood, finish, room, style and shape) and generate an
+          AI concept sheet that shows it from four angles. The sheet is marked as a conceptual
+          reference only, not a technical drawing; final designs are reviewed and approved by the
+          workshop.
+        points: [Every generation kept in a history, Pick up to three concepts to submit with the request, Regenerate with extra instructions]
+        media:
+          src: ../../assets/projects/topcraft/web/02-ai-product-visualization.webp
+          alt: "AI multi-view visualization panel: the client custom-order form on a phone beside an AI concept sheet of a shelf shown from four angles."
+      - eyebrow: Scrap material optimization
+        title: Turn offcuts into ideas.
+        body: >-
+          Every reusable offcut is logged with its size, grade and origin. AI then suggests small
+          products the shop could build from the pieces on hand.
+        points: [Each idea names the exact scrap pieces it uses, "Dimensions, tools and step-by-step build notes", Every generated batch is kept in history]
+        media:
+          src: ../../assets/projects/topcraft/web/03-ai-scrap-optimization.webp
+          alt: "AI scrap suggestions panel: the scrap registry beside an AI creation suggestion for a small plant stand with materials, tools and build steps."
+      - eyebrow: AI production insights
+        title: Plan smarter. Stay on track.
+        body: >-
+          AI reads the live production schedule and flags the projects that need attention (overdue
+          work, staffing gaps and deadline pressure) with a recommended action for each.
+        media:
+          src: ../../assets/projects/topcraft/web/04-ai-production-insights.webp
+          alt: "AI production insights panel: the AI overview of projects needing attention above the production timeline."
+      - eyebrow: AI for clients and workers
+        title: Intelligence behind the workflow.
+        body: >-
+          For clients, an AI assistant answers questions about products, orders, custom requests and
+          delivery using the client's own records. For workers, an AI daily schedule builds a day
+          plan of work blocks and breaks from assigned projects, deadlines and progress.
+        media:
+          src: ../../assets/projects/topcraft/web/05-ai-assistance.webp
+          alt: "AI assistance panel: the client AI assistant answering an order question, and the worker's AI-generated daily schedule."
   - type: gallery
     title: The Android app.
-    intro: The App Store-style campaign for the client and worker experience.
+    intro: The App Store-style campaign for the client and worker experience, including the AI features.
     style: phones
     items:
-      - { src: ../../assets/projects/topcraft/mobile/01-mobile-introduction.png, alt: "TopCraft Mobile: the client shop home with the AI Studio card, categories and featured products.", title: "Your projects, wherever you are.", kind: phone }
-      - { src: ../../assets/projects/topcraft/mobile/02-client-experience.png, alt: "Client My Orders list with progress, stage and price for each order.", title: "Stay connected to every order.", kind: phone }
-      - { src: ../../assets/projects/topcraft/mobile/03-custom-orders.png, alt: "Custom order form: furniture type, dimensions, wood, finish, room and style.", title: "From ideas to requests.", kind: phone }
-      - { src: ../../assets/projects/topcraft/mobile/04-worker-experience.png, alt: "Worker home and My Tasks with assigned projects and deadlines.", title: "Your tasks. Your workflow.", kind: phone }
-      - { src: ../../assets/projects/topcraft/mobile/05-production-updates.png, alt: "Order timeline and the worker's current-stage update screen.", title: "Progress at every stage.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/01-mobile-introduction.webp, alt: "TopCraft Mobile: the client shop home with the AI Studio card, categories and featured products.", title: "Your projects, wherever you are.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/02-ai-concept.webp, alt: "Custom order form and the AI concept sheet of the requested piece.", title: "See it before it's built.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/03-ai-assistant.webp, alt: "Client AI assistant answering a question about an order's stage and completion date.", title: "Ask about any order.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/04-ai-work-schedule.webp, alt: "Worker AI daily schedule with work blocks, breaks and the first-priority project.", title: "Your day, planned.", kind: phone }
+      - { src: ../../assets/projects/topcraft/mobile/05-production-updates.webp, alt: "Order timeline and the worker's current-stage update screen.", title: "Progress at every stage.", kind: phone }
   - type: tabs
     title: Unedited captures.
     intro: Straight from the running app, with seeded demo data. Nothing here was redrawn.
@@ -171,21 +213,27 @@ sections:
       - label: Web platform
         style: grid
         items:
-          - { src: ../../assets/projects/topcraft/captures/web/owner-dashboard.png, alt: "Owner dashboard at full resolution.", caption: Owner dashboard }
-          - { src: ../../assets/projects/topcraft/captures/web/production-schedule.png, alt: "Production timeline with stage bars and the AI insights panel.", caption: Production timeline }
-          - { src: ../../assets/projects/topcraft/captures/web/project-details.png, alt: "Project details with the stage pipeline.", caption: Project details }
-          - { src: ../../assets/projects/topcraft/captures/web/inventory-materials.png, alt: "Raw materials inventory table.", caption: Materials inventory }
-          - { src: ../../assets/projects/topcraft/captures/web/scrap-registry.png, alt: "Scrap registry with grades, origins and AI creation suggestions button.", caption: Scrap registry }
-          - { src: ../../assets/projects/topcraft/captures/web/qc-inspection.png, alt: "QC inspection review with worker photos.", caption: QC inspection }
+          - { src: ../../assets/projects/topcraft/original-captures/web/owner-dashboard.png, alt: "Owner dashboard at full resolution.", caption: Owner dashboard }
+          - { src: ../../assets/projects/topcraft/original-captures/web/production-schedule.png, alt: "Production timeline with stage bars and the AI insights panel.", caption: Production timeline }
+          - { src: ../../assets/projects/topcraft/original-captures/web/project-details.png, alt: "Project details with the stage pipeline.", caption: Project details }
+          - { src: ../../assets/projects/topcraft/original-captures/web/inventory-materials.png, alt: "Raw materials inventory table.", caption: Materials inventory }
+          - { src: ../../assets/projects/topcraft/original-captures/web/scrap-registry.png, alt: "Scrap registry with grades, origins and AI creation suggestions button.", caption: Scrap registry }
+          - { src: ../../assets/projects/topcraft/original-captures/web/qc-inspection.png, alt: "QC inspection review with worker photos.", caption: QC inspection }
+          - { src: ../../assets/projects/topcraft/original-captures/web/ai-production-insights-overview.png, alt: "AI overview of projects needing attention, with recommended actions.", caption: AI production insights }
+          - { src: ../../assets/projects/topcraft/original-captures/web/ai-scrap-creation-suggestions.png, alt: "AI creation suggestions generated from logged scrap pieces.", caption: AI scrap suggestions }
+          - { src: ../../assets/projects/topcraft/original-captures/web/ai-client-assistant-web.png, alt: "Client AI assistant on the web.", caption: AI assistant · web }
       - label: Android app
         style: phones
         items:
-          - { src: ../../assets/projects/topcraft/captures/mobile/client-shop-home.png, alt: "Client shop home.", caption: Client · Shop, kind: screen }
-          - { src: ../../assets/projects/topcraft/captures/mobile/client-custom-order-request.png, alt: "Client custom order request form.", caption: Client · Custom order, kind: screen }
-          - { src: ../../assets/projects/topcraft/captures/mobile/client-order-timeline.png, alt: "Client order timeline.", caption: Client · Timeline, kind: screen }
-          - { src: ../../assets/projects/topcraft/captures/mobile/worker-home.png, alt: "Worker home with today's focus.", caption: Worker · Home, kind: screen }
-          - { src: ../../assets/projects/topcraft/captures/mobile/worker-my-tasks.png, alt: "Worker task list.", caption: Worker · My tasks, kind: screen }
-          - { src: ../../assets/projects/topcraft/captures/mobile/worker-qc-submitted.png, alt: "Worker QC submitted, waiting for approval.", caption: Worker · QC submitted, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/client-shop-home.png, alt: "Client shop home.", caption: Client · Shop, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/client-custom-order-request.png, alt: "Client custom order request form.", caption: Client · Custom order, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/client-order-timeline.png, alt: "Client order timeline.", caption: Client · Timeline, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/worker-home.png, alt: "Worker home with today's focus.", caption: Worker · Home, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/worker-my-tasks.png, alt: "Worker task list.", caption: Worker · My tasks, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/worker-qc-submitted.png, alt: "Worker QC submitted, waiting for approval.", caption: Worker · QC submitted, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/ai-concept-generate-step.png, alt: "Client custom order: the AI concept generation step.", caption: Client · AI concept, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/ai-client-assistant-mobile.png, alt: "Client AI assistant on Android.", caption: Client · AI assistant, kind: screen }
+          - { src: ../../assets/projects/topcraft/original-captures/mobile/ai-worker-daily-schedule.png, alt: "Worker AI daily schedule.", caption: Worker · AI schedule, kind: screen }
   - type: decisions
     title: Decisions you can see in the product.
     items:
@@ -193,10 +241,10 @@ sections:
       - { title: Owner-only notes., body: "Internal notes on a project are visible to the owner only. Workers and clients never see them." }
       - { title: Nothing ships unreviewed., body: "A final inspection waits for owner approval. Rejected work goes back to the worker with rework notes." }
       - { title: "Offcuts are inventory, not waste.", body: "Scrap pieces are logged with dimensions, grade and the project they came from, so reusable material can be reserved again." }
-      - { title: AI is labelled where it appears., body: "AI-assisted features are marked in the interface: schedule insights, scrap creation suggestions and the client's AI Studio entry point." }
+      - { title: AI output is a starting point., body: "AI concept sheets are labelled as a conceptual reference, not a technical drawing, and final designs are reviewed and approved by the workshop." }
 confirm:
   - Your role and responsibilities on TopCraft (team size, and which parts you built).
   - The tech stack for the web platform and the Android app.
-  - What the AI-assisted features do and how (model or API, inputs, outputs).
+  - How the Gemini features are integrated (which Gemini model, how prompts are built), if you want that shown.
   - Current status (in use by the client, deployed, defended, in progress?) and any results.
   - Year completed, and any links (repository, demo) you are allowed to share.

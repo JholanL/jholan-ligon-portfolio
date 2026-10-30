@@ -54,6 +54,16 @@ if (dlg) {
     show(items.indexOf(a));
   });
 
+  // A separate control can open an image: <a href="full.jpg" data-lb-open="#preview-link-id">.
+  document.addEventListener('click', (e) => {
+    const t = (e.target as Element).closest<HTMLElement>('[data-lb-open]');
+    if (!t || (e as MouseEvent).metaKey || (e as MouseEvent).ctrlKey) return;
+    const target = document.querySelector<HTMLAnchorElement>(t.dataset.lbOpen!);
+    if (!target) return;
+    e.preventDefault();
+    target.click();
+  });
+
   prev.addEventListener('click', () => show(index - 1));
   next.addEventListener('click', () => show(index + 1));
   dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());

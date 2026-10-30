@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import Pic from '../Pic.astro';
+
+// Newest first. Add a certificate by adding a YAML file to src/content/certificates/.
+const certs = (await getCollection('certificates')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const fmtMonth = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const fileKind = (f: string) => (f.toLowerCase().endsWith('.pdf') ? 'PDF' : 'image');
+---
+
+{
+  certs.length > 0 && (
+    <section id="certificates" class="certs" aria-labelledby="certs-title" data-header-theme>
+      <div class="wrap">
+        <header class="certs__head" data-reveal>
+          <h2 id="certs-title" class="certs__title">Certificates <span class="serif">&amp; events.</span></h2>
+          <p class="muted">Hackathons, conferences and seminars I’ve taken part in, newest first. Select a certificate to see it in full.</p>
+        </header>
+
+        <ol class="certs__list" role="list">
+          {certs.map((c, i) => {
+            const d = c.data;
+            const previewId = `cert-${c.id}`;
+            return (
+              <li class="cert" data-reveal style={`--d:${(i % 3) * 80}ms`}>
+                <div class="cert__mat">
+                  <Pic
+                    id={previewId}
+                    src={d.preview}
+                    alt={d.previewAlt}
+                    sizes="(max-width: 700px) 92vw, (max-width: 1000px) 40vw, 30vw"
+                    widths={[400, 640, 900, 1200]}
+                    lightbox="certificates"
+                    title={d.title}
+                    caption={`${d.issuer} · ${d.dateLabel ?? fmtMonth(d.date)}`}
+                  />
+                </div>
+                <div class="cert__body">
+                  <p class="cert__meta">
+                    <span class="cert__cat label">{d.category}</span>
+                    <time class="label" datetime={d.date.toISOString().slice(0, 10)}>{d.dateLabel ?? fmtMonth(d.date)}</time>
+                  </p>
+                  <h3 class="cert__title">{d.title}</h3>
+                  <p class="cert__issuer">{d.issuer}</p>
+                  <p class="cert__type muted">{d.type}{d.venue && <> · {d.venue}</>}</p>
+                  {d.summary && <p class="cert__summary">{d.summary}</p>}
+                  {d.related && (
+                    <a class="cert__related arrow-link" href={d.related.href}>
+                      {d.related.label}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </a>
+                  )}
+                  <p class="cert__actions">
+                    <a class="cert__btn" href={d.file} data-lb-open={`#${previewId}`}>
+                      View certificate
+                    </a>
+                    <a class="cert__link" href={d.file} target="_blank" rel="noopener">
+                      Original {fileKind(d.file)} <span aria-hidden="true">↗</span>
+                      <span class="visually-hidden">(opens in a new tab)</span>
+                    </a>
+                    {d.verifyUrl && (
+                      <a class="cert__link" href={d.verifyUrl} target="_blank" rel="noopener">Verify <span aria-hidden="true">↗</span></a>
+                    )}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .certs { padding-block: clamp(24px, 4vw, 48px) clamp(96px, 12vw, 160px); }
+  .certs__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); gap: 24px; align-items: end; margin-bottom: 40px; }
+  .certs__title { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.03em; font-variation-settings: 'wdth' 110; }
+  .certs__title .serif { color: var(--rose); font-weight: 400; }
+
+  .certs__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); list-style: none; padding: 0; }
+  .cert {
+    display: grid; grid-template-rows: auto 1fr; overflow: hidden;
+    border-radius: var(--radius-lg); background: var(--ink-2);
+    box-shadow: inset 0 0 0 1px var(--line);
+    transition: box-shadow var(--t-med) var(--ease), translate var(--t-med) var(--ease);
+  }
+  .cert:hover { box-shadow: inset 0 0 0 1px rgba(238, 170, 187, 0.35); }
+
+  /* The certificate rests on a dark mat, never cropped. */
+  .cert__mat {
+    display: grid; place-items: center; aspect-ratio: 4 / 3; padding: clamp(18px, 2vw, 28px);
+    background: radial-gradient(80% 70% at 50% 40%, #2a2428, #1a171b);
+    border-bottom: 1px solid var(--line);
+  }
+  .cert__mat :global(.pic-link) { border-radius: 4px; box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06); }
+  .cert__mat :global(img) { max-height: 100%; width: auto; max-width: 100%; }
+
+  .cert__body { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: clamp(20px, 2.2vw, 28px); }
+  .cert__meta { align-self: stretch; }
+  .cert__meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted); }
+  .cert__cat { color: var(--rose); padding: 5px 10px; border-radius: 999px; background: rgba(238, 170, 187, 0.1); }
+  .cert__title { margin-top: 6px; font-size: var(--step-1); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .cert__issuer { font-size: 0.95rem; font-weight: 500; line-height: 1.4; }
+  .cert__type { font-size: var(--step--1); }
+  .cert__summary { font-size: 0.95rem; color: var(--bone); opacity: 0.85; }
+
+  .cert__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: auto; padding-top: 12px; }
+  .cert__btn {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
+    background: var(--bone); color: var(--ink); font-weight: 600; font-size: 0.9rem;
+    transition: transform var(--t-fast) var(--ease);
+  }
+  .cert__btn:hover { transform: translateY(-2px); }
+  .cert__link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 0.9rem; font-weight: 600; color: var(--bone); }
+  .cert__link:hover { color: var(--rose); }
+  .cert__related { margin-top: 2px; font-size: 0.9rem; color: var(--rose); }
+
+  @media (max-width: 1000px) {
+    .certs__head { grid-template-columns: 1fr; }
+    .certs__list { grid-template-columns: 1fr; }
+    .cert { grid-template-rows: none; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    .cert__mat { border-bottom: 0; border-right: 1px solid var(--line); aspect-ratio: auto; min-height: 100%; }
+  }
+  @media (max-width: 640px) {
+    .cert { grid-template-columns: 1fr; }
+    .cert__mat { border-right: 0; border-bottom: 1px solid var(--line); aspect-ratio: 4 / 3; }
+  }
+</style>

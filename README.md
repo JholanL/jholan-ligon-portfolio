@@ -14,7 +14,7 @@ calm, dark gallery.
 
 | Room | Project | What it is | Type |
 |---|---|---|---|
-| The Workshop | **TopCraft** | A furniture manufacturing management system for Industrial Manila Furniture: an owner web platform plus an Android app for clients and workers | Client-based capstone |
+| The Workshop | **TopCraft** | An AI-assisted furniture manufacturing management system for Industrial Manila Furniture: an owner web platform plus an Android app for clients and workers | Client-based capstone |
 | The Training Floor | **VoiceLink Academy** | A call-center training LMS with Agent, Trainer and Admin portals, server-timed quizzes and a server-scored call simulator (React, Node.js, Express, MongoDB, JWT) | Course final project, team of three |
 | The Walk Home | **FemiSafe** | An Android personal-safety app with SOS, journey check-ins, live location by SMS and a fake call. No account needed. | Independent project |
 | The Palengke | **FoodWais** | A local-AI mobile concept for checking food freshness, tracking the pantry and comparing market prices | Hackathon project (AppBuildersPH, team CocoJJAM) |
@@ -24,6 +24,8 @@ serves, its features, design decisions, contribution and stack.
 
 ## Features
 
+- **Certificates.** Hackathon, conference and seminar certificates, each viewable in full or as
+  the original PDF, and linked to the related project where there is one.
 - **Per-project branding.** Each room and case study is themed in that product's own palette and
   typeface, through CSS custom properties.
 - **Real media only.** Product films, app-store panels and unedited app captures. Nothing is
@@ -80,14 +82,16 @@ src/
   content/projects/   one YAML file per project (text, facts, theme, media, page sections)
   content.config.ts   schema that validates every project file
   data/profile.ts     name, school, contact links, toolkit, timeline
-  components/home/    home page: masthead, room index, one room per project, about, contact
+  content/certificates/  one YAML file per certificate
+  components/home/    home page: masthead, room index, one room per project, about, certificates, contact
   components/case/    case-study hero and section blocks
   components/         shared media pieces: image, film player, lightbox, gallery rail
   scripts/            small browser scripts (film, lightbox, tabs, reveals, transitions)
   styles/global.css   design tokens, typography, layout utilities
-  assets/             images, optimised at build time
+  assets/             images, optimised at build time (projects, certificates, profile)
 public/
   media/              project films and muted preview loops
+  certificates/       original certificate files (PDF or image)
 scripts/import-media.mjs
 ```
 
@@ -95,6 +99,7 @@ scripts/import-media.mjs
 
 - **Personal details and links:** `src/data/profile.ts`. Empty fields (email, LinkedIn, résumé)
   are hidden on the site until you fill them in.
+- **A certificate:** see [Adding a certificate](#adding-a-certificate).
 - **A project:** `src/content/projects/<slug>.yaml`. Its `sections` list chooses the blocks on the
   case-study page and their order. The available blocks are `brief`, `film`, `features`,
   `gallery`, `tabs`, `pipeline`, `roles`, `scenes`, `storyboard`, `architecture`, `decisions`,
@@ -103,6 +108,33 @@ scripts/import-media.mjs
 
 The build fails on a missing image or a malformed YAML value, so broken content can't be deployed
 silently.
+
+### Adding a certificate
+
+1. Put the original file in `public/certificates/`, for example `public/certificates/aws-cloud-practitioner-2027.pdf`.
+2. Put a preview image in `src/assets/certificates/` (JPG or PNG). For an image certificate, the
+   same file works. For a PDF, export page 1 as an image, about 2000 px wide.
+3. Copy any file in `src/content/certificates/` to a new `<slug>.yaml` and edit it:
+
+```yaml
+title: AWS Certified Cloud Practitioner
+issuer: Amazon Web Services
+date: 2027-03-14            # first day, YYYY-MM-DD; cards are sorted newest first
+dateLabel: March 14, 2027   # optional: how the date reads on the card
+type: Certification         # as printed, e.g. "Certificate of Participation"
+category: Cloud             # short chip label
+venue: Online               # optional
+summary: One line about what it covered.   # optional
+preview: ../../assets/certificates/aws-cloud-practitioner-2027.jpg
+previewAlt: Describe what the certificate says, for screen readers.
+file: /certificates/aws-cloud-practitioner-2027.pdf
+related: { label: VoiceLink case study, href: /work/voicelink }   # optional
+verifyUrl: https://example.com/verify/123                          # optional
+```
+
+The card, the full-size viewer, the "Original PDF" link and the count on the hero's "See
+certificates" link all update automatically. The build fails if a field is missing or a path is
+wrong.
 
 ### Media pipeline
 
