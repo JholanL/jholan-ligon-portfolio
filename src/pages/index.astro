@@ -1,30 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
 import Masthead from '../components/home/Masthead.astro';
-import RoomIndex from '../components/home/RoomIndex.astro';
-import RoomTopcraft from '../components/home/RoomTopcraft.astro';
-import RoomVoicelink from '../components/home/RoomVoicelink.astro';
-import RoomFemisafe from '../components/home/RoomFemisafe.astro';
-import RoomFoodwais from '../components/home/RoomFoodwais.astro';
-import Threshold from '../components/home/Threshold.astro';
-import Cinema from '../components/home/Cinema.astro';
+import ProjectExplorer from '../components/home/ProjectExplorer.astro';
 import About from '../components/home/About.astro';
-import Contact from '../components/home/Contact.astro';
+import Skills from '../components/home/Skills.astro';
+import Achievements from '../components/home/Achievements.astro';
 import Certificates from '../components/home/Certificates.astro';
+import Contact from '../components/home/Contact.astro';
+import Cinema from '../components/home/Cinema.astro';
 import { getProjects } from '../lib/projects';
 import { profile } from '../data/profile';
 
 const projects = await getProjects();
-
-// Each product's home-page room. Add a component here when you add a project with its own room.
-const rooms = { topcraft: RoomTopcraft, voicelink: RoomVoicelink, femisafe: RoomFemisafe, foodwais: RoomFoodwais } as const;
-const shell = '#0e0d0f';
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: profile.name,
   jobTitle: 'Software developer (student)',
+  email: `mailto:${profile.email}`,
   alumniOf: { '@type': 'CollegeOrUniversity', name: profile.school },
   knowsAbout: profile.interests,
   sameAs: [profile.github, profile.linkedin].filter(Boolean),
@@ -33,28 +27,15 @@ const schema = {
 
 <Base
   title={`${profile.name} · Software developer`}
-  description={`${profile.name} is a ${profile.year.toLowerCase()} BS Information Technology student at ${profile.school} building web and mobile software: TopCraft, VoiceLink Academy, FemiSafe and FoodWais.`}
+  description={`${profile.name} is a ${profile.year.toLowerCase()} BS Information Technology student at ${profile.school} building web and mobile software: TopCraft, VoiceLink Academy, FemiSafe and FoodWais. Open to software development internships.`}
   schema={schema}
   preloadFonts
 >
   <Masthead />
-  <RoomIndex projects={projects} />
-
-  {
-    projects.map((p, i) => {
-      const Room = rooms[p.id as keyof typeof rooms];
-      const prevBg = i === 0 ? shell : projects[i - 1].data.theme.bg;
-      return (
-        <>
-          <Threshold from={prevBg} to={p.data.theme.bg} />
-          {Room && <Room project={p} index={i} />}
-        </>
-      );
-    })
-  }
-  <Threshold from={projects[projects.length - 1].data.theme.bg} to={shell} />
-
+  <ProjectExplorer projects={projects} />
   <About />
+  <Skills />
+  <Achievements />
   <Certificates />
   <Contact />
   <Cinema projects={projects} />

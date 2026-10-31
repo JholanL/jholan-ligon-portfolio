@@ -1,0 +1,141 @@
+---
+/**
+ * "Ask about Jholan": a floating search assistant. Answers are verified entries from
+ * src/data/knowledge.ts (served as /assistant.json); there is no AI model behind it.
+ */
+const suggestions = [
+  'What projects has Jholan built?',
+  'What technologies does Jholan use?',
+  'Tell me about TopCraft',
+  'Which projects were completed independently?',
+  'Is Jholan available for internships?',
+  'How can I contact Jholan?',
+];
+---
+
+<div class="ask" data-ask>
+  <button type="button" class="ask__fab" data-ask-open aria-expanded="false" aria-controls="ask-panel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z" /><path d="M8 9h8M8 12h5" /></svg>
+    <span class="ask__fab-text">Ask about Jholan</span>
+  </button>
+
+  <section id="ask-panel" class="ask__panel" role="dialog" aria-modal="false" aria-labelledby="ask-title" aria-describedby="ask-sub" hidden>
+    <div class="ask__head">
+      <span class="ask__badge" aria-hidden="true">JL</span>
+      <div>
+        <h2 id="ask-title" class="ask__title">Ask about Jholan</h2>
+        <p id="ask-sub" class="ask__sub">Search assistant · verified portfolio facts</p>
+      </div>
+      <button type="button" class="ask__close" data-ask-close aria-label="Close assistant (Esc)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+    </div>
+
+    <div class="ask__log" data-ask-log role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation" tabindex="0">
+      <div class="ask__msg ask__msg--bot">
+        <p>Hi! I answer questions about Jholan using verified facts from this portfolio, with links to the details.</p>
+        <p class="ask__source">I’m a search tool, not an AI and not Jholan. Nothing you type is stored or sent anywhere.</p>
+      </div>
+    </div>
+
+    <div class="ask__suggest" data-ask-suggest aria-label="Suggested questions">
+      {suggestions.map((s) => <button type="button" class="ask__chip">{s}</button>)}
+    </div>
+
+    <form class="ask__form" data-ask-form>
+      <label class="visually-hidden" for="ask-input">Your question</label>
+      <input id="ask-input" name="q" type="text" maxlength="300" autocomplete="off" enterkeyhint="send" placeholder="Ask about projects, skills, contact…" />
+      <button type="submit" class="ask__send" aria-label="Send question">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </button>
+    </form>
+    <p class="ask__status" data-ask-status role="status"></p>
+  </section>
+</div>
+
+<script>
+  import '../scripts/assistant';
+</script>
+
+<style>
+  .ask { position: fixed; right: 20px; bottom: 20px; z-index: 60; }
+  .ask__fab {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px 0 14px;
+    border-radius: 999px; background: var(--fg); color: var(--bg);
+    font-weight: 600; font-size: 0.9rem;
+    box-shadow: 0 14px 34px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px color-mix(in oklab, var(--bg) 20%, transparent);
+    transition: transform var(--t-fast) var(--ease), opacity var(--t-fast);
+  }
+  .ask__fab:hover { transform: translateY(-2px); }
+  .ask__fab svg { width: 20px; height: 20px; }
+  .ask[data-open] .ask__fab { opacity: 0; pointer-events: none; transform: scale(0.9); }
+  /* Past the hero the trigger shrinks to an icon, so it covers less of the page. */
+  .ask[data-compact] .ask__fab { width: 48px; padding: 0; justify-content: center; }
+  .ask[data-compact] .ask__fab-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ask[data-compact] .ask__fab:is(:hover, :focus-visible) { width: auto; padding: 0 18px 0 14px; }
+  .ask[data-compact] .ask__fab:is(:hover, :focus-visible) .ask__fab-text { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
+
+  .ask__panel {
+    position: fixed; right: 20px; bottom: 20px;
+    width: min(384px, calc(100vw - 40px)); height: min(580px, calc(100dvh - 104px));
+    display: grid; grid-template-rows: auto 1fr auto auto auto;
+    border-radius: var(--radius-lg); overflow: hidden;
+    background: var(--surface); color: var(--fg);
+    box-shadow: 0 0 0 1px var(--line), 0 40px 90px -30px rgba(0, 0, 0, 0.6);
+  }
+  .ask__panel[hidden] { display: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ask__panel:not([hidden]) { animation: ask-in 260ms var(--ease) both; }
+  }
+  @keyframes ask-in { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
+
+  .ask__head { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 14px 10px 14px 16px; border-bottom: 1px solid var(--line); }
+  .ask__badge { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-family: var(--f-mono); font-size: 0.68rem; font-weight: 700; }
+  .ask__title { font-size: 1rem; font-weight: 700; line-height: 1.2; }
+  .ask__sub { font-size: 0.75rem; color: var(--muted); }
+  .ask__close { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; }
+  .ask__close:hover { background: var(--surface-2); }
+  .ask__close svg { width: 20px; height: 20px; }
+
+  .ask__log { overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; overscroll-behavior: contain; }
+  .ask__log:focus-visible { outline-offset: -3px; }
+  .ask__log :global(.ask__msg) { max-width: 92%; padding: 10px 14px; border-radius: 16px; font-size: 0.92rem; line-height: 1.5; display: grid; gap: 4px; }
+  .ask__log :global(.ask__msg--bot) { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 6px; }
+  .ask__log :global(.ask__msg--you) { align-self: flex-end; background: var(--fg); color: var(--bg); border-bottom-right-radius: 6px; }
+  .ask__log :global(.ask__li) { padding-left: 2px; }
+  .ask__log :global(.ask__source) { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
+  .ask__log :global(.ask__links) { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .ask__log :global(.ask__links a) {
+    display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 999px;
+    background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-strong); font-size: 0.82rem; font-weight: 600;
+  }
+  .ask__log :global(.ask__links a:hover) { box-shadow: inset 0 0 0 1px var(--fg); }
+
+  .ask__suggest { display: flex; gap: 6px; overflow-x: auto; padding: 0 16px 10px; scrollbar-width: none; }
+  .ask__suggest::-webkit-scrollbar { display: none; }
+  .ask__suggest :global(.ask__chip) {
+    flex: none; min-height: 36px; padding: 0 12px; border-radius: 999px; white-space: nowrap;
+    box-shadow: inset 0 0 0 1px var(--line-strong); font-size: 0.8rem; color: var(--fg);
+  }
+  .ask__suggest :global(.ask__chip:hover) { background: var(--surface-2); }
+
+  .ask__form { display: flex; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--line); }
+  .ask__form input {
+    flex: 1; min-width: 0; min-height: 44px; padding: 0 14px; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: var(--bg); color: var(--fg); font-size: 16px;
+  }
+  .ask__form input::placeholder { color: var(--muted); }
+  .ask__form input:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 1px; }
+  .ask__send { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--on-accent); flex: none; }
+  .ask__send svg { width: 18px; height: 18px; }
+  .ask__status { font-size: 0.75rem; color: var(--muted); padding: 0 16px 8px; }
+  .ask__status:empty { display: none; }
+
+  /* Phones: an icon-only trigger and a full-screen sheet that follows the keyboard. */
+  @media (max-width: 640px) {
+    .ask { right: 14px; bottom: 14px; }
+    .ask__fab { width: 52px; height: 52px; padding: 0; justify-content: center; }
+    .ask__fab-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .ask__panel { inset: 0 0 auto 0; width: 100%; height: 100dvh; border-radius: 0; }
+  }
+</style>

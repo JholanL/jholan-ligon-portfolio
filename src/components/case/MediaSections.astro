@@ -13,6 +13,8 @@ interface Props { section: Section; num: number; project: Project }
 const { section: s, num, project: p } = Astro.props;
 const filmId = `film-${p.id}`;
 const g = `${p.id}-${num}`;
+/** Capture grids show this many images, then a "Show more" button. */
+const SHOW = 6;
 ---
 
 {
@@ -130,14 +132,17 @@ const g = `${p.id}-${num}`;
       </div>
       {s.tabs.map((t, i) => (
         <div role="tabpanel" id={`${g}-panel-${i}`} aria-labelledby={`${g}-tab-${i}`} hidden={i !== 0} data-active={i === 0 ? '' : undefined}>
-          <ul class:list={['grid-gal', { 'grid-gal--phones': t.style === 'phones' }]} role="list">
-            {t.items.map((it) => (
-              <li>
+          <ul class:list={['grid-gal', { 'grid-gal--phones': t.style === 'phones' }]} role="list" data-collapsed={t.items.length > SHOW ? '' : undefined}>
+            {t.items.map((it, n) => (
+              <li class:list={{ 'is-extra': n >= SHOW }}>
                 <MediaFrame media={{ ...it, title: it.caption }} sizes={t.style === 'phones' ? '(max-width: 700px) 45vw, 16vw' : '(max-width: 700px) 100vw, 33vw'} group={`${g}-${i}`} />
                 {it.caption && <p class="grid-gal__cap">{it.caption}</p>}
               </li>
             ))}
           </ul>
+          {t.items.length > SHOW && (
+            <button type="button" class="btn btn--ghost gal-more" data-gal-more aria-expanded="false">Show {t.items.length - SHOW} more</button>
+          )}
         </div>
       ))}
     </div>
@@ -230,11 +235,17 @@ const g = `${p.id}-${num}`;
 
 <script>
   import '../../scripts/tabs';
+  document.querySelectorAll<HTMLButtonElement>('[data-gal-more]').forEach((b) => b.addEventListener('click', () => {
+    const grid = b.previousElementSibling as HTMLElement;
+    grid.removeAttribute('data-collapsed');
+    b.remove();
+    grid.querySelector<HTMLElement>('.is-extra a')?.focus();
+  }));
   import '../../scripts/scenes';
 </script>
 
 <style>
-  .film-sec :global(.film) { max-width: 1400px; }
+  .film-sec :global(.film) { max-width: 100%; }
 
   /* pipeline */
   .pipe__steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; position: relative; list-style: none; padding: 0; }
@@ -281,6 +292,9 @@ const g = `${p.id}-${num}`;
   .grid-gal { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); list-style: none; padding: 0; }
   .grid-gal--phones { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .grid-gal__cap { margin-top: 10px; font-size: var(--step--1); color: var(--muted); }
+  :global(.js) .grid-gal[data-collapsed] .is-extra { display: none; }
+  .gal-more { margin-top: 20px; }
+  :global(html:not(.js)) .gal-more { display: none; }
 
   /* segmented tabs */
   .seg {
@@ -297,7 +311,7 @@ const g = `${p.id}-${num}`;
   /* scenes (scrollytelling) */
   .scenes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 120px); }
   .scenes__list { list-style: none; padding: 0; }
-  .scene { min-height: 78vh; display: grid; align-content: center; gap: 16px; padding-block: 8vh; }
+  .scene { min-height: 62vh; display: grid; align-content: center; gap: 16px; padding-block: 8vh; }
   .scene > :not(.scene__n, .scene__inline) { opacity: 0.55; transition: opacity 600ms var(--ease); }
   .scene[data-active] > *, :global(html:not(.js)) .scene > * { opacity: 1; }
   .scene__n { color: var(--accent-text); }
@@ -309,7 +323,7 @@ const g = `${p.id}-${num}`;
   .scenes__frame { grid-area: 1 / 1; display: flex; gap: clamp(12px, 2vw, 24px); justify-content: center; align-items: center; height: 100%; opacity: 0; transform: translateY(24px) scale(0.97); transition: opacity 600ms var(--ease), transform 800ms var(--ease); }
   .scenes__frame[data-active] { opacity: 1; transform: none; }
   .scenes__frame--two .scenes__phone:last-child { transform: translateY(8%); }
-  .scenes__phone { position: relative; height: min(100%, 680px); aspect-ratio: 1080 / 2400; padding: 8px; border-radius: 38px; background: linear-gradient(145deg, #2a2a2e, #0b0b0d); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 50px 100px -40px rgba(0, 0, 0, 0.7); }
+  .scenes__phone { position: relative; height: min(100%, 600px); aspect-ratio: 1080 / 2400; padding: 8px; border-radius: 38px; background: linear-gradient(145deg, #2a2a2e, #0b0b0d); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 50px 100px -40px rgba(0, 0, 0, 0.7); }
   .scenes__frame--two .scenes__phone { height: min(88%, 600px); }
   .scenes__phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; }
   .scenes__cam { position: absolute; z-index: 1; top: 16px; left: 50%; translate: -50% 0; width: 9px; height: 9px; border-radius: 50%; background: #050506; box-shadow: 0 0 0 2px #1d1d21; }

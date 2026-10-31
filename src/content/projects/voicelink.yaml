@@ -10,6 +10,7 @@ summary: >-
 year: "2026"
 kind: Course final project · CTADWEBL, Advanced Web Programming
 team: Team of three
+role: Backend configuration and testing
 platforms: [Responsive web app]
 status: Feature-complete across all three portals. No live deployment yet.
 stackShort: [React, Node.js, Express, MongoDB, JWT]

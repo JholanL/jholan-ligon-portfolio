@@ -1,95 +1,121 @@
 /**
- * Personal details used across the site. Empty strings are simply not rendered,
- * so fill these in when you are ready to publish them.
+ * Personal details used across the site and by the "Ask about Jholan" assistant.
+ * Sources: Jholan's CV (public/Jholan-Ligon-CV.pdf) and facts Jholan supplied directly.
+ * Empty strings are not rendered. Add only facts you're happy to publish.
  */
 export const profile = {
   name: 'Jholan Ligon',
   firstName: 'Jholan',
-  role: 'Software developer · BS Information Technology student',
+  role: 'Software developer',
   school: 'National University – Mall of Asia',
+  schoolShort: 'NU MOA',
   degree: 'BS Information Technology',
   specialization: 'Mobile and Web Applications',
   year: 'Fourth year',
+  graduation: 'Expected August 2027',
   seeking: 'Software development internship',
   statement:
     'I build web and mobile software for real places: a furniture workshop, a call-center training floor, the walk home and the morning market.',
   interests: ['Software engineering', 'Full-stack development', 'Web development', 'Mobile app development', 'UI/UX implementation', 'System development'],
 
-  // Contact — add yours before publishing. Leave '' to hide a row.
-  email: '',
-  linkedin: '',
-  resume: '', // e.g. '/Jholan-Ligon-Resume.pdf' after placing the file in public/
+  email: 'ligonjholan04@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/jholan-ligon/',
+  resume: '/Jholan-Ligon-CV.pdf',
   github: 'https://github.com/JholanL',
+  portfolioRepo: 'https://github.com/JholanL/jholan-ligon-portfolio',
+};
+
+/** Where a skill is demonstrated. Keys are project ids; 'portfolio' means this website's own code. */
+export const evidenceLinks: Record<string, { label: string; href: string }> = {
+  topcraft: { label: 'TopCraft', href: '/work/topcraft' },
+  voicelink: { label: 'VoiceLink Academy', href: '/work/voicelink' },
+  femisafe: { label: 'FemiSafe', href: '/work/femisafe' },
+  foodwais: { label: 'FoodWais', href: '/work/foodwais' },
+  portfolio: { label: 'This portfolio', href: profile.portfolioRepo },
 };
 
 /**
- * Skills, each tied to the project that shows it. Only list what the work proves;
- * add more groups as you confirm them (languages, mobile frameworks, tools...).
+ * Skills from the CV. `in` lists the projects on this site that show the skill;
+ * a skill without `in` is listed on the CV but not demonstrated by a project here.
  */
-export const toolkit: { area: string; items: string[]; proof: { label: string; href: string }[]; note?: string }[] = [
+export const skills: { area: string; items: { name: string; in?: string[] }[] }[] = [
   {
-    area: 'Full-stack web',
-    items: ['React', 'React Router', 'Vite', 'Node.js', 'Express', 'REST APIs', 'MongoDB', 'Mongoose'],
-    proof: [{ label: 'VoiceLink Academy', href: '/work/voicelink' }],
+    area: 'Languages',
+    items: [
+      { name: 'JavaScript', in: ['voicelink'] },
+      { name: 'TypeScript', in: ['portfolio'] },
+      { name: 'Java', in: ['femisafe'] },
+      { name: 'Python' },
+      { name: 'SQL' },
+    ],
   },
   {
-    area: 'Auth & backend safety',
-    items: ['JWT', 'bcrypt', 'Role & ownership checks', 'Rate limiting', 'Input validation', 'DB connection safeguards'],
-    proof: [{ label: 'VoiceLink Academy', href: '/work/voicelink' }],
-    note: 'Authentication workflows and connection safeguards were my documented responsibilities.',
+    area: 'Frontend',
+    items: [
+      { name: 'React.js', in: ['voicelink'] },
+      { name: 'HTML', in: ['voicelink', 'portfolio'] },
+      { name: 'CSS', in: ['voicelink', 'portfolio'] },
+    ],
   },
   {
-    area: 'Testing',
-    items: ['Node.js test runner', 'API test suites', 'Concurrency checks', 'Server dependency testing'],
-    proof: [{ label: 'VoiceLink Academy', href: '/work/voicelink' }],
+    area: 'Backend',
+    items: [
+      { name: 'Node.js', in: ['voicelink'] },
+      { name: 'Express.js', in: ['voicelink'] },
+      { name: 'REST API integration', in: ['voicelink'] },
+    ],
   },
   {
     area: 'Mobile',
-    items: ['Android apps', 'Offline-first features', 'SMS and location flows', 'Role-based mobile UX'],
-    proof: [
-      { label: 'FemiSafe', href: '/work/femisafe' },
-      { label: 'TopCraft', href: '/work/topcraft' },
+    items: [{ name: 'Android SDK', in: ['femisafe'] }, { name: 'React Native' }, { name: 'Flutter / Dart' }],
+  },
+  {
+    area: 'Databases',
+    items: [{ name: 'MongoDB', in: ['voicelink'] }, { name: 'PostgreSQL' }, { name: 'Firebase Firestore' }],
+  },
+  {
+    area: 'Tools',
+    items: [
+      { name: 'Git', in: ['voicelink', 'portfolio'] },
+      { name: 'GitHub', in: ['voicelink', 'portfolio'] },
+      { name: 'Android Studio', in: ['femisafe'] },
+      { name: 'VS Code' },
+      { name: 'Postman' },
+      { name: 'Figma' },
     ],
   },
   {
-    area: 'Product & UI',
-    items: ['Role-based dashboards', 'Responsive layouts', 'Design tokens', 'Light & dark themes'],
-    proof: [
-      { label: 'TopCraft', href: '/work/topcraft' },
-      { label: 'VoiceLink Academy', href: '/work/voicelink' },
-    ],
-  },
-  {
-    area: 'Team workflow',
-    items: ['Git', 'Feature branches', 'Code ownership by module', 'Client collaboration', 'Hackathons'],
-    proof: [
-      { label: 'VoiceLink Academy', href: '/work/voicelink' },
-      { label: 'TopCraft', href: '/work/topcraft' },
-      { label: 'FoodWais', href: '/work/foodwais' },
+    area: 'Practice',
+    items: [
+      { name: 'Project management', in: ['topcraft'] },
+      { name: 'Requirements analysis', in: ['topcraft'] },
+      { name: 'Functional testing', in: ['topcraft', 'femisafe'] },
+      { name: 'Backend configuration & troubleshooting', in: ['voicelink'] },
+      { name: 'Image datasets for classification', in: ['foodwais'] },
     ],
   },
 ];
 
-/** Education and recognition. Only verified entries. */
-export const timeline: { when: string; title: string; detail: string }[] = [
+export const education: { title: string; place: string; detail: string; when: string }[] = [
   {
-    when: 'Now',
-    title: 'BS Information Technology, Fourth year',
-    detail: 'National University – Mall of Asia, specializing in Mobile and Web Applications.',
+    title: 'BS Information Technology',
+    place: 'National University – Mall of Asia, Pasay City',
+    detail: 'Specialization in Mobile and Web Applications · Fourth year',
+    when: 'Expected Aug 2027',
   },
   {
-    when: 'Capstone',
-    title: 'TopCraft for Industrial Manila Furniture',
-    detail: 'Client-based capstone: an owner web platform and an Android app for clients and workers.',
+    title: 'Senior High School, With Honors',
+    place: 'Emilio Aguinaldo College Cavite, Dasmariñas City',
+    detail: 'Graduated with honors',
+    when: 'July 2023',
   },
-  {
-    when: 'Hackathon',
-    title: 'AppBuildersPH Hackathon',
-    detail: 'Built FoodWais with team CocoJJAM: a local-AI concept for freshness, pantry and fair prices.',
-  },
-  {
-    when: 'Coursework',
-    title: 'CTADWEBL · Advanced Web Programming',
-    detail: 'Final project: VoiceLink Academy, a three-portal MERN LMS built by a team of three.',
-  },
+];
+
+/** Verified honors and milestones, most significant first. */
+export const achievements: { kind: string; title: string; detail: string; href?: string }[] = [
+  { kind: 'Academic honor', title: "Dean's First Honor", detail: '7 consecutive terms, AY 2023–2024 to Term 1, AY 2025–2026' },
+  { kind: 'Academic honor', title: "Dean's Second Honor", detail: 'Terms 2–3, AY 2025–2026' },
+  { kind: 'Scholarship', title: 'University Academic Excellence Benefit (UAEB-100A)', detail: 'Academic scholarship' },
+  { kind: 'Leadership', title: 'Project manager, TopCraft capstone', detail: 'Led a four-member team, 2025–2026', href: '/work/topcraft' },
+  { kind: 'Hackathon', title: 'AppBuildersPH Hackathon 2026', detail: 'Participant with team CocoJJAM; built FoodWais', href: '/work/foodwais' },
 ];

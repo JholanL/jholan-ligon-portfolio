@@ -1,16 +1,18 @@
-# FoodWais — content is taken only from the hackathon showcase poster and the FoodWais film.
+# FoodWais — content is taken from the hackathon showcase poster, the FoodWais film and Jholan's CV.
 # The film labels its screens "FoodWais design screens · example result"; the copy says so.
 order: 4
 name: FoodWais
 place: The Palengke
 tagline: Be wais with your food choices.
 summary: >-
-  A local-AI mobile concept for the wet market and the kitchen. It estimates how fresh meat or fish
+  A local-AI mobile prototype for the wet market and the kitchen. It estimates how fresh meat or fish
   looks, tracks what's in the pantry, and tells you whether a vendor's price is fair.
 kind: Hackathon project · AppBuildersPH Hackathon
 team: Team CocoJJAM
-platforms: [Mobile concept]
-status: Hackathon concept. The film shows design screens with example results.
+role: Datasets and app workflow
+year: "2026"
+platforms: [Mobile prototype]
+status: Hackathon prototype. The film shows design screens with example results.
 stackShort: []
 theme:
   bg: "#F4F1EC"
@@ -26,8 +28,8 @@ theme:
   scheme: light
 hero: market
 cover:
-  src: ../../assets/projects/foodwais/showcase.png
-  alt: "FoodWais hackathon showcase by CocoJJAM: the freshness scanner on a fish, a freshness result, the pantry list and a stall price comparison."
+  src: ../../assets/projects/foodwais/thumbnail/foodwise-cover.webp
+  alt: "FoodWais cover: 'Know your food. Choose wisely.' beside three phones showing the freshness scanner, the pantry home and the Palengke price check."
 heroMedia:
   src: ../../assets/projects/foodwais/showcase.png
   alt: "FoodWais hackathon showcase by CocoJJAM: the freshness scanner on a fish, a freshness result, the pantry list and a stall price comparison."
@@ -49,14 +51,14 @@ film:
 facts:
   - { label: Event, value: AppBuildersPH Hackathon }
   - { label: Team, value: CocoJJAM }
-  - { label: Type, value: Mobile concept }
+  - { label: Type, value: Mobile prototype }
   - { label: AI, value: "Local, on-device (as designed)" }
 room:
   headline: "Lahat ’yan,"
   accent: "masisira."
   text: >-
     “All of that will spoil.” Fish and meat cost more every month, and it hurts to waste them.
-    FoodWais is a hackathon concept that checks freshness, plans the pantry and helps you haggle,
+    FoodWais is a hackathon prototype that checks freshness, plans the pantry and helps you haggle,
     with the AI designed to run on the phone.
   points: [Freshness check, Pantry tracking, Price comparison]
   media:
@@ -76,7 +78,7 @@ sections:
       - { name: Home cooks, text: "Deciding what to cook before something spoils." }
       - { name: Market shoppers, text: "Choosing a stall and a fair price at the wet market." }
     product: >-
-      A mobile concept with a freshness scanner, a pantry with recipes and a shopping list, real
+      A mobile prototype with a freshness scanner, a pantry with recipes and a shopping list, real
       Metro Manila price data, and a Palengke Mode for checking and comparing vendors' prices.
   - type: storyboard
     title: The idea, in eight frames.
@@ -94,20 +96,26 @@ sections:
     title: The film.
     intro: "One minute, in Taglish, from the fridge to the palengke."
   - type: decisions
-    title: What the concept gets right.
+    title: What the prototype gets right.
     items:
       - { title: "An estimate, labelled as one.", body: "The result card says it's a visual estimate on your phone, not a food-safety check." }
       - { title: Private by design., body: "Photos stay on the phone, the freshness model is designed to run on-device, and there's no sign-in." }
       - { title: "Freshness first, then price.", body: "Stall comparisons rank freshness first, so the cheapest stall doesn't win by default." }
       - { title: Grounded in real data., body: "Usual price ranges come from published Metro Manila retail averages, not guesses." }
       - { title: Speaks like the market., body: "Taglish copy that sounds like a real palengke trip: 'Pwede po bang ₱285 na lang?'" }
+  - type: contribution
+    title: My part, and the team's.
+    mine:
+      - Worked with the fish, pork, chicken and beef image datasets used for freshness classification
+      - Helped design the app's workflow
+    team:
+      - Team CocoJJAM built the prototype at the AppBuildersPH Hackathon, October 9–10, 2026
   - type: note
     title: Status
     body: >-
-      FoodWais is a hackathon concept by team CocoJJAM for the AppBuildersPH Hackathon. The screens in
+      FoodWais is a hackathon prototype by team CocoJJAM for the AppBuildersPH Hackathon. The screens in
       the film and the showcase are labelled “FoodWais design screens · example result”.
 confirm:
-  - Your role in team CocoJJAM, and which parts you designed or built.
-  - Whether a working prototype exists, and its tech stack (which on-device model, framework?).
-  - The hackathon date and any placement or award.
+  - The prototype's tech stack (which on-device model, framework?).
+  - Any placement or award.
   - Any repository or demo link you can share.

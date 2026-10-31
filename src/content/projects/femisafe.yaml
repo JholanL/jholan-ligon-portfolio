@@ -8,9 +8,11 @@ summary: >-
   fake call into one calm app. There's no account, and your data stays on your phone.
 kind: Independent project
 team: Solo developer
+role: Built independently
+year: "2024"
 platforms: [Android]
 status: Version 2.0
-stackShort: [Android]
+stackShort: [Java, Android Studio]
 theme:
   bg: "#140D2E"
   surface: "#1F1645"
@@ -139,9 +141,16 @@ sections:
   - type: contribution
     title: Built independently.
     mine:
-      - Independent project, developed solo for Android
+      - Developed independently as a native Android app in Java with Android Studio
+      - Implemented emergency contacts, flashlight and siren controls, and local data storage with SharedPreferences
+      - Performed functional testing of the core features
+  - type: stack
+    groups:
+      - { name: Language, items: [Java] }
+      - { name: Platform, items: [Android SDK] }
+      - { name: Storage, items: [SharedPreferences] }
+      - { name: Tools, items: [Android Studio] }
 confirm:
-  - "The tech stack (language, framework, libraries — Kotlin, Java, Flutter, React Native?)."
   - Whether you also designed the UI, the store screenshots and the film.
   - Whether it is published (Play Store link?) or has a repository you can share.
-  - The year and how long it took. What changed in 2.0?
+  - What changed in 2.0, and how long it took.

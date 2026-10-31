@@ -113,6 +113,8 @@ const projects = defineCollection({
       year: z.string().optional(),
       kind: z.string(),
       team: z.string(),
+      /** Jholan's own role, e.g. "Project manager" or "Built independently" (from the CV). */
+      role: z.string().optional(),
       platforms: z.array(z.string()),
       status: z.string().optional(),
       stackShort: z.array(z.string()).default([]),
