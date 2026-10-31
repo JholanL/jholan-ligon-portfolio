@@ -1,4 +1,4 @@
-// Site-wide behaviour: reveals, the header that takes on each room's lighting, and cover morphs.
+// Site-wide behaviour: reveals, the header that takes on the colours of the section under it, and cover morphs.
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -20,11 +20,12 @@ if (reduced || !('IntersectionObserver' in window)) {
 const hdr = document.querySelector<HTMLElement>('[data-hdr]');
 if (hdr) {
   const rooms = [...document.querySelectorAll<HTMLElement>('[data-room], [data-header-theme]')];
+  let current: HTMLElement | null = null;
   const apply = (el: HTMLElement | null) => {
-    const cs = el ? getComputedStyle(el) : null;
-    const pick = (v: string, fallback: string) => (cs?.getPropertyValue(v).trim() || fallback);
-    hdr.style.setProperty('--hdr-bg', pick('--bg', '#0e0d0f'));
-    hdr.style.setProperty('--hdr-fg', pick('--fg', '#eee8e1'));
+    current = el;
+    const cs = getComputedStyle(el ?? document.documentElement);
+    hdr.style.setProperty('--hdr-bg', cs.getPropertyValue('--bg').trim());
+    hdr.style.setProperty('--hdr-fg', cs.getPropertyValue('--fg').trim());
   };
   // The room crossing a thin line just under the header wins.
   const line = new IntersectionObserver(
@@ -36,6 +37,8 @@ if (hdr) {
   );
   rooms.forEach((r) => line.observe(r));
   apply(null);
+  // Site sections change colour with the theme; re-read whatever is under the header.
+  addEventListener('themechange', () => apply(current));
 
   let lastY = scrollY;
   let ticking = false;

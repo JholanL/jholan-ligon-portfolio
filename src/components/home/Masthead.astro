@@ -8,69 +8,50 @@ const certCount = (await getCollection('certificates')).length;
 ---
 
 <section class="mast" aria-labelledby="mast-title" data-header-theme>
-  <div class="wrap mast__inner">
-    <div class="mast__meta label" data-reveal="fade">
-      <span>Portfolio</span>
-      <span>{profile.degree} · {profile.specialization}</span>
-      <span>Four rooms · web and mobile</span>
-    </div>
-
-    <div class="mast__body">
-      <div class="mast__text">
-        <h1 id="mast-title" class="mast__name" aria-label={profile.name}>
-          <span class="mast__first" data-vf aria-hidden="true">
-            {first.map((ch, i) => <span class="mast__ch" style={`--i:${i}`}>{ch}</span>)}
-          </span>
-          <span class="mast__last serif" aria-hidden="true">Ligon</span>
-        </h1>
-
-        <p class="mast__role mast__rise" style="--d:200ms">
-          <span class="label">Software developer</span>
-          <span>{profile.year} BSIT student at {profile.school}</span>
-        </p>
-        <p class="mast__statement mast__rise" style="--d:280ms">
-          I build web and mobile software for real places: <em>a furniture workshop, a call‑center training floor, the walk home</em> and <em>the morning market.</em>
-        </p>
-
-        <div class="mast__cta mast__rise" style="--d:360ms">
-          <a class="btn" href="#work">
-            Enter the rooms
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
-          </a>
-          <a class="btn btn--ghost" href="#contact">Get in touch</a>
-          {
-            profile.resume && (
-              <a class="btn btn--ghost" href={profile.resume} target="_blank" rel="noopener">
-                View résumé
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" /></svg>
-              </a>
-            )
-          }
-          {
-            certCount > 0 && (
-              <a class="mast__link" href="#certificates">
-                See certificates <span class="mast__count">{certCount}</span>
-              </a>
-            )
-          }
-        </div>
-      </div>
-
-      <figure class="mast__portrait mast__rise" style="--d:160ms">
-        <span class="mast__arch" aria-hidden="true"></span>
-        <span class="mast__photo">
-          <Image
-            src={portrait}
-            alt={`Portrait of ${profile.name}`}
-            widths={[360, 480, 600]}
-            sizes="(max-width: 760px) 80vw, 36vw"
-            loading="eager"
-            fetchpriority="high"
-          />
+  <div class="wrap mast__body">
+    <div class="mast__text">
+      <p class="mast__eyebrow label mast__rise">
+        <span>{profile.role}</span><span aria-hidden="true">·</span><span>{profile.specialization.replace(' and ', ' & ')}</span>
+      </p>
+      <h1 id="mast-title" class="mast__name" aria-label={`${profile.name}, ${profile.role}`}>
+        <span class="mast__first" data-vf aria-hidden="true">
+          {first.map((ch, i) => <span class="mast__ch" style={`--i:${i}`}>{ch}</span>)}
         </span>
-        <figcaption class="mast__tag label"><span class="mast__dot" aria-hidden="true"></span>Open to internships</figcaption>
-      </figure>
+        <span class="mast__last serif" aria-hidden="true">Ligon</span>
+      </h1>
+
+      <p class="mast__statement mast__rise" style="--d:200ms">
+        I build web and mobile software for real places: <em>a furniture workshop, a call‑center training floor, the walk home</em> and <em>the morning market.</em>
+      </p>
+      <p class="mast__facts mast__rise" style="--d:260ms">
+        <span>{profile.year} BSIT student, {profile.school}</span>
+        <span class="mast__open"><span class="mast__dot" aria-hidden="true"></span>Open to software development internships</span>
+      </p>
+
+      <div class="mast__cta mast__rise" style="--d:320ms">
+        <a class="btn" href="#work">
+          View projects
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+        </a>
+        {
+          profile.resume && (
+            <a class="btn btn--ghost" href={profile.resume} download="Jholan-Ligon-CV.pdf">
+              Download résumé
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+            </a>
+          )
+        }
+        <a class="btn btn--ghost" href="#contact">Contact</a>
+        {certCount > 0 && <a class="mast__link" href="#certificates">See certificates <span class="mast__count">{certCount}</span></a>}
+      </div>
     </div>
+
+    <figure class="mast__portrait mast__rise" style="--d:120ms">
+      <span class="mast__arch" aria-hidden="true"></span>
+      <span class="mast__photo">
+        <Image src={portrait} alt={`Portrait of ${profile.name}`} widths={[360, 480, 600]} sizes="(max-width: 760px) 70vw, 30vw" loading="eager" fetchpriority="high" />
+      </span>
+    </figure>
   </div>
 </section>
 
@@ -81,153 +62,99 @@ const certCount = (await getCollection('certificates')).length;
 <style>
   .mast {
     position: relative;
-    min-height: min(100svh, 1080px);
-    display: grid;
-    padding-top: calc(var(--header-h) + clamp(16px, 3vw, 40px));
-    padding-bottom: clamp(40px, 6vw, 80px);
+    padding-top: calc(var(--header-h) + clamp(28px, 5vw, 64px));
+    padding-bottom: clamp(48px, 6vw, 80px);
     overflow: clip;
     isolation: isolate;
   }
-  /* A soft rosé light from above, like a gallery spot. */
+  /* A soft light from above, like a gallery spot. */
   .mast::before {
     content: '';
     position: absolute; z-index: -1;
-    width: 120vmax; height: 120vmax; left: 50%; top: -70vmax; translate: -50% 0;
-    background: radial-gradient(closest-side, rgba(238, 170, 187, 0.16), rgba(238, 170, 187, 0.04) 55%, transparent 70%);
+    width: 110vmax; height: 110vmax; left: 50%; top: -72vmax; translate: -50% 0;
+    background: radial-gradient(closest-side, var(--glow), transparent 70%);
   }
-  /* Hairline floor-plan grid */
-  .mast::after {
-    content: '';
-    position: absolute; inset: 0; z-index: -1;
-    background-image: linear-gradient(to right, rgba(238, 232, 225, 0.05) 1px, transparent 1px);
-    background-size: calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 6) 100%;
-    background-position: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) 0;
-    mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 70%, transparent);
-  }
-  .mast__inner { display: grid; grid-template-rows: auto 1fr; gap: clamp(24px, 4vw, 56px); }
-
-  .mast__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--muted); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-
   .mast__body {
     display: grid;
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    column-gap: clamp(24px, 4vw, 72px);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: clamp(24px, 5vw, 72px);
     align-items: center;
   }
   .mast__text { container-type: inline-size; display: grid; align-content: center; }
 
-  /* The name always spans its column: sized in container units. */
-  .mast__name {
-    display: grid;
-    line-height: 0.8;
-    font-size: 19cqi;
-    letter-spacing: -0.035em;
-    margin-inline: -0.04em;
-  }
-  .mast__first {
-    display: flex;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-variation-settings: 'wdth' 125;
-  }
+  .mast__eyebrow { display: flex; flex-wrap: wrap; gap: 8px; color: var(--accent-text); margin-bottom: clamp(14px, 2vw, 22px); }
+
+  /* The name spans its column: sized in container units. */
+  .mast__name { display: grid; line-height: 0.82; font-size: 17cqi; letter-spacing: -0.035em; margin-inline: -0.04em; }
+  .mast__first { display: flex; font-weight: 800; text-transform: uppercase; font-variation-settings: 'wdth' 125; }
   .mast__ch { display: inline-block; font-variation-settings: 'wdth' var(--w, 125), 'wght' var(--g, 800); font-weight: inherit; }
-  .mast__last {
-    justify-self: end;
-    font-size: 0.86em;
-    line-height: 0.9;
-    margin-top: 0.04em;
-    color: var(--rose);
-  }
+  .mast__last { justify-self: end; font-size: 0.82em; line-height: 0.95; margin-top: 0.02em; margin-right: 0.04em; color: var(--accent-text); }
 
   @media (prefers-reduced-motion: no-preference) {
-    .js .mast__ch { animation: ch-in 1300ms var(--ease) both; animation-delay: calc(var(--i) * 70ms + 80ms); }
-    .js .mast__last { animation: last-in 1400ms var(--ease) 480ms both; }
+    .js .mast__ch { animation: ch-in 1200ms var(--ease) both; animation-delay: calc(var(--i) * 60ms + 60ms); }
+    .js .mast__last { animation: last-in 1300ms var(--ease) 420ms both; }
+    .mast__rise { animation: rise 1000ms var(--ease) var(--d, 0ms) both; }
   }
   @keyframes ch-in {
     from { opacity: 0; transform: translateY(0.18em); font-variation-settings: 'wdth' 62, 'wght' 200; }
     to { opacity: 1; transform: none; font-variation-settings: 'wdth' 125, 'wght' 800; }
   }
   /* Above the fold: visible from first paint, motion is transform-only. */
-  @media (prefers-reduced-motion: no-preference) {
-    .mast__rise { animation: rise 1100ms var(--ease) var(--d, 0ms) both; }
-  }
-  @keyframes rise { from { transform: translateY(22px); } }
+  @keyframes rise { from { transform: translateY(16px); } }
   @keyframes last-in { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
 
-  .mast__role {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
-    margin-top: clamp(28px, 3.4vw, 48px);
-    font-size: var(--step--1); color: var(--bone);
-  }
-  .mast__role .label { color: var(--rose); }
   .mast__statement {
-    margin-top: 14px;
-    max-width: 34ch;
-    font-size: var(--step-2);
-    line-height: 1.22;
-    letter-spacing: -0.015em;
-    font-weight: 500;
-    font-variation-settings: 'wdth' 96;
+    margin-top: clamp(22px, 3vw, 34px); max-width: 36ch;
+    font-size: var(--step-2); line-height: 1.28; letter-spacing: -0.012em; font-weight: 500; font-variation-settings: 'wdth' 96;
   }
-  .mast__statement em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--rose); letter-spacing: -0.01em; }
+  .mast__statement em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: var(--accent-text); letter-spacing: -0.01em; }
+  .mast__facts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; font-size: var(--step--1); color: var(--muted); }
+  .mast__open { display: inline-flex; align-items: center; gap: 8px; color: var(--fg); font-weight: 500; }
+  .mast__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in oklab, var(--ok) 20%, transparent); }
 
-  .mast__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: clamp(24px, 3vw, 36px); }
+  .mast__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: clamp(22px, 3vw, 32px); }
   .mast__link {
-    display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding-inline: 10px;
-    font-weight: 600; font-size: 0.95rem;
-    text-decoration: underline; text-decoration-color: rgba(238, 232, 225, 0.35); text-underline-offset: 6px;
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-inline: 8px;
+    font-weight: 600; font-size: 0.92rem;
+    text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 6px;
     transition: text-decoration-color var(--t-fast), color var(--t-fast);
   }
-  .mast__link:hover { color: var(--rose); text-decoration-color: currentColor; }
+  .mast__link:hover { color: var(--accent-text); text-decoration-color: currentColor; }
   .mast__count {
     display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding-inline: 6px; border-radius: 999px;
-    font-family: var(--f-mono); font-size: 0.7rem; text-decoration: none;
-    background: rgba(238, 170, 187, 0.16); color: var(--rose);
+    font-family: var(--f-mono); font-size: 0.7rem; background: var(--glow); color: var(--accent-text);
   }
 
-  /* Portrait: an arched alcove lit in rosé; the head rises just past the arch. */
-  .mast__portrait { position: relative; justify-self: end; width: min(100%, 440px); aspect-ratio: 4 / 5; margin: 0; }
+  /* Portrait: an arched alcove; the head rises just past the arch. */
+  .mast__portrait { position: relative; justify-self: end; width: min(100%, 360px); aspect-ratio: 4 / 5; margin: 0; }
   .mast__arch {
     position: absolute; inset: 12% 0 0;
-    border-radius: 999px 999px 28px 28px;
+    border-radius: 999px 999px 24px 24px;
     background:
-      radial-gradient(90% 60% at 50% 18%, rgba(238, 170, 187, 0.34), transparent 70%),
-      linear-gradient(to bottom, #2a2026, #161317 85%);
-    box-shadow: inset 0 0 0 1px rgba(238, 170, 187, 0.2), 0 40px 90px -40px rgba(0, 0, 0, 0.9);
+      radial-gradient(90% 60% at 50% 16%, color-mix(in oklab, var(--accent) 30%, transparent), transparent 70%),
+      linear-gradient(to bottom, var(--surface-2), var(--surface) 90%);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 24%, transparent), var(--shadow);
   }
-  .mast__photo {
-    position: absolute; inset: 0;
-    /* Clip the sides and bottom to the alcove, leave the top open. */
-    clip-path: inset(-30% 0 0 0 round 0 0 28px 28px);
-  }
+  .mast__photo { position: absolute; inset: 0; clip-path: inset(-30% 0 0 0 round 0 0 24px 24px); }
   .mast__photo img {
     position: absolute; left: 50%; bottom: 0; translate: -50% 0;
-    width: 124%; max-width: none; height: auto;
-    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.45));
+    width: 122%; max-width: none; height: auto;
+    filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.35));
   }
-  .mast__tag {
-    position: absolute; left: -14px; bottom: 22px;
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 9px 14px; border-radius: 999px;
-    background: rgba(14, 13, 15, 0.82); color: var(--bone);
-    box-shadow: inset 0 0 0 1px rgba(238, 232, 225, 0.14), 0 12px 30px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  }
-  .mast__dot { width: 7px; height: 7px; border-radius: 50%; background: #5fd38d; }
 
-  @media (max-width: 1100px) {
-    .mast__body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  @media (max-width: 960px) {
+    .mast__body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
   }
-  @media (max-width: 760px) {
-    .mast { min-height: auto; }
-    .mast__meta span:nth-child(2) { display: none; }
-    .mast__body { grid-template-columns: 1fr; row-gap: 8px; }
+  @media (max-width: 680px) {
+    .mast__body { grid-template-columns: 1fr; }
     .mast__text { display: contents; }
-    .mast__name { font-size: calc((100vw - 2 * var(--gutter)) * 0.19); margin-top: 8px; order: 1; }
-    .mast__portrait { order: 2; justify-self: center; width: min(78vw, 340px); margin-top: 28px; }
-    .mast__role { order: 3; margin-top: 28px; }
-    .mast__statement { order: 4; font-size: 1.45rem; }
-    .mast__cta { order: 5; }
-    .mast__tag { left: -8px; }
+    /* Always two lines on phones, so the web font arriving can't change its height. */
+    .mast__eyebrow { order: 1; margin-bottom: 12px; flex-direction: column; gap: 2px; }
+    .mast__eyebrow > [aria-hidden] { display: none; }
+    .mast__name { order: 2; font-size: calc((100vw - 2 * var(--gutter)) * 0.17); }
+    .mast__portrait { order: 3; justify-self: center; width: min(66vw, 280px); margin-top: 26px; }
+    .mast__statement { order: 4; font-size: 1.3rem; }
+    .mast__facts { order: 5; }
+    .mast__cta { order: 6; }
   }
 </style>

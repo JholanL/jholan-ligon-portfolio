@@ -3,6 +3,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Lightbox from '../components/Lightbox.astro';
+import ChatAssistant from '../components/ChatAssistant.astro';
 import { profile } from '../data/profile';
 import archivoWoff from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 import newsreaderWoff from '@fontsource-variable/newsreader/files/newsreader-latin-wght-italic.woff2?url';
@@ -28,12 +29,24 @@ const ogImage = site ? new URL(image, site).href : image;
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Theme before first paint: stored choice, else the OS preference. Mirrors scripts/theme.ts. -->
+    <script is:inline>
+      (function () {
+        var p = null;
+        try { p = localStorage.getItem('theme'); } catch (e) {}
+        if (p !== 'light' && p !== 'dark') p = 'system';
+        var t = p === 'system' ? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : p;
+        var d = document.documentElement;
+        d.dataset.theme = t; d.dataset.themePref = p; d.style.colorScheme = t;
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={profile.name} />
     {canonical && <link rel="canonical" href={canonical} />}
     <meta name="theme-color" content="#0e0d0f" />
+    <script is:inline>if (document.documentElement.dataset.theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f6f2ec');</script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href={archivoWoff} as="font" type="font/woff2" crossorigin />
@@ -71,6 +84,7 @@ const ogImage = site ? new URL(image, site).href : image;
       <slot />
     </main>
     <SiteFooter />
+    <ChatAssistant />
     <Lightbox />
     <script>
       import '../scripts/core';

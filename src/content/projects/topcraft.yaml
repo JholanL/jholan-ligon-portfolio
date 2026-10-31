@@ -9,7 +9,9 @@ summary: >-
   production from a web platform; clients and workers use an Android app. All three work on the
   same project record.
 kind: Client-based capstone
-team: Capstone project
+team: Team of four
+role: Project manager
+year: 2025–2026
 platforms: [Web platform, Android app]
 stackShort: []
 theme:
@@ -36,7 +38,7 @@ facts:
   - { label: Client, value: Industrial Manila Furniture }
   - { label: Type, value: Client-based capstone }
   - { label: Platforms, value: "Web (owner) · Android (client, worker)" }
-  - { label: Roles, value: "Owner · Client · Worker" }
+  - { label: My role, value: "Project manager · team of four" }
 room:
   headline: "From Workshop"
   accent: "to Workflow."
@@ -234,6 +236,15 @@ sections:
           - { src: ../../assets/projects/topcraft/original-captures/mobile/ai-concept-generate-step.png, alt: "Client custom order: the AI concept generation step.", caption: Client · AI concept, kind: screen }
           - { src: ../../assets/projects/topcraft/original-captures/mobile/ai-client-assistant-mobile.png, alt: "Client AI assistant on Android.", caption: Client · AI assistant, kind: screen }
           - { src: ../../assets/projects/topcraft/original-captures/mobile/ai-worker-daily-schedule.png, alt: "Worker AI daily schedule.", caption: Worker · AI schedule, kind: screen }
+  - type: contribution
+    title: My part, and the team's.
+    mine:
+      - Project manager for the four-member capstone team
+      - Analyzed the client's requirements and coordinated development of the web and mobile system
+      - Developed application features and UI components
+      - Performed functional testing and resolved issues
+    team:
+      - A four-member capstone team building for Industrial Manila Furniture, 2025–2026
   - type: decisions
     title: Decisions you can see in the product.
     items:
@@ -243,8 +254,7 @@ sections:
       - { title: "Offcuts are inventory, not waste.", body: "Scrap pieces are logged with dimensions, grade and the project they came from, so reusable material can be reserved again." }
       - { title: AI output is a starting point., body: "AI concept sheets are labelled as a conceptual reference, not a technical drawing, and final designs are reviewed and approved by the workshop." }
 confirm:
-  - Your role and responsibilities on TopCraft (team size, and which parts you built).
   - The tech stack for the web platform and the Android app.
   - How the Gemini features are integrated (which Gemini model, how prompts are built), if you want that shown.
   - Current status (in use by the client, deployed, defended, in progress?) and any results.
-  - Year completed, and any links (repository, demo) you are allowed to share.
+  - Any links (repository, demo) you are allowed to share.

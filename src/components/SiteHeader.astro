@@ -1,11 +1,12 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
 import { profile } from '../data/profile';
 const path = Astro.url.pathname;
 const onHome = path === '/' || path === '';
 const links = [
   { href: '/#work', label: 'Work' },
   { href: '/#about', label: 'About' },
-  { href: '/#certificates', label: 'Certificates', short: 'Certs' },
+  { href: '/#certificates', label: 'Certificates' },
   { href: '/#contact', label: 'Contact' },
 ];
 ---
@@ -16,29 +17,56 @@ const links = [
       <span class="hdr__mono" aria-hidden="true">JL</span>
       <span class="hdr__name">{profile.name}</span>
     </a>
-    <nav aria-label="Primary">
+    <nav aria-label="Primary" class="hdr__nav">
       <ul role="list">
-        {links.map((l) => (
-          <li>
-            <a href={l.href}>
-              {l.short ? <><span class="nav__full">{l.label}</span><span class="nav__short" aria-hidden="true">{l.short}</span></> : l.label}
-            </a>
-          </li>
-        ))}
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
     </nav>
-    <p class="hdr__status">
-      <span class="hdr__dot" aria-hidden="true"></span>
-      {onHome ? 'Open to internships' : <a href="/#contact">Open to internships</a>}
-    </p>
+    <div class="hdr__end">
+      <p class="hdr__status">
+        <span class="hdr__dot" aria-hidden="true"></span>
+        {onHome ? 'Open to internships' : <a href="/#contact">Open to internships</a>}
+      </p>
+      <div class="hdr__theme"><ThemeToggle /></div>
+      <button type="button" class="hdr__menu-btn" popovertarget="site-menu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16" /></svg>
+        <span>Menu</span>
+      </button>
+    </div>
   </div>
 </header>
 
+<!-- Small screens: navigation and theme in one panel. -->
+<div id="site-menu" class="menu" popover aria-label="Menu">
+  <div class="menu__head">
+    <p class="label">Menu</p>
+    <button type="button" class="menu__close" popovertarget="site-menu" popovertargetaction="hide" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  </div>
+  <nav aria-label="Menu">
+    <ul role="list" class="menu__links">
+      {links.map((l) => <li><a href={l.href} data-menu-link>{l.label}</a></li>)}
+      {profile.resume && <li><a href={profile.resume} target="_blank" rel="noopener">Résumé (PDF)</a></li>}
+    </ul>
+  </nav>
+  <p class="label menu__k">Theme</p>
+  <ThemeToggle size="md" />
+</div>
+
+<script>
+  // Close the menu when one of its links is followed (in-page anchors don't unload the page).
+  const menu = document.getElementById('site-menu') as (HTMLElement & { hidePopover?: () => void }) | null;
+  menu?.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => menu.hidePopover?.()));
+  menu?.addEventListener('toggle', (e) => {
+    if ((e as ToggleEvent).newState === 'open') menu.querySelector<HTMLElement>('a')?.focus();
+  });
+</script>
+
 <style>
   .hdr {
-    --hdr-bg: var(--ink);
-    --hdr-fg: var(--bone);
-    --hdr-accent: var(--rose);
+    --hdr-bg: var(--bg);
+    --hdr-fg: var(--fg);
     position: fixed;
     inset: 0 0 auto;
     z-index: 50;
@@ -49,7 +77,7 @@ const links = [
     content: '';
     position: absolute;
     inset: 0;
-    background: color-mix(in oklab, var(--hdr-bg) 78%, transparent);
+    background: color-mix(in oklab, var(--hdr-bg) 80%, transparent);
     backdrop-filter: blur(14px) saturate(1.2);
     -webkit-backdrop-filter: blur(14px) saturate(1.2);
     border-bottom: 1px solid color-mix(in oklab, var(--hdr-fg) 10%, transparent);
@@ -62,7 +90,7 @@ const links = [
 
   .hdr__inner {
     position: relative;
-    max-width: var(--max);
+    max-width: calc(var(--max) + 2 * var(--gutter));
     margin-inline: auto;
     padding-inline: var(--gutter);
     height: var(--header-h);
@@ -74,50 +102,67 @@ const links = [
   .hdr__mark { display: inline-flex; align-items: center; gap: 12px; justify-self: start; min-height: 44px; }
   .hdr__mono {
     display: grid; place-items: center;
-    width: 36px; height: 36px; border-radius: 50%;
+    width: 34px; height: 34px; border-radius: 50%;
     border: 1px solid currentColor;
-    font-family: var(--f-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+    font-family: var(--f-mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
     transition: background-color var(--t-fast), color var(--t-fast);
   }
   .hdr__mark:hover .hdr__mono { background: var(--hdr-fg); color: var(--hdr-bg); }
   .hdr__name { font-weight: 600; letter-spacing: -0.01em; font-variation-settings: 'wdth' 110; }
 
-  nav ul { display: flex; gap: clamp(4px, 2vw, 28px); list-style: none; padding: 0; }
-  nav a {
+  .hdr__nav ul { display: flex; gap: clamp(4px, 1.6vw, 22px); list-style: none; padding: 0; }
+  .hdr__nav a {
     display: inline-flex; align-items: center; min-height: 44px; padding-inline: 8px;
-    font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
     position: relative;
   }
-  nav a::after {
+  .hdr__nav a::after {
     content: ''; position: absolute; left: 8px; right: 8px; bottom: 10px; height: 1px;
     background: currentColor; transform: scaleX(0); transform-origin: right;
     transition: transform var(--t-med) var(--ease);
   }
-  nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .hdr__nav a:hover::after { transform: scaleX(1); transform-origin: left; }
 
+  .hdr__end { justify-self: end; display: flex; align-items: center; gap: 16px; }
   .hdr__status {
-    justify-self: end; display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: opacity var(--t-med) var(--ease), visibility var(--t-med);
   }
-  /* On the home page the hero's portrait tag says this; the header picks it up once you scroll. */
-  .hdr__status { transition: opacity var(--t-med) var(--ease), visibility var(--t-med); }
+  /* On the home page the hero says this; the header picks it up once you scroll. */
   .hdr[data-home]:not([data-scrolled]) .hdr__status { opacity: 0; visibility: hidden; }
-  @media (max-width: 1100px) { .hdr__status { display: none; } }
-  .hdr__dot {
-    width: 8px; height: 8px; border-radius: 50%; background: #5fd38d;
-    box-shadow: 0 0 0 0 rgba(95, 211, 141, 0.6);
-    animation: pulse 2.4s var(--ease) infinite;
+  .hdr__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+  .hdr__menu-btn {
+    display: none; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, currentColor 30%, transparent);
+    font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
   }
-  @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(95, 211, 141, 0); } 100% { box-shadow: 0 0 0 0 rgba(95, 211, 141, 0); } }
+  .hdr__menu-btn svg { width: 18px; height: 18px; }
 
-  .nav__short { display: none; }
-  @media (max-width: 760px) {
-    .nav__full { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    .nav__short { display: inline; }
-    .hdr__status { display: none; }
-    .hdr__name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 1180px) { .hdr__status { display: none; } }
+  @media (max-width: 860px) {
     .hdr__inner { grid-template-columns: auto 1fr; }
-    nav { justify-self: end; }
-    nav ul { gap: 0; }
+    .hdr__nav, .hdr__theme { display: none; }
+    .hdr__menu-btn { display: inline-flex; }
   }
+
+  /* Menu panel (small screens) */
+  .menu {
+    position: fixed; inset: 10px 10px auto auto; margin: 0;
+    width: min(320px, calc(100vw - 20px)); padding: 16px;
+    border: 0; border-radius: var(--radius-lg);
+    background: var(--surface); color: var(--fg);
+    box-shadow: 0 0 0 1px var(--line), var(--shadow);
+    opacity: 0; transform: translateY(-8px) scale(0.98); transform-origin: top right;
+    transition: opacity 200ms var(--ease), transform 260ms var(--ease), display 260ms allow-discrete, overlay 260ms allow-discrete;
+  }
+  .menu:popover-open { opacity: 1; transform: none; }
+  @starting-style { .menu:popover-open { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+  .menu::backdrop { background: rgba(0, 0, 0, 0.25); }
+  .menu__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; color: var(--muted); }
+  .menu__close { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--fg); }
+  .menu__close svg { width: 20px; height: 20px; }
+  .menu__links { display: grid; margin-bottom: 18px; }
+  .menu__links a { display: flex; align-items: center; min-height: 48px; padding-inline: 4px; font-size: 1.15rem; font-weight: 600; border-bottom: 1px solid var(--line); }
+  .menu__k { color: var(--muted); margin-bottom: 8px; }
 </style>

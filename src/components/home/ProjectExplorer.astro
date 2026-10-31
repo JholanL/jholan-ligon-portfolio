@@ -1,0 +1,174 @@
+---
+/**
+ * Selected Work: a compact, interactive project index.
+ * Desktop: list on the left, a preview on the right that follows hover, focus and arrow keys.
+ * Small screens: a swipeable row of cards (no hover needed). Every name links to its case study.
+ */
+import { getImage } from 'astro:assets';
+import type { Project } from '../../lib/projects';
+import { themeVars, pad, formatTime } from '../../lib/projects';
+
+interface Props { projects: Project[] }
+const { projects } = Astro.props;
+
+const rows = await Promise.all(
+  projects.map(async (p) => ({
+    p,
+    stage: await getImage({ src: p.data.cover.src, width: 1100, format: 'webp', quality: 78 }),
+    card: await getImage({ src: p.data.cover.src, width: 640, format: 'webp', quality: 74 }),
+  })),
+);
+const category = (p: Project) => `${p.data.kind.split('·')[0].trim()} · ${p.data.platforms.join(' + ')}`;
+---
+
+<section id="work" class="home-sec work" aria-labelledby="work-title" data-header-theme>
+  <div class="wrap">
+    <header class="home-head">
+      <p class="home-head__label label"><span>01</span>Selected work</p>
+      <h2 id="work-title" class="home-head__title">Four products, <span class="serif">four real places.</span></h2>
+      <p class="home-head__intro">Each one is built for the people who use it. Select a project to open its full case study.</p>
+    </header>
+
+    <div class="ex" data-explorer>
+      <ol class="ex__list" role="list" aria-label="Projects">
+        {
+          rows.map(({ p, card }, i) => (
+            <li class="ex__item" data-ex-item={p.id} data-active={i === 0 ? '' : undefined} style={`--p-accent:${p.data.theme.accent};--p-font:${p.data.theme.font}`}>
+              <a href={`/work/${p.id}`} class="ex__link" data-vt={`cover-${p.id}`} aria-describedby={`ex-sum-${p.id}`}>
+                <span class="ex__thumb" aria-hidden="true">
+                  <img src={card.src} alt="" width="640" height="360" loading="lazy" decoding="async" />
+                </span>
+                <span class="ex__num label">{pad(i + 1)}</span>
+                <span class="ex__name">{p.data.name}</span>
+                <span class="ex__cat">{category(p)}</span>
+                <svg class="ex__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+              <p class="ex__card-sum" id={`ex-sum-${p.id}`}>{p.data.tagline}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="ex__stage" data-ex-stage>
+        {
+          rows.map(({ p, stage }, i) => (
+            <article
+              class="ex__slide themed"
+              style={themeVars(p.data.theme)}
+              data-scheme={p.data.theme.scheme}
+              data-ex-slide={p.id}
+              data-active={i === 0 ? '' : undefined}
+              inert={i !== 0}
+              aria-labelledby={`ex-title-${p.id}`}
+            >
+              <div class="ex__media" data-vt-src={`cover-${p.id}`}>
+                <img src={stage.src} alt={p.data.cover.alt} width="1100" height="619" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+                {p.data.preview && <video data-src={p.data.preview} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" />}
+              </div>
+              <div class="ex__info">
+                <p class="ex__meta label">
+                  <span>{pad(i + 1)}</span>
+                  <span class="ex__place serif">{p.data.place}</span>
+                  {p.data.year && <span>{p.data.year}</span>}
+                  <span>{p.data.team}</span>
+                  {p.data.role && <span>{p.data.role}</span>}
+                </p>
+                <h3 id={`ex-title-${p.id}`} class="ex__title">{p.data.name}</h3>
+                <p class="ex__summary">{p.data.summary}</p>
+                <div class="ex__actions">
+                  <a class="btn btn--accent" href={`/work/${p.id}`} data-vt={`cover-${p.id}`}>
+                    View project <span class="visually-hidden">{p.data.name}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </a>
+                  {p.data.film && (
+                    <button type="button" class="btn btn--ghost" data-film-play={`#film-home-${p.id}`} data-t="0">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+                      Watch film · {formatTime(p.data.film.duration)}<span class="visually-hidden">: {p.data.name}</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/explorer';
+</script>
+
+<style>
+  .ex { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 3.4vw, 48px); align-items: start; }
+
+  /* List */
+  .ex__list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  .ex__item { position: relative; border-bottom: 1px solid var(--line); }
+  .ex__item::before {
+    content: ''; position: absolute; left: 0; top: -1px; bottom: -1px; width: 3px; background: var(--p-accent);
+    transform: scaleY(0); transform-origin: top; transition: transform 420ms var(--ease);
+  }
+  .ex__item[data-active]::before { transform: scaleY(1); }
+  .ex__link {
+    display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; grid-template-areas: 'num name arrow' 'num cat arrow';
+    column-gap: 12px; row-gap: 2px; align-items: baseline;
+    padding: clamp(16px, 1.8vw, 22px) 12px clamp(16px, 1.8vw, 22px) 18px;
+    color: var(--muted); transition: color var(--t-med) var(--ease), background-color var(--t-med) var(--ease);
+    outline-offset: -3px;
+  }
+  .ex__item[data-active] .ex__link { color: var(--fg); background: color-mix(in oklab, var(--fg) 3%, transparent); }
+  .ex__num { grid-area: num; padding-top: 0.5em; }
+  .ex__item[data-active] .ex__num { color: var(--accent-text); }
+  .ex__name {
+    grid-area: name; font-family: var(--p-font); font-size: clamp(1.6rem, 1.1rem + 1.4vw, 2.3rem);
+    font-weight: 700; line-height: 1.05; letter-spacing: -0.02em;
+    transition: transform 420ms var(--ease);
+  }
+  .ex__item[data-active] .ex__name { transform: translateX(4px); }
+  .ex__cat { grid-area: cat; font-size: 0.82rem; }
+  .ex__arrow { grid-area: arrow; width: 22px; height: 22px; align-self: center; opacity: 0; transform: translateX(-6px); transition: opacity var(--t-med), transform var(--t-med) var(--ease); }
+  .ex__item[data-active] .ex__arrow { opacity: 1; transform: none; }
+  .ex__thumb, .ex__card-sum { display: none; }
+
+  /* Stage */
+  .ex__stage { position: sticky; top: calc(var(--header-h) + 20px); display: grid; }
+  .ex__slide {
+    grid-area: 1 / 1; display: grid; border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: 0 0 0 1px var(--line), var(--shadow);
+    opacity: 0; transform: translateY(8px); transition: opacity 420ms var(--ease), transform 520ms var(--ease);
+  }
+  .ex__slide[data-active] { opacity: 1; transform: none; z-index: 1; }
+  .ex__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg); }
+  .ex__media img, .ex__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ex__media video { opacity: 0; transition: opacity 400ms var(--ease); }
+  .ex__media video[data-playing] { opacity: 1; }
+  .ex__place { font-family: var(--f-serif); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 0.95rem; color: var(--fg); line-height: 1; }
+  .ex__info { display: grid; gap: 10px; padding: clamp(18px, 2.2vw, 26px); }
+  .ex__meta { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--muted); }
+  .ex__meta span:first-child { color: var(--accent-text); }
+  .ex__title { font-family: var(--f-brand); font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; }
+  .ex__summary { color: var(--fg); opacity: 0.86; max-width: 62ch; font-size: 0.98rem; }
+  .ex__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+
+  /* Small screens: swipeable cards; the stage is not used. */
+  @media (max-width: 900px) {
+    .ex { grid-template-columns: 1fr; }
+    .ex__stage { display: none; }
+    .ex__list {
+      display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; border-top: 0;
+      margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter) 14px; scroll-padding-inline: var(--gutter);
+      scrollbar-width: thin;
+    }
+    .ex__item { flex: none; width: min(82vw, 380px); scroll-snap-align: start; border: 0; border-radius: var(--radius-lg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+    .ex__item::before { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 3px; transform: none; z-index: 1; }
+    .ex__link { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'thumb thumb thumb' 'num name arrow' 'num cat arrow'; padding: 0 16px 6px; color: var(--fg); background: none !important; }
+    .ex__thumb { display: block; grid-area: thumb; margin: 0 -16px 14px; aspect-ratio: 16 / 9; overflow: hidden; background: var(--surface-2); }
+    .ex__thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .ex__arrow { opacity: 1; transform: none; }
+    .ex__name { font-size: 1.6rem; transform: none !important; }
+    .ex__num { color: var(--accent-text); }
+    .ex__card-sum { display: block; padding: 4px 16px 18px; font-size: 0.92rem; color: var(--muted); }
+  }
+</style>

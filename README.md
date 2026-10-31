@@ -97,8 +97,8 @@ scripts/import-media.mjs
 
 ## Editing content
 
-- **Personal details and links:** `src/data/profile.ts`. Empty fields (email, LinkedIn, résumé)
-  are hidden on the site until you fill them in.
+- **Personal details, skills, education and achievements:** `src/data/profile.ts`. Empty fields are
+  hidden on the site.
 - **A certificate:** see [Adding a certificate](#adding-a-certificate).
 - **A project:** `src/content/projects/<slug>.yaml`. Its `sections` list chooses the blocks on the
   case-study page and their order. The available blocks are `brief`, `film`, `features`,
@@ -142,6 +142,37 @@ The original media archive (`Portfolio-Assets/`) is kept out of the repository. 
 copies the curated files from it into the site and uses ffmpeg to derive posters, preview loops
 and film stills (set `FFMPEG` to your ffmpeg path). It never modifies the archive, and it skips
 existing files unless run with `-- --force`.
+
+## Themes
+
+Light, Dark and System, switched from the header (or the Menu on small screens). The choice is
+stored in `localStorage` and applied by a tiny inline script in `src/layouts/Base.astro` before
+first paint, so there is no flash of the wrong theme. All colours are tokens in
+`src/styles/global.css`; product pages and cards keep each product's own palette in both themes.
+
+## "Ask about Jholan" assistant
+
+A floating search assistant answers visitors' questions from **verified facts only**. It is a
+search tool, not an AI model, and says so in its panel.
+
+- **Knowledge base:** `src/data/knowledge.ts`. It assembles answers from `src/data/profile.ts`,
+  the project files and the certificates, and is published at build time as `/assistant.json`.
+- **Search:** `src/scripts/assistant.ts` ranks those answers in the browser. Nothing a visitor types
+  is sent or stored anywhere. Questions outside the knowledge base get a clear "I don't have
+  verified information about that" instead of a guess.
+- **To change what it knows,** edit the sources above and rebuild. Only add what you'd publish.
+
+### Activating genuine AI answers later (not enabled)
+
+This would need a server endpoint, so it is deliberately not set up. It would require:
+1. the `@astrojs/vercel` adapter and an API route with `export const prerender = false`;
+2. an `ANTHROPIC_API_KEY` set in Vercel's environment variables (never in the code);
+3. the route sending the visitor's question plus the matching knowledge-base entries, with a
+   system prompt that answers only from them, plus request validation, per-IP rate limiting and
+   length limits.
+
+At current pricing, Claude Haiku 5.5 would cost roughly $0.0005 per question. The search
+assistant would remain the fallback whenever the key is missing or the service is unavailable.
 
 ## Deployment
 
